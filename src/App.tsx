@@ -30,7 +30,16 @@ function App() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <StatsCard label="Total Asteroids" value={data?.totalAsteroids} />
-          <StatsCard label="Hazardous Asteroids" value="5" isHazard />
+          <StatsCard
+            label="Hazardous Asteroids"
+            value={data?.totalHazardous}
+            isHazard
+          />
+          <StatsCard
+            label="Largest Asteroid (m)"
+            value={data?.largestAsteroid}
+          />
+          <StatsCard label="Closest Approach" value="76,000" />
 
           {/* Add 3 more Card components here */}
         </div>
