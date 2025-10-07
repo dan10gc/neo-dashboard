@@ -29,15 +29,15 @@ function App() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <StatsCard label="Total Asteroids" value={data?.totalAsteroids} />
+          <StatsCard label="Total Asteroids" value={data?.totalAsteroids || 0} />
           <StatsCard
             label="Hazardous Asteroids"
-            value={data?.totalHazardous}
+            value={data?.totalHazardous || 0}
             isHazard
           />
           <StatsCard
             label="Largest Asteroid (m)"
-            value={data?.largestAsteroid}
+            value={data?.largestAsteroid || "N/A"}
           />
           <StatsCard label="Closest Approach" value="76,000" />
 
