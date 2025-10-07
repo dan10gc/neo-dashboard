@@ -1,5 +1,7 @@
 import { getEnvVar } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
+import type { NeoFeedResponse } from "@/types/neo";
+import { getTotalAsteroids } from "@/lib/transformers";
 
 /**
  *
@@ -19,7 +21,7 @@ const getDateRange = () => {
  *
  * @returns Fetches NEO data from NASA API for the past 7 days
  */
-const fetchNeoData = async () => {
+const fetchNeoData = async (): Promise<NeoFeedResponse> => {
   const { startDate, endDate } = getDateRange();
   const NASA_API_KEY = getEnvVar("VITE_NASA_API_KEY");
 
@@ -41,6 +43,12 @@ export const useNeoDataQuery = () => {
   return useQuery({
     queryKey: ["neoData"],
     queryFn: fetchNeoData,
-    staleTime: 1000 * 60 * 5, // Data fresh for 5 minutes
+    staleTime: 1000 * 60 * 5, // Data fresh for 5 minutes,
+    select(data) {
+      const totalAsteroids = getTotalAsteroids(data);
+      return {
+        totalAsteroids
+      }
+    },
   });
 };
