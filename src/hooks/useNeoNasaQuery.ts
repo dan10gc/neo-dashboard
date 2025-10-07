@@ -1,6 +1,5 @@
+import { getEnvVar } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-
-const NASA_API_KEY = import.meta.env.VITE_NASA_API_KEY;
 
 /**
  *
@@ -22,6 +21,7 @@ const getDateRange = () => {
  */
 const fetchNeoData = async () => {
   const { startDate, endDate } = getDateRange();
+  const NASA_API_KEY = getEnvVar("VITE_NASA_API_KEY");
 
   const url = `https://api.nasa.gov/neo/rest/v1/feed?start_date=${startDate}&end_date=${endDate}&api_key=${NASA_API_KEY}`;
 
