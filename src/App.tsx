@@ -1,3 +1,5 @@
+import { AsteroidTable } from "./components/asteroid-table";
+import { StatsCard } from "./components/stats-card";
 import { Card } from "./components/ui/card";
 import { useNeoDataQuery } from "./hooks/useNeoNasaQuery";
 
@@ -27,11 +29,8 @@ function App() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {/* TODO: Create StatsCard components */}
-          <Card className="bg-zinc-900 border-zinc-800 p-6">
-            <p className="text-zinc-50 font-bold text-sm mb-2">TOTAL ASTEROIDS</p>
-            <p className="text-4xl font-bold text-cyan-300">127</p>
-          </Card>
+          <StatsCard label="Total Asteroids" value="127" />
+          <StatsCard label="Hazardous Asteroids" value="5" isHazard />
 
           {/* Add 3 more Card components here */}
         </div>
@@ -43,7 +42,7 @@ function App() {
             <h2 className="text-zinc-50 text-xl font-semibold mb-4">
               Close Approaches Over Time
             </h2>
-            <div className="h-64 bg-zinc-950 rounded-lg flex items-center justify-center border border-zinc-800">
+            <div className="h-64 bg-zinc-950 rounded-lg flex items-center justify-center border border-dashed border-zinc-800">
               <p className="text-zinc-500">📊 Chart goes here</p>
             </div>
           </Card>
@@ -54,9 +53,11 @@ function App() {
 
         {/* Table */}
         <Card className="bg-zinc-900 border-zinc-800 p-6">
-          <h2 className="text-zinc-50 text-xl font-semibold mb-4">Asteroid Details</h2>
+          <h2 className="text-zinc-50 text-xl font-semibold mb-4">
+            Asteroid Details
+          </h2>
           {/* TODO: Add table component */}
-          <div className="text-zinc-500">Table goes here</div>
+          <AsteroidTable />
         </Card>
       </div>
     </div>
