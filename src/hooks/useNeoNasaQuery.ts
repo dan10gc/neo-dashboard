@@ -2,6 +2,7 @@ import { getEnvVar } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import type { NeoFeedResponse } from "@/types/neo";
 import {
+  getAsteroidTableData,
   getLargestAsteroid,
   getTotalAsteroids,
   getTotalHazardousAsteroids,
@@ -58,6 +59,7 @@ export const useNeoDataQuery = () => {
         totalHazardous,
         largestAsteroid,
         // closestAsteroid,
+        asteroidTableData: getAsteroidTableData(data),
         data,
       };
     },
