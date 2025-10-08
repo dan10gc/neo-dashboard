@@ -34,7 +34,7 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
   const safeAsteroids = data.filter((item) => !item.hazardous);
   const hazardousAsteroids = data.filter((item) => item.hazardous);
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ payload: ScatterData }> }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
