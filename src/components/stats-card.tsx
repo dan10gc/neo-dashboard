@@ -14,16 +14,16 @@ interface StatsCardProps {
 export const StatsCard = ({ label, value, isHazard = false }: StatsCardProps) => {
   return (
     <Card
-      className={`bg-zinc-900 p-6 ${
-        isHazard ? "border-red-900" : "border-zinc-600"
+      className={`bg-zinc-800/50 p-6 rounded-sm border-2 ${
+        isHazard ? "border-red-800/50" : "border-zinc-700"
       }`}
     >
-      <p className="text-zinc-50 font-bold text-sm uppercase tracking-wider mb-2">
+      <p className="text-zinc-300 font-bold text-xs uppercase tracking-wider mb-2">
         {label}
       </p>
       <p
         className={`text-4xl font-bold ${
-          isHazard ? "text-red-400" : "text-cyan-400"
+          isHazard ? "text-red-500" : "text-sky-400"
         }`}
       >
         {value}

@@ -12,24 +12,24 @@ function App() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-zinc-950 text-zinc-50 p-6 flex items-center justify-center">
-        <Card className="bg-zinc-900 border-red-900 p-8 max-w-lg">
+      <div className="min-h-screen bg-zinc-950 text-zinc-50 p-6 flex items-center justify-center font-mono">
+        <Card className="bg-zinc-800/50 border-2 border-red-800/50 p-8 max-w-lg rounded-sm">
           <div className="flex items-center gap-3 mb-4">
             <AlertCircle className="h-8 w-8 text-red-500" />
-            <h2 className="text-2xl font-bold text-red-500">
+            <h2 className="text-xl font-bold text-red-400 uppercase tracking-wider">
               Failed to Load Data
             </h2>
           </div>
-          <p className="text-zinc-300 mb-4">
+          <p className="text-zinc-300 mb-4 text-sm">
             We couldn't fetch asteroid data from NASA's API. Please check your
             API key or try again later.
           </p>
-          <p className="text-sm text-zinc-500 mb-4">
+          <p className="text-xs text-zinc-500 mb-4 font-mono">
             Error: {error.message}
           </p>
           <button
             onClick={() => refetch()}
-            className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded-lg transition-colors"
+            className="px-4 py-2 bg-sky-600 hover:bg-sky-700 rounded-sm transition-colors uppercase text-xs tracking-wider font-bold"
           >
             Try Again
           </button>
@@ -40,16 +40,16 @@ function App() {
 
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-50 p-6">
+    <div className="min-h-screen bg-zinc-950 text-zinc-50 p-6 font-mono">
       <div className="max-w-7xl mx-auto">
         <header className="text-left mb-12">
-          <h1 className="text-zinc-50 text-4xl font-bold mb-2">
+          <h1 className="text-zinc-100 text-4xl font-bold mb-2 uppercase tracking-tight">
             Near Earth Objects Dashboard
           </h1>
-          <p className="text-zinc-300 text-lg">
+          <p className="text-sky-400 text-sm uppercase tracking-wider">
             Real-time asteroid tracking powered by NASA API
           </p>
-          <div className="mt-4 inline-block bg-zinc-900 px-4 py-2 rounded-lg border border-cyan-900">
+          <div className="mt-4 inline-block bg-zinc-800/50 px-4 py-2 rounded-sm border-2 border-zinc-700 text-sky-400 uppercase text-xs tracking-wider font-bold">
             📅 Last 7 Days
           </div>
         </header>
@@ -74,12 +74,12 @@ function App() {
         {/* Chart Sections */}
         <div className="space-y-8 mb-12">
           {/* Chart 1 */}
-          <Card className="bg-zinc-900 border-zinc-600 p-6">
-            <h2 className="text-zinc-50 text-xl font-semibold mb-4">
+          <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
+            <h2 className="text-zinc-300 text-lg font-bold mb-4 uppercase tracking-wider">
               Close Approaches Over Time
             </h2>
-            <div className="h-64 bg-zinc-950 rounded-lg flex items-center justify-center border border-dashed border-zinc-800">
-              <p className="text-zinc-500">📊 Chart goes here</p>
+            <div className="h-64 bg-zinc-950 rounded-sm flex items-center justify-center border-2 border-dashed border-zinc-700">
+              <p className="text-zinc-600 uppercase text-sm tracking-wider">📊 Chart goes here</p>
             </div>
           </Card>
 
@@ -88,12 +88,12 @@ function App() {
         </div>
 
         {/* Table */}
-        <Card className="bg-zinc-900 border-zinc-600 p-6">
-          <h2 className="text-zinc-50 text-xl font-semibold mb-4">
+        <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
+          <h2 className="text-zinc-300 text-lg font-bold mb-4 uppercase tracking-wider">
             Asteroid Details
           </h2>
           {/* TODO: Add table component */}
-          <AsteroidTable />
+          <AsteroidTable data={data?.asteroidTableData} />
         </Card>
       </div>
     </div>
