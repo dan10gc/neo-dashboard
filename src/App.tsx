@@ -100,7 +100,7 @@ function App() {
             Asteroid Details
           </h2>
 
-          <AsteroidTable data={data?.asteroidTableData} />
+          <AsteroidTable data={data?.asteroidTableData || []} />
         </Card>
 
         <Footer />

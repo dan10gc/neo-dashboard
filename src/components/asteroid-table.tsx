@@ -1,7 +1,8 @@
 import { columns } from "./columns"
 import { DataTable } from "./data-table"
+import type { AsteroidTableRow } from "@/lib/transformers"
 
-export const AsteroidTable = ({data}) => {
+export const AsteroidTable = ({data}: {data: AsteroidTableRow[]}) => {
     // TODO: Add state for active filter
     // useState for tracking 'all' | 'hazardous' | 'size'
     
