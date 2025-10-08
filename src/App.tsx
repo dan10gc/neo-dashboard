@@ -1,5 +1,8 @@
 import { AsteroidTable } from "./components/asteroid-table";
+import { ApproachBarChart } from "./components/approach-bar-chart";
+import { SizeVelocityScatter } from "./components/size-velocity-scatter";
 import { StatsCard } from "./components/stats-card";
+import { Footer } from "./components/footer";
 import { Card } from "./components/ui/card";
 import { useNeoDataQuery } from "./hooks/useNeoNasaQuery";
 import { DashboardSkeleton } from "./components/dashboard-skeleton";
@@ -38,7 +41,6 @@ function App() {
     );
   }
 
-
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-50 p-6 font-mono">
       <div className="max-w-7xl mx-auto">
@@ -56,7 +58,10 @@ function App() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <StatsCard label="Total Asteroids" value={data?.totalAsteroids || 0} />
+          <StatsCard
+            label="Total Asteroids"
+            value={data?.totalAsteroids || 0}
+          />
           <StatsCard
             label="Hazardous Asteroids"
             value={data?.totalHazardous || 0}
@@ -66,35 +71,39 @@ function App() {
             label="Largest Asteroid (m)"
             value={data?.largestAsteroid || "N/A"}
           />
-          <StatsCard label="Closest Approach" value="76,000" />
-
-          {/* Add 1 more Card components here */}
+          <StatsCard
+            label="Closest Approach"
+            value={data?.closestApproach || "N/A"}
+          />
         </div>
 
         {/* Chart Sections */}
         <div className="space-y-8 mb-12">
-          {/* Chart 1 */}
           <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
             <h2 className="text-zinc-300 text-lg font-bold mb-4 uppercase tracking-wider">
               Close Approaches Over Time
             </h2>
-            <div className="h-64 bg-zinc-950 rounded-sm flex items-center justify-center border-2 border-dashed border-zinc-700">
-              <p className="text-zinc-600 uppercase text-sm tracking-wider">📊 Chart goes here</p>
-            </div>
+            <ApproachBarChart data={data?.asteroidCountsByDate} />
           </Card>
 
-          {/* Chart 2 */}
-          {/* TODO: Add second chart */}
+          <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
+            <h2 className="text-zinc-300 text-lg font-bold mb-4 uppercase tracking-wider">
+              Size vs Velocity Distribution
+            </h2>
+            <SizeVelocityScatter data={data?.sizeVelocityData} />
+          </Card>
         </div>
 
-        {/* Table */}
+        {/* Table Section */}
         <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
           <h2 className="text-zinc-300 text-lg font-bold mb-4 uppercase tracking-wider">
             Asteroid Details
           </h2>
-          {/* TODO: Add table component */}
+
           <AsteroidTable data={data?.asteroidTableData} />
         </Card>
+
+        <Footer />
       </div>
     </div>
   );

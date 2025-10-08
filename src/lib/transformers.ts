@@ -47,10 +47,80 @@ export const getLargestAsteroid = (data: NeoFeedResponse): string => {
   return `${Math.floor(largest)}m`;
 };
 
-// export const getClosestAsteroid = (data: NeoFeedResponse): number => {
+/**
+ *
+ * @param data - NeoFeedResponse from NASA API
+ * @returns closest approach distance in AU (Astronomical Units)
+ */
+export const getClosestApproach = (data: NeoFeedResponse): string => {
+  let closestDistance = Infinity;
 
-//     });
+  Object.values(data.near_earth_objects).forEach((asteroids) => {
+    asteroids.forEach((asteroid) => {
+      asteroid.close_approach_data.forEach((approach) => {
+        const distanceAU = parseFloat(approach.miss_distance.astronomical);
+        // Only consider valid positive distances
+        if (!isNaN(distanceAU) && distanceAU > 0 && distanceAU < closestDistance) {
+          closestDistance = distanceAU;
+        }
+      });
+    });
+  });
 
+  if (closestDistance === Infinity) return "N/A";
+
+  // Use exponential notation for very small numbers (< 0.0001)
+  if (closestDistance < 0.0001) {
+    return `${closestDistance.toExponential(2)} AU`;
+  }
+
+  return `${closestDistance.toFixed(4)} AU`;
+};
+
+
+/**
+ *
+ * @param data - NeoFeedResponse from NASA API
+ * @returns Chart data showing asteroid counts per day, split by hazard status
+ */
+export const getAsteroidCountsByDate = (data: NeoFeedResponse) => {
+  const chartData = Object.entries(data.near_earth_objects).map(([date, asteroids]) => {
+    const hazardousCount = asteroids.filter(
+      (asteroid) => asteroid.is_potentially_hazardous_asteroid
+    ).length;
+    const safeCount = asteroids.length - hazardousCount;
+
+    return {
+      date,
+      hazardous: hazardousCount,
+      safe: safeCount,
+      total: asteroids.length,
+    };
+  }).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  return chartData;
+};
+
+/**
+ *
+ * @param data - NeoFeedResponse from NASA API
+ * @returns Scatter chart data showing asteroid size vs velocity relationship
+ */
+export const getSizeVelocityData = (data: NeoFeedResponse) => {
+  const scatterData = Object.values(data.near_earth_objects).flat().map((neo) => {
+    const closeApproach = neo.close_approach_data[0];
+    return {
+      name: neo.name,
+      diameter: Math.floor(neo.estimated_diameter.meters.estimated_diameter_max),
+      velocity: Math.floor(
+        parseFloat(closeApproach.relative_velocity.kilometers_per_hour)
+      ),
+      hazardous: neo.is_potentially_hazardous_asteroid,
+    };
+  });
+
+  return scatterData;
+};
 
 export const getAsteroidTableData = (data: NeoFeedResponse) => {
   const tableData = Object.values(data.near_earth_objects).flat().map((neo) => {
