@@ -27,6 +27,7 @@ export const DataTable = <TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+  
   return (
     <div className="overflow-hidden rounded-md border">
       <Table>
