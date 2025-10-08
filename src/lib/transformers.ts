@@ -1,9 +1,16 @@
 import type { NeoFeedResponse } from "@/types/neo";
 
 /**
+ * Calculates the total number of Near-Earth Objects (NEOs) in the dataset
  *
- * @param data - NeoFeedResponse from NASA API
- * @returns number of asteroids in the response
+ * @param data - NeoFeedResponse object from NASA's NeoWs API containing asteroid data
+ * @returns The total count of asteroids across all dates
+ *
+ * @example
+ * ```ts
+ * const total = getTotalAsteroids(neoData);
+ * console.log(total); // 42
+ * ```
  */
 export const getTotalAsteroids = (data: NeoFeedResponse): number => {
   return Object.values(data.near_earth_objects).reduce(
@@ -13,9 +20,20 @@ export const getTotalAsteroids = (data: NeoFeedResponse): number => {
 };
 
 /**
+ * Counts the number of potentially hazardous asteroids in the dataset
  *
- * @param data - NeoFeedResponse from NASA API
- * @returns number of potentially hazardous asteroids
+ * A potentially hazardous asteroid (PHA) is defined by NASA as an asteroid
+ * whose orbit brings it within 0.05 AU of Earth's orbit and has an absolute
+ * magnitude of 22.0 or brighter.
+ *
+ * @param data - NeoFeedResponse object from NASA's NeoWs API
+ * @returns The count of potentially hazardous asteroids
+ *
+ * @example
+ * ```ts
+ * const hazardous = getTotalHazardousAsteroids(neoData);
+ * console.log(hazardous); // 5
+ * ```
  */
 export const getTotalHazardousAsteroids = (data: NeoFeedResponse): number => {
   return Object.values(data.near_earth_objects).reduce(
@@ -28,9 +46,16 @@ export const getTotalHazardousAsteroids = (data: NeoFeedResponse): number => {
 };
 
 /**
+ * Finds the largest asteroid by maximum estimated diameter
  *
- * @param data - NeoFeedResponse from NASA API
- * @returns name of the largest asteroid with its diameter in meters
+ * @param data - NeoFeedResponse object from NASA's NeoWs API
+ * @returns Formatted string with the diameter in meters (e.g., "1000m")
+ *
+ * @example
+ * ```ts
+ * const largest = getLargestAsteroid(neoData);
+ * console.log(largest); // "49507m"
+ * ```
  */
 export const getLargestAsteroid = (data: NeoFeedResponse): string => {
   let largest = 0;
@@ -48,9 +73,21 @@ export const getLargestAsteroid = (data: NeoFeedResponse): string => {
 };
 
 /**
+ * Finds the closest approach distance among all asteroids
  *
- * @param data - NeoFeedResponse from NASA API
- * @returns closest approach distance in AU (Astronomical Units)
+ * Searches through all asteroids and their close approach dates to find
+ * the minimum miss distance. Returns the value in Astronomical Units (AU).
+ * Uses exponential notation for very small distances (< 0.0001 AU).
+ *
+ * @param data - NeoFeedResponse object from NASA's NeoWs API
+ * @returns Formatted string with distance in AU (e.g., "0.0234 AU" or "4.53e-5 AU"),
+ *          or "N/A" if no valid data exists
+ *
+ * @example
+ * ```ts
+ * const closest = getClosestApproach(neoData);
+ * console.log(closest); // "0.0234 AU" or "4.53e-5 AU"
+ * ```
  */
 export const getClosestApproach = (data: NeoFeedResponse): string => {
   let closestDistance = Infinity;
