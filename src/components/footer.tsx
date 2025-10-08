@@ -12,7 +12,7 @@ export const Footer = () => {
         </div>
 
         <a
-          href="https://github.com/yourusername/neo-dashboard"
+          href="https://github.com/dan10gc/neo-dashboard"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 text-zinc-400 hover:text-sky-400 transition-colors group"
