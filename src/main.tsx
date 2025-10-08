@@ -1,10 +1,13 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import posthog from "posthog-js";
+import { PostHogProvider } from "posthog-js/react";
+
 import "./index.css";
 import App from "./App.tsx";
 import { ErrorBoundary } from "./components/error-boundary.tsx";
-
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { getEnvVar } from "./lib/utils.ts";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,12 +17,19 @@ const queryClient = new QueryClient({
   },
 });
 
+posthog.init(getEnvVar("VITE_PUBLIC_POSTHOG_KEY"), {
+  api_host: getEnvVar("VITE_PUBLIC_POSTHOG_HOST"),
+  defaults: "2025-05-24",
+});
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <ErrorBoundary>
-        <App />
-      </ErrorBoundary>
-    </QueryClientProvider>
+    <PostHogProvider client={posthog}>
+      <QueryClientProvider client={queryClient}>
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
+      </QueryClientProvider>
+    </PostHogProvider>
   </StrictMode>
 );
