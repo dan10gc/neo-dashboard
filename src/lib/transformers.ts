@@ -116,11 +116,39 @@ export const getClosestApproach = (data: NeoFeedResponse): string => {
 
 
 /**
- *
- * @param data - NeoFeedResponse from NASA API
- * @returns Chart data showing asteroid counts per day, split by hazard status
+ * Chart data type for asteroid counts by date
  */
-export const getAsteroidCountsByDate = (data: NeoFeedResponse) => {
+export interface AsteroidCountByDate {
+  /** Date in ISO format (YYYY-MM-DD) */
+  date: string;
+  /** Number of hazardous asteroids on this date */
+  hazardous: number;
+  /** Number of safe (non-hazardous) asteroids on this date */
+  safe: number;
+  /** Total number of asteroids on this date */
+  total: number;
+}
+
+/**
+ * Aggregates asteroid counts by date with hazard status breakdown
+ *
+ * Groups asteroids by their close approach date and categorizes them as
+ * hazardous or safe. Data is sorted chronologically for chart display.
+ *
+ * @param data - NeoFeedResponse object from NASA's NeoWs API
+ * @returns Array of daily asteroid counts sorted by date, each containing
+ *          total count and breakdown by hazard status
+ *
+ * @example
+ * ```ts
+ * const counts = getAsteroidCountsByDate(neoData);
+ * // [
+ * //   { date: "2024-01-01", hazardous: 1, safe: 2, total: 3 },
+ * //   { date: "2024-01-02", hazardous: 2, safe: 1, total: 3 }
+ * // ]
+ * ```
+ */
+export const getAsteroidCountsByDate = (data: NeoFeedResponse): AsteroidCountByDate[] => {
   const chartData = Object.entries(data.near_earth_objects).map(([date, asteroids]) => {
     const hazardousCount = asteroids.filter(
       (asteroid) => asteroid.is_potentially_hazardous_asteroid
@@ -139,11 +167,40 @@ export const getAsteroidCountsByDate = (data: NeoFeedResponse) => {
 };
 
 /**
- *
- * @param data - NeoFeedResponse from NASA API
- * @returns Scatter chart data showing asteroid size vs velocity relationship
+ * Scatter chart data point for size vs velocity visualization
  */
-export const getSizeVelocityData = (data: NeoFeedResponse) => {
+export interface SizeVelocityDataPoint {
+  /** Asteroid name/designation */
+  name: string;
+  /** Maximum estimated diameter in meters (rounded down) */
+  diameter: number;
+  /** Velocity in kilometers per hour (rounded down) */
+  velocity: number;
+  /** Whether the asteroid is potentially hazardous */
+  hazardous: boolean;
+}
+
+/**
+ * Extracts size and velocity data for scatter chart visualization
+ *
+ * Creates a dataset showing the relationship between asteroid diameter
+ * and velocity. Uses the first close approach data for each asteroid.
+ * Values are rounded down to integers for cleaner display.
+ *
+ * @param data - NeoFeedResponse object from NASA's NeoWs API
+ * @returns Array of data points containing diameter, velocity, and hazard status
+ *          for each asteroid
+ *
+ * @example
+ * ```ts
+ * const scatterData = getSizeVelocityData(neoData);
+ * // [
+ * //   { name: "433 Eros", diameter: 49507, velocity: 19957, hazardous: false },
+ * //   { name: "(2010 PK9)", diameter: 322, velocity: 67510, hazardous: true }
+ * // ]
+ * ```
+ */
+export const getSizeVelocityData = (data: NeoFeedResponse): SizeVelocityDataPoint[] => {
   const scatterData = Object.values(data.near_earth_objects).flat().map((neo) => {
     const closeApproach = neo.close_approach_data[0];
     return {
@@ -159,7 +216,58 @@ export const getSizeVelocityData = (data: NeoFeedResponse) => {
   return scatterData;
 };
 
-export const getAsteroidTableData = (data: NeoFeedResponse) => {
+/**
+ * Table row data for asteroid details display
+ */
+export interface AsteroidTableRow {
+  /** Unique asteroid identifier */
+  id: string;
+  /** Asteroid name/designation */
+  name: string;
+  /** Whether the asteroid is potentially hazardous */
+  is_potentially_hazardous_asteroid: boolean;
+  /** Maximum estimated diameter in meters (rounded down) */
+  diameter: number;
+  /** Velocity in kilometers per hour (rounded down) */
+  velocity: number;
+  /** Miss distance in kilometers (rounded down) */
+  miss_distance_km: number;
+  /** Miss distance in Astronomical Units */
+  miss_distance_au: number;
+  /** Date of close approach in ISO format (YYYY-MM-DD) */
+  close_approach_date: string;
+}
+
+/**
+ * Transforms asteroid data for table display
+ *
+ * Flattens the nested NASA API response into a table-friendly format.
+ * For asteroids with multiple close approaches, uses the CLOSEST approach
+ * (minimum miss distance). All distance and size values are formatted for
+ * display.
+ *
+ * @param data - NeoFeedResponse object from NASA's NeoWs API
+ * @returns Array of table rows, each containing formatted asteroid data including
+ *          identification, physical properties, and closest approach details
+ *
+ * @example
+ * ```ts
+ * const tableData = getAsteroidTableData(neoData);
+ * // [
+ * //   {
+ * //     id: "2000433",
+ * //     name: "433 Eros",
+ * //     is_potentially_hazardous_asteroid: false,
+ * //     diameter: 49507,
+ * //     velocity: 19957,
+ * //     miss_distance_km: 47116732,
+ * //     miss_distance_au: 0.3149291212,
+ * //     close_approach_date: "2024-01-01"
+ * //   }
+ * // ]
+ * ```
+ */
+export const getAsteroidTableData = (data: NeoFeedResponse): AsteroidTableRow[] => {
   const tableData = Object.values(data.near_earth_objects).flat().map((neo) => {
     // Find the closest approach by minimum miss distance
     const closestApproach = neo.close_approach_data.reduce((closest, current) => {
