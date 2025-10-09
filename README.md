@@ -7,6 +7,12 @@ A real-time Near Earth Objects (NEO) tracking dashboard powered by NASA's API. B
 ![React](https://img.shields.io/badge/React-19-blue)
 ![Vite](https://img.shields.io/badge/Vite-7-purple)
 
+## 🚀 [Live Demo](YOUR_LIVE_URL_HERE)
+
+![NEO Dashboard Screenshot](path/to/screenshot.png)
+
+<!-- Add your screenshot here -->
+
 ## Features
 
 - 📊 **Real-time asteroid tracking** - Monitor Near Earth Objects from the past 7 days
@@ -26,47 +32,6 @@ A real-time Near Earth Objects (NEO) tracking dashboard powered by NASA's API. B
 - **Table:** TanStack Table
 - **Testing:** Vitest + React Testing Library
 - **API:** NASA NeoWs (Near Earth Object Web Service)
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- npm or pnpm
-- NASA API key (get one free at [NASA API Portal](https://api.nasa.gov/))
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/neo-dashboard.git
-cd neo-dashboard
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Create a `.env` file in the root directory:
-```env
-VITE_NASA_API_KEY=your_api_key_here
-```
-
-4. Start the development server:
-```bash
-npm run dev
-```
-
-## Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-- `npm test` - Run tests in watch mode
-- `npm run test:ui` - Run tests with UI
-- `npm run test:coverage` - Generate test coverage report
 
 ## Project Structure
 
@@ -96,20 +61,25 @@ This project uses the [NASA NeoWs API](https://api.nasa.gov/) to fetch Near Eart
 **Endpoint:** `https://api.nasa.gov/neo/rest/v1/feed`
 
 **Parameters:**
+
 - `start_date` - Starting date for asteroid search (YYYY-MM-DD)
 - `end_date` - Ending date for asteroid search (YYYY-MM-DD)
 - `api_key` - Your NASA API key
 
-## Testing
+## Test Coverage
 
-The project includes comprehensive unit tests for data transformers and utilities.
+The project includes unit tests for core business logic, with ongoing expansion of test coverage.
+
+| Component                     | Coverage                      |
+| ----------------------------- | ----------------------------- |
+| **Transformers** (Core Logic) | 100% statements, 96% branches |
+| **Overall Project**           | 22% (actively improving)      |
+
+Core data transformation functions have comprehensive test coverage. Additional component and integration tests are being added incrementally.
 
 ```bash
-# Run tests in watch mode
+# Run tests
 npm test
-
-# Run tests with UI
-npm run test:ui
 
 # Generate coverage report
 npm run test:coverage
