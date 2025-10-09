@@ -63,9 +63,10 @@ function App() {
             value={data?.totalAsteroids || 0}
           />
           <StatsCard
-            label="Hazardous Asteroids"
+            label="Potentially Hazardous"
             value={data?.totalHazardous || 0}
             isHazard
+            tooltip="Asteroids classified as potentially hazardous by NASA"
           />
           <StatsCard
             label="Largest Asteroid (m)"
