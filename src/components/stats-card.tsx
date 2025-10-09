@@ -19,7 +19,12 @@ interface StatsCardProps {
  * @param {StatsCardProps} props
  * @returns A styled card component
  */
-export const StatsCard = ({ label, value, isHazard = false, tooltip }: StatsCardProps) => {
+export const StatsCard = ({
+  label,
+  value,
+  isHazard = false,
+  tooltip,
+}: StatsCardProps) => {
   return (
     <Card
       className={`bg-zinc-800/50 p-6 rounded-sm border-2 ${
@@ -34,7 +39,11 @@ export const StatsCard = ({ label, value, isHazard = false, tooltip }: StatsCard
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <HelpCircle size={16} className=" text-zinc-400 hover:text-zinc-200 cursor-help transition-colors" />
+                <HelpCircle
+                  size={16}
+                  className="text-zinc-400 hover:text-zinc-200 cursor-help transition-colors"
+                  data-testid="tooltip-icon"
+                />
               </TooltipTrigger>
               <TooltipContent className="bg-sky-600 text-white border-2 border-sky-500">
                 <p className="font-bold text-xs">{tooltip}</p>
