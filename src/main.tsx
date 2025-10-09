@@ -18,6 +18,14 @@ const queryClient = new QueryClient({
 });
 
 posthog.init(getEnvVar("VITE_PUBLIC_POSTHOG_KEY"), {
+  loaded: (posthog) => {
+    // Conditionally disable analytics in development mode
+    // https://posthog.com/tutorials/multiple-environments#opt-out-of-capturing-on-initialization
+    if (import.meta.env.DEV) {
+      posthog.opt_out_capturing();
+      posthog.set_config({disable_session_recording: true});
+    }
+  },
   api_host: getEnvVar("VITE_PUBLIC_POSTHOG_HOST"),
   defaults: "2025-05-24",
 });
