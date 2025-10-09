@@ -10,7 +10,6 @@ import {
   getTotalAsteroids,
   getTotalHazardousAsteroids,
 } from "@/lib/transformers";
-
 /**
  *
  * @returns An object containing startDate and endDate in YYYY-MM-DD format
