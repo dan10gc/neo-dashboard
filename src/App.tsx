@@ -71,10 +71,12 @@ function App() {
           <StatsCard
             label="Largest Asteroid (m)"
             value={data?.largestAsteroid || "N/A"}
+            tooltip="Minimum estimated diameter of the largest asteroid"
           />
           <StatsCard
             label="Closest Approach"
             value={data?.closestApproach || "N/A"}
+            tooltip="Minimum distance from Earth in Astronomical Units"
           />
         </div>
 
