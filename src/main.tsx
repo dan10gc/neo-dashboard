@@ -31,7 +31,7 @@ posthog.init(getEnvVar("VITE_PUBLIC_POSTHOG_KEY"), {
 });
 
 async function enableMocking() {
-  if (!import.meta.env.DEV) {
+  if (!import.meta.env.DEV || !import.meta.env.VITE_ENABLE_MSW) {
     return;
   }
 

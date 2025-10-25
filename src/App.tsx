@@ -5,13 +5,14 @@ import { StatsCard } from "./components/stats-card";
 import { Footer } from "./components/footer";
 import { Card } from "./components/ui/card";
 import { useNeoDataQuery } from "./hooks/useNeoNasaQuery";
-import { DashboardSkeleton } from "./components/dashboard-skeleton";
+import { LoaderScreen } from "./components/loader-screen";
 import { AlertCircle } from "lucide-react";
+import { CountDownCard } from "./components/count-down-card";
 
 function App() {
   const { data, isLoading, error, refetch } = useNeoDataQuery();
 
-  if (isLoading) return <DashboardSkeleton />;
+  if (isLoading) return <LoaderScreen />;
 
   if (error) {
     return (
@@ -48,11 +49,16 @@ function App() {
           <h1 className="text-zinc-100 text-4xl font-bold mb-2 uppercase tracking-tight">
             Near Earth Objects Dashboard
           </h1>
-          <p className="text-sky-400 text-sm uppercase tracking-wider">
+          <p className="text-zinc-400 text-sm uppercase tracking-wider">
             Real-time asteroid tracking powered by NASA API
           </p>
-          <div className="mt-4 inline-block bg-zinc-800/50 px-4 py-2 rounded-sm border-2 border-zinc-700 text-sky-400 uppercase text-xs tracking-wider font-bold">
-            📅 Last 7 Days
+          <div className="mt-4 flex gap-3">
+            <div className="inline-block bg-zinc-800/50 px-4 py-2 rounded-sm border-2 border-zinc-700 text-zinc-400 uppercase text-xs tracking-wider font-bold">
+              OBSERVATION PERIOD: 7 DAYS
+            </div>
+            <div className="inline-block bg-zinc-800/50 px-4 py-2 rounded-sm border-2 border-green-700/50 text-green-400 uppercase text-xs tracking-wider font-bold">
+              <span className="animate-pulse">●</span> LIVE
+            </div>
           </div>
         </header>
 
@@ -78,6 +84,9 @@ function App() {
             value={data?.closestApproach || "N/A"}
             tooltip="Minimum distance from Earth in Astronomical Units"
           />
+        </div>
+        <div>
+        <CountDownCard />
         </div>
 
         {/* Chart Sections */}

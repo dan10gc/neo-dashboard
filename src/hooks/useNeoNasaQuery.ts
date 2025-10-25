@@ -34,7 +34,12 @@ const fetchNeoData = async (): Promise<NeoFeedResponse> => {
 
   const url = `https://api.nasa.gov/neo/rest/v1/feed?start_date=${startDate}&end_date=${endDate}&api_key=${NASA_API_KEY}`;
 
-  const response = await fetch(url);
+  // Fetch data and ensure minimum display time for loader
+  const [response] = await Promise.all([
+    fetch(url),
+    new Promise(resolve => setTimeout(resolve, 2500)), // 2.5 second minimum display
+  ]);
+
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
