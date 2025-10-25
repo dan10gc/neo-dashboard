@@ -58,7 +58,10 @@ function App() {
           </p>
           <div className="mt-4 flex gap-3 flex-wrap">
             <div className="inline-block bg-zinc-800/50 px-4 py-2 rounded-sm border-2 border-zinc-700 text-zinc-400 uppercase text-xs tracking-wider font-bold">
-              OBSERVATION PERIOD: 7 DAYS
+              TRACKING: {data?.dateRange.startDate && new Date(data.dateRange.startDate).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }).replace(',', '').toUpperCase()} - {data?.dateRange.endDate && new Date(data.dateRange.endDate).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }).replace(',', '').toUpperCase()}
+            </div>
+            <div className="inline-block bg-zinc-800/50 px-4 py-2 rounded-sm border-2 border-cyan-700/50 text-cyan-400 uppercase text-xs tracking-wider font-bold">
+              UPCOMING APPROACHES
             </div>
             <div className="inline-block bg-zinc-800/50 px-4 py-2 rounded-sm border-2 border-green-700/50 text-green-400 uppercase text-xs tracking-wider font-bold">
               <span className="animate-pulse">●</span> LIVE
@@ -74,7 +77,7 @@ function App() {
               totalHazardous={data?.totalHazardous || 0}
               totalAsteroids={data?.totalAsteroids || 0}
             />
-            <NextCloseApproach asteroidData={data?.asteroidTableData || []} />
+            <NextCloseApproach asteroidData={data?.nextApproaches || []} />
           </div>
 
           {/* Right Column - Surveillance Stats Sidebar */}

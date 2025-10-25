@@ -294,3 +294,85 @@ export const getAsteroidTableData = (data: NeoFeedResponse): AsteroidTableRow[] 
 
   return tableData;
 }
+
+/**
+ * Data structure for next close approach display
+ */
+export interface NextApproachData {
+  /** Unique asteroid identifier */
+  id: string;
+  /** Asteroid name/designation */
+  name: string;
+  /** Whether the asteroid is potentially hazardous */
+  is_potentially_hazardous_asteroid: boolean;
+  /** Maximum estimated diameter in meters (rounded down) */
+  diameter: number;
+  /** Velocity in kilometers per hour (rounded down) */
+  velocity: number;
+  /** Miss distance in kilometers (rounded down) */
+  miss_distance_km: number;
+  /** Miss distance in Astronomical Units */
+  miss_distance_au: number;
+  /** Date of close approach in ISO format (YYYY-MM-DD) */
+  close_approach_date: string;
+  /** Full date-time of close approach */
+  close_approach_date_full: string;
+  /** Unix timestamp of close approach */
+  epoch_date_close_approach: number;
+}
+
+/**
+ * Gets the next 5 closest approaches, prioritizing future approaches
+ *
+ * Returns up to 5 asteroids sorted by approach time. If fewer than 5 future
+ * approaches exist, fills remaining slots with most recent past approaches.
+ * Uses close_approach_date_full for accurate time-based sorting.
+ *
+ * @param data - NeoFeedResponse object from NASA's NeoWs API
+ * @returns Array of up to 5 next/recent approach data sorted by time
+ *
+ * @example
+ * ```ts
+ * const nextApproaches = getNextApproaches(neoData);
+ * // Returns 5 asteroids, prioritizing upcoming approaches
+ * ```
+ */
+export const getNextApproaches = (data: NeoFeedResponse): NextApproachData[] => {
+  const now = Date.now();
+
+  // Flatten all asteroids with their approach data
+  const allApproaches: NextApproachData[] = Object.values(data.near_earth_objects)
+    .flat()
+    .flatMap((neo) =>
+      neo.close_approach_data.map((approach) => ({
+        id: neo.id,
+        name: neo.name,
+        is_potentially_hazardous_asteroid: neo.is_potentially_hazardous_asteroid,
+        diameter: Math.floor(neo.estimated_diameter.meters.estimated_diameter_max),
+        velocity: Math.floor(parseFloat(approach.relative_velocity.kilometers_per_hour)),
+        miss_distance_km: Math.floor(parseFloat(approach.miss_distance.kilometers)),
+        miss_distance_au: parseFloat(approach.miss_distance.astronomical),
+        close_approach_date: approach.close_approach_date,
+        close_approach_date_full: approach.close_approach_date_full,
+        epoch_date_close_approach: approach.epoch_date_close_approach,
+      }))
+    );
+
+  // Split into future and past approaches
+  const futureApproaches = allApproaches
+    .filter(approach => approach.epoch_date_close_approach > now)
+    .sort((a, b) => a.epoch_date_close_approach - b.epoch_date_close_approach)
+    .slice(0, 5);
+
+  // If less than 5 future approaches, fill with past approaches
+  if (futureApproaches.length < 5) {
+    const pastApproaches = allApproaches
+      .filter(approach => approach.epoch_date_close_approach <= now)
+      .sort((a, b) => b.epoch_date_close_approach - a.epoch_date_close_approach)
+      .slice(0, 5 - futureApproaches.length);
+
+    return [...futureApproaches, ...pastApproaches];
+  }
+
+  return futureApproaches;
+};
