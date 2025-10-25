@@ -1,3 +1,5 @@
+import { Satellite } from "lucide-react";
+
 export function LoaderScreen() {
   const messages = [
     "CONNECTING TO NASA NEO NETWORK",
@@ -12,6 +14,9 @@ export function LoaderScreen() {
       <div className="max-w-2xl w-full">
         {/* Header Section */}
         <div className="text-center mb-12">
+          <div className="flex justify-center mb-6">
+            <Satellite className="h-20 w-20 text-sky-400 animate-pulse" />
+          </div>
           <h1 className="text-4xl font-bold mb-2 tracking-tight">
             NEAR-EARTH OBJECT DASHBOARD
           </h1>

@@ -48,8 +48,8 @@ function App() {
       <div className="max-w-7xl mx-auto">
         <header className="text-left mb-12">
           <div className="flex items-center gap-3 mb-2">
-            <Satellite className="h-10 w-10 text-sky-400" />
-            <h1 className="text-zinc-100 text-4xl font-bold uppercase tracking-tight">
+            <Satellite className="h-8 w-8 sm:h-10 sm:w-10 text-sky-400 flex-shrink-0" />
+            <h1 className="text-zinc-100 text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-tight">
               Near-Earth Objects Dashboard
             </h1>
           </div>
