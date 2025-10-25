@@ -1,4 +1,5 @@
 import { Card } from "./ui/card";
+import { Orbit, AlertTriangle, Circle, Target } from "lucide-react";
 
 interface SurveillanceStatsProps {
   totalAsteroids: number;
@@ -27,8 +28,11 @@ export function SurveillanceStats({
         <div className="flex-1 space-y-6">
           {/* Objects Tracked */}
           <div className="text-center">
-            <div className="text-xs text-zinc-500 uppercase tracking-wider mb-2">
-              Objects Tracked
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Orbit className="h-4 w-4 text-cyan-400" />
+              <div className="text-xs text-zinc-500 uppercase tracking-wider">
+                Objects Tracked
+              </div>
             </div>
             <div className="text-4xl font-bold text-cyan-400 font-mono">
               {totalAsteroids}
@@ -40,8 +44,11 @@ export function SurveillanceStats({
 
           {/* Potentially Hazardous */}
           <div className="text-center">
-            <div className="text-xs text-zinc-500 uppercase tracking-wider mb-2">
-              Potentially Hazardous
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <AlertTriangle className="h-4 w-4 text-yellow-400" />
+              <div className="text-xs text-zinc-500 uppercase tracking-wider">
+                Potentially Hazardous
+              </div>
             </div>
             <div className="text-4xl font-bold text-yellow-400 font-mono">
               {totalHazardous}
@@ -56,8 +63,11 @@ export function SurveillanceStats({
 
           {/* Largest Object */}
           <div className="text-center">
-            <div className="text-xs text-zinc-500 uppercase tracking-wider mb-2">
-              Largest Object
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Circle className="h-4 w-4 text-purple-400" />
+              <div className="text-xs text-zinc-500 uppercase tracking-wider">
+                Largest Object
+              </div>
             </div>
             <div className="text-3xl font-bold text-purple-400 font-mono">
               {largestAsteroid}
@@ -72,8 +82,11 @@ export function SurveillanceStats({
 
           {/* Closest Approach */}
           <div className="text-center">
-            <div className="text-xs text-zinc-500 uppercase tracking-wider mb-2">
-              Closest Approach
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Target className="h-4 w-4 text-green-400" />
+              <div className="text-xs text-zinc-500 uppercase tracking-wider">
+                Closest Approach
+              </div>
             </div>
             <div className="text-3xl font-bold text-green-400 font-mono">
               {closestApproach}

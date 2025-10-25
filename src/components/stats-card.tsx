@@ -1,5 +1,6 @@
 import { Card } from "./ui/card";
 import { HelpCircle } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -12,6 +13,7 @@ interface StatsCardProps {
   value: string | number;
   isHazard?: boolean;
   tooltip?: string;
+  icon?: LucideIcon;
 }
 
 /**
@@ -24,6 +26,7 @@ export const StatsCard = ({
   value,
   isHazard = false,
   tooltip,
+  icon: Icon,
 }: StatsCardProps) => {
   return (
     <Card
@@ -32,6 +35,12 @@ export const StatsCard = ({
       }`}
     >
       <div className="flex items-center gap-2 mb-2">
+        {Icon && (
+          <Icon
+            size={18}
+            className={isHazard ? "text-red-400" : "text-sky-400"}
+          />
+        )}
         <p className="text-zinc-300 font-bold text-md uppercase tracking-wider">
           {label}
         </p>

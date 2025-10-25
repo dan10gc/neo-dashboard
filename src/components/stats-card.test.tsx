@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { StatsCard } from "./stats-card";
 import userEvent from "@testing-library/user-event";
+import { Orbit } from "lucide-react";
 
 describe("StatsCard", () => {
   it("should render label and value", () => {
@@ -90,5 +91,41 @@ describe("StatsCard", () => {
 
     const labelElement = screen.getByText("total asteroids");
     expect(labelElement).toHaveClass("uppercase");
+  });
+
+  it("should render with an icon when icon prop is provided", () => {
+    render(<StatsCard label="Objects Tracked" value={42} icon={Orbit} />);
+
+    expect(screen.getByText("Objects Tracked")).toBeInTheDocument();
+    expect(screen.getByText("42")).toBeInTheDocument();
+
+    // Icon should be rendered (lucide-react icons render as svg)
+    const container = screen.getByText("Objects Tracked").parentElement;
+    const svg = container?.querySelector("svg");
+    expect(svg).toBeInTheDocument();
+  });
+
+  it("should not render icon when icon prop is not provided", () => {
+    render(<StatsCard label="Total Asteroids" value={42} />);
+
+    const container = screen.getByText("Total Asteroids").parentElement;
+    const svg = container?.querySelector("svg");
+    expect(svg).not.toBeInTheDocument();
+  });
+
+  it("should apply hazard color to icon when isHazard is true", () => {
+    render(<StatsCard label="Hazardous" value={5} isHazard icon={Orbit} />);
+
+    const container = screen.getByText("Hazardous").parentElement;
+    const svg = container?.querySelector("svg");
+    expect(svg).toHaveClass("text-red-400");
+  });
+
+  it("should apply default color to icon when isHazard is false", () => {
+    render(<StatsCard label="Total" value={10} icon={Orbit} />);
+
+    const container = screen.getByText("Total").parentElement;
+    const svg = container?.querySelector("svg");
+    expect(svg).toHaveClass("text-sky-400");
   });
 });

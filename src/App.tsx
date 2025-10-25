@@ -5,7 +5,7 @@ import { Footer } from "./components/footer";
 import { Card } from "./components/ui/card";
 import { useNeoDataQuery } from "./hooks/useNeoNasaQuery";
 import { LoaderScreen } from "./components/loader-screen";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Satellite, Calendar, Gauge } from "lucide-react";
 import { ThreatAssessment } from "./components/threat-assessment";
 import { NextCloseApproach } from "./components/next-close-approach";
 import { SurveillanceStats } from "./components/surveillance-stats";
@@ -47,9 +47,12 @@ function App() {
     <div className="min-h-screen bg-zinc-950 text-zinc-50 p-6 font-mono">
       <div className="max-w-7xl mx-auto">
         <header className="text-left mb-12">
-          <h1 className="text-zinc-100 text-4xl font-bold mb-2 uppercase tracking-tight">
-            Near-Earth Objects Dashboard
-          </h1>
+          <div className="flex items-center gap-3 mb-2">
+            <Satellite className="h-10 w-10 text-sky-400" />
+            <h1 className="text-zinc-100 text-4xl font-bold uppercase tracking-tight">
+              Near-Earth Objects Dashboard
+            </h1>
+          </div>
           <p className="text-zinc-400 text-sm uppercase tracking-wider">
             Real-time asteroid tracking powered by NASA API
           </p>
@@ -88,16 +91,22 @@ function App() {
         {/* Chart Sections */}
         <div className="space-y-8 mb-12">
           <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
-            <h2 className="text-zinc-300 text-lg font-bold mb-4 uppercase tracking-wider">
-              Close Approaches Over Time
-            </h2>
+            <div className="flex items-center gap-2 mb-4">
+              <Calendar className="h-5 w-5 text-sky-400" />
+              <h2 className="text-zinc-300 text-lg font-bold uppercase tracking-wider">
+                Close Approaches Over Time
+              </h2>
+            </div>
             <ApproachBarChart data={data?.asteroidCountsByDate} />
           </Card>
 
           <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
-            <h2 className="text-zinc-300 text-lg font-bold mb-4 uppercase tracking-wider">
-              Size vs Velocity Distribution
-            </h2>
+            <div className="flex items-center gap-2 mb-4">
+              <Gauge className="h-5 w-5 text-sky-400" />
+              <h2 className="text-zinc-300 text-lg font-bold uppercase tracking-wider">
+                Size vs Velocity Distribution
+              </h2>
+            </div>
             <SizeVelocityScatter data={data?.sizeVelocityData} />
           </Card>
         </div>

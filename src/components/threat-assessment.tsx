@@ -1,3 +1,5 @@
+import { ShieldAlert } from "lucide-react";
+
 interface ThreatAssessmentProps {
   totalHazardous: number;
   totalAsteroids: number;
@@ -52,8 +54,9 @@ export function ThreatAssessment({ totalHazardous, totalAsteroids }: ThreatAsses
       <div className="grid grid-cols-2 gap-6 items-center">
         {/* Left Column - Text Info */}
         <div className="space-y-2">
-          <div className="text-xs text-zinc-500 uppercase tracking-wider">
-            Threat Assessment
+          <div className="flex items-center gap-2 text-xs text-zinc-500 uppercase tracking-wider">
+            <ShieldAlert className="h-4 w-4" />
+            <span>Threat Assessment</span>
           </div>
           <div className={`${textColor} font-bold text-2xl uppercase tracking-wide`}>
             {conditionText}
