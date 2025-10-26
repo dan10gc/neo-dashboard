@@ -29,7 +29,8 @@ import {
 const getDateRange = () => {
   const today = new Date();
   const futureDate = new Date();
-  futureDate.setDate(today.getDate() + 7);
+  // NASA API has a maximum 7-day limit, so we add 6 days to today (7 days total including today)
+  futureDate.setDate(today.getDate() + 6);
 
   const startDate = today.toISOString().split("T")[0];
   const endDate = futureDate.toISOString().split("T")[0];
