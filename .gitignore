@@ -30,3 +30,5 @@ public/mockServiceWorker.js
 *.sw?
 
 .env
+*storybook.log
+storybook-static

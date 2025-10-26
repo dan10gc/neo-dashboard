@@ -111,7 +111,7 @@ export function NextCloseApproach({ asteroidData }: NextCloseApproachProps) {
               Approach Date
             </div>
             <div className="text-sm font-mono text-zinc-300">
-              {new Date(currentApproach.close_approach_date_full).toLocaleDateString("en-US", {
+              {new Date(currentApproach.epoch_date_close_approach).toLocaleDateString("en-US", {
                 month: "long",
                 day: "numeric",
                 year: "numeric",
