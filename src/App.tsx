@@ -5,13 +5,25 @@ import { Footer } from "./components/footer";
 import { Card } from "./components/ui/card";
 import { useNeoDataQuery } from "./hooks/useNeoNasaQuery";
 import { LoaderScreen } from "./components/loader-screen";
-import { AlertCircle, Satellite, Calendar, Gauge } from "lucide-react";
+import { AlertCircle, Satellite } from "lucide-react";
 import { ThreatAssessment } from "./components/threat-assessment";
 import { NextCloseApproach } from "./components/next-close-approach";
 import { SurveillanceStats } from "./components/surveillance-stats";
+import { useTrail, animated } from "@react-spring/web";
 
 function App() {
   const { data, isLoading, error, refetch } = useNeoDataQuery();
+
+  // Stagger animation for monitor sections (5 sections total)
+  // Only animate when data is loaded (not loading and not error)
+  const trail = useTrail(5, {
+    from: { opacity: 0, transform: "translateY(20px)" },
+    to: {
+      opacity: !isLoading && !error ? 1 : 0,
+      transform: !isLoading && !error ? "translateY(0px)" : "translateY(20px)"
+    },
+    config: { tension: 280, friction: 60 },
+  });
 
   if (isLoading) return <LoaderScreen />;
 
@@ -50,7 +62,7 @@ function App() {
           <div className="flex items-center gap-3 mb-2">
             <Satellite className="h-8 w-8 sm:h-10 sm:w-10 text-sky-400 flex-shrink-0" />
             <h1 className="text-zinc-100 text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-tight">
-              Near-Earth Objects Dashboard
+              Near-Earth Objects Monitor
             </h1>
           </div>
           <p className="text-zinc-400 text-sm uppercase tracking-wider">
@@ -58,7 +70,26 @@ function App() {
           </p>
           <div className="mt-4 flex gap-3 flex-wrap">
             <div className="inline-block bg-zinc-800/50 px-4 py-2 rounded-sm border-2 border-zinc-700 text-zinc-400 uppercase text-xs tracking-wider font-bold">
-              TRACKING: {data?.dateRange.startDate && new Date(data.dateRange.startDate).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }).replace(',', '').toUpperCase()} - {data?.dateRange.endDate && new Date(data.dateRange.endDate).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }).replace(',', '').toUpperCase()}
+              TRACKING:{" "}
+              {data?.dateRange.startDate &&
+                new Date(data.dateRange.startDate)
+                  .toLocaleDateString("en-US", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })
+                  .replace(",", "")
+                  .toUpperCase()}{" "}
+              -{" "}
+              {data?.dateRange.endDate &&
+                new Date(data.dateRange.endDate)
+                  .toLocaleDateString("en-US", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })
+                  .replace(",", "")
+                  .toUpperCase()}
             </div>
             <div className="inline-block bg-zinc-800/50 px-4 py-2 rounded-sm border-2 border-cyan-700/50 text-cyan-400 uppercase text-xs tracking-wider font-bold">
               UPCOMING APPROACHES
@@ -73,55 +104,49 @@ function App() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
           {/* Left Column - Threat & Next Approach */}
           <div className="lg:col-span-2 space-y-6">
-            <ThreatAssessment
-              totalHazardous={data?.totalHazardous || 0}
-              totalAsteroids={data?.totalAsteroids || 0}
-            />
-            <NextCloseApproach asteroidData={data?.nextApproaches || []} />
+            <animated.div style={trail[0]}>
+              <ThreatAssessment
+                totalHazardous={data?.totalHazardous || 0}
+                totalAsteroids={data?.totalAsteroids || 0}
+              />
+            </animated.div>
+            <animated.div style={trail[1]}>
+              <NextCloseApproach asteroidData={data?.nextApproaches || []} />
+            </animated.div>
           </div>
 
           {/* Right Column - Surveillance Stats Sidebar */}
-          <div className="lg:col-span-1">
+          <animated.div className="lg:col-span-1" style={trail[2]}>
             <SurveillanceStats
               totalAsteroids={data?.totalAsteroids || 0}
               totalHazardous={data?.totalHazardous || 0}
               largestAsteroid={data?.largestAsteroid || "N/A"}
               closestApproach={data?.closestApproach || "N/A"}
             />
-          </div>
+          </animated.div>
         </div>
 
         {/* Chart Sections */}
         <div className="space-y-8 mb-12">
-          <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
-            <div className="flex items-center gap-2 mb-4">
-              <Calendar className="h-5 w-5 text-sky-400" />
-              <h2 className="text-zinc-300 text-lg font-bold uppercase tracking-wider">
-                Close Approaches Over Time
-              </h2>
-            </div>
-            <ApproachBarChart data={data?.asteroidCountsByDate} />
-          </Card>
+          <animated.div style={trail[3]}>
+            <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
+              <ApproachBarChart data={data?.asteroidCountsByDate} />
+            </Card>
+          </animated.div>
 
-          <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
-            <div className="flex items-center gap-2 mb-4">
-              <Gauge className="h-5 w-5 text-sky-400" />
-              <h2 className="text-zinc-300 text-lg font-bold uppercase tracking-wider">
-                Size vs Velocity Distribution
-              </h2>
-            </div>
-            <SizeVelocityScatter data={data?.sizeVelocityData} />
-          </Card>
+          <animated.div style={trail[3]}>
+            <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
+              <SizeVelocityScatter data={data?.sizeVelocityData} />
+            </Card>
+          </animated.div>
         </div>
 
         {/* Table Section */}
-        <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
-          <h2 className="text-zinc-300 text-lg font-bold mb-4 uppercase tracking-wider">
-            Asteroid Details
-          </h2>
-
-          <AsteroidTable data={data?.asteroidTableData || []} />
-        </Card>
+        <animated.div style={trail[4]}>
+          <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
+            <AsteroidTable data={data?.asteroidTableData || []} />
+          </Card>
+        </animated.div>
 
         <Footer />
       </div>

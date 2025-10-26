@@ -1,11 +1,34 @@
 import { Card } from "./ui/card";
 import { Orbit, AlertTriangle, Circle, Target } from "lucide-react";
+import { useSpring, animated } from "@react-spring/web";
 
 interface SurveillanceStatsProps {
   totalAsteroids: number;
   totalHazardous: number;
   largestAsteroid: string;
   closestApproach: string;
+}
+
+// Animated number component
+function AnimatedNumber({ value, duration = 1000 }: { value: number; duration?: number }) {
+  const { number } = useSpring({
+    from: { number: 0 },
+    to: { number: value },
+    config: { duration },
+  });
+
+  return <animated.span>{number.to((n) => Math.floor(n).toLocaleString())}</animated.span>;
+}
+
+// Animated decimal number component (for percentages and decimals)
+function AnimatedDecimal({ value, decimals = 1, duration = 1000 }: { value: number; decimals?: number; duration?: number }) {
+  const { number } = useSpring({
+    from: { number: 0 },
+    to: { number: value },
+    config: { duration },
+  });
+
+  return <animated.span>{number.to((n) => n.toFixed(decimals))}</animated.span>;
 }
 
 export function SurveillanceStats({
@@ -35,7 +58,7 @@ export function SurveillanceStats({
               </div>
             </div>
             <div className="text-4xl font-bold text-cyan-400 font-mono">
-              {totalAsteroids}
+              <AnimatedNumber value={totalAsteroids} />
             </div>
           </div>
 
@@ -51,10 +74,10 @@ export function SurveillanceStats({
               </div>
             </div>
             <div className="text-4xl font-bold text-yellow-400 font-mono">
-              {totalHazardous}
+              <AnimatedNumber value={totalHazardous} />
             </div>
             <div className="mt-2 text-xs text-zinc-600">
-              ({((totalHazardous / totalAsteroids) * 100).toFixed(1)}% of total)
+              (<AnimatedDecimal value={(totalHazardous / totalAsteroids) * 100} />% of total)
             </div>
           </div>
 

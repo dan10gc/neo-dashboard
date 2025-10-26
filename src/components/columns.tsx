@@ -6,6 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import { Filter } from "lucide-react";
 
 interface NEO {
   id: string;
@@ -25,7 +26,40 @@ export const columns: ColumnDef<NEO>[] = [
   },
   {
     accessorKey: "is_potentially_hazardous_asteroid",
-    header: "Status",
+    header: ({ column }) => {
+      return (
+        <div className="flex items-center gap-2">
+          <span>Status</span>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              const currentValue = column.getFilterValue();
+              if (currentValue === undefined) {
+                column.setFilterValue(true);
+              } else if (currentValue === true) {
+                column.setFilterValue(false);
+              } else {
+                column.setFilterValue(undefined);
+              }
+            }}
+            className={`p-1 rounded transition-colors ${
+              column.getFilterValue() === true
+                ? "text-yellow-400 bg-yellow-700/30"
+                : column.getFilterValue() === false
+                ? "text-green-400 bg-green-700/30"
+                : "text-zinc-500 hover:text-zinc-300"
+            }`}
+            title="Click to filter: All → Hazardous → Safe → All"
+          >
+            <Filter className="h-3 w-3" />
+          </button>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      if (value === undefined) return true;
+      return row.getValue(id) === value;
+    },
     cell: ({ row }) => {
       const isHazardous = row.getValue("is_potentially_hazardous_asteroid");
       if (isHazardous) {
@@ -35,14 +69,14 @@ export const columns: ColumnDef<NEO>[] = [
               <TooltipTrigger>
                 <Badge
                   variant="destructive"
-                  className="bg-red-500/20 text-red-500 border-red-500/50 uppercase font-bold border-dotted"
+                  className="bg-yellow-500/20 text-yellow-400 border-yellow-500/50 uppercase font-bold border font-mono text-xs tracking-wider"
                 >
-                  Hazardous
+                  ⚠ PHA
                 </Badge>
               </TooltipTrigger>
-              <TooltipContent>
-                Potentially Hazardous Asteroid (PHA) - meets NASA criteria for
-                close approach and size
+              <TooltipContent className="bg-zinc-900 border-2 border-yellow-700/50 text-zinc-100 font-mono text-xs">
+                <div className="font-bold text-yellow-400 mb-1">Potentially Hazardous Asteroid</div>
+                <div>Meets NASA criteria for close approach and size threshold</div>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -51,9 +85,9 @@ export const columns: ColumnDef<NEO>[] = [
       return (
         <Badge
           variant="secondary"
-          className="bg-emerald-500/20 text-emerald-400 border-emerald-500/50 uppercase font-bold"
+          className="bg-green-500/20 text-green-400 border-green-500/50 uppercase font-bold font-mono text-xs tracking-wider"
         >
-          Safe
+          ✓ Safe
         </Badge>
       );
     },

@@ -18,7 +18,7 @@ export function LoaderScreen() {
             <Satellite className="h-20 w-20 text-sky-400 animate-pulse" />
           </div>
           <h1 className="text-4xl font-bold mb-2 tracking-tight">
-            NEAR-EARTH OBJECT DASHBOARD
+            NEAR-EARTH OBJECT MONITOR
           </h1>
           <p className="text-zinc-500 text-sm tracking-wider font-mono">
             INITIALIZING SYSTEMS...

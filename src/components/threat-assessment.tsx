@@ -1,4 +1,5 @@
 import { ShieldAlert } from "lucide-react";
+import { useSpring, animated } from "@react-spring/web";
 
 interface ThreatAssessmentProps {
   totalHazardous: number;
@@ -48,8 +49,36 @@ export function ThreatAssessment({ totalHazardous, totalAsteroids }: ThreatAsses
     bgColor = "bg-green-950/30";
   }
 
+  // Pulse animation - only for threat levels 1-3 (border only)
+  const springs = useSpring({
+    from: { borderOpacity: 0.5 },
+    to: async (next) => {
+      // Only pulse for threat levels 1-3
+      if (conditionLevel <= 3) {
+        while (true) {
+          await next({ borderOpacity: 1 });
+          await next({ borderOpacity: 0.5 });
+        }
+      } else {
+        // No animation for levels 4-5
+        await next({ borderOpacity: 0.5 });
+      }
+    },
+    config: { tension: 180, friction: 12 },
+  });
+
   return (
-    <div className={`${bgColor} border-2 ${borderColor} p-6 rounded-sm`}>
+    <animated.div
+      className={`${bgColor} border-2 ${borderColor} p-6 rounded-sm`}
+      style={{
+        borderColor: springs.borderOpacity.to(opacity => {
+          // Extract the color from the borderColor class and apply dynamic opacity
+          if (conditionLevel === 1) return `rgba(185, 28, 28, ${opacity})`; // red-700
+          if (conditionLevel === 2 || conditionLevel === 3) return `rgba(161, 98, 7, ${opacity})`; // yellow-700
+          return `rgba(21, 128, 61, ${opacity})`; // green-700
+        })
+      }}
+    >
       {/* Two Column Layout */}
       <div className="grid grid-cols-2 gap-6 items-center">
         {/* Left Column - Text Info */}
@@ -87,6 +116,6 @@ export function ThreatAssessment({ totalHazardous, totalAsteroids }: ThreatAsses
           </div>
         </div>
       </div>
-    </div>
+    </animated.div>
   );
 }

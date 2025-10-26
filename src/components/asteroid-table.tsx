@@ -1,20 +1,24 @@
 import { columns } from "./columns"
 import { DataTable } from "./data-table"
 import type { AsteroidTableRow } from "@/lib/transformers"
+import { Database } from "lucide-react"
 
 export const AsteroidTable = ({data}: {data: AsteroidTableRow[]}) => {
-    // TODO: Add state for active filter
-    // useState for tracking 'all' | 'hazardous' | 'size'
-    
     return (
       <div>
-        {/* Filter buttons */}
-        {/* <div className="flex gap-3 mb-4">
-          <Button variant="outline">All</Button>
-          <Button variant="outline">Hazardous Only</Button>
-          <Button variant="outline">Sort by Size</Button>
-        </div> */}
-        <DataTable  columns={columns} data={data} />
+        {/* Header */}
+        <div className="flex items-center gap-2 mb-6 pb-4 border-b-2 border-zinc-700">
+          <Database className="h-5 w-5 text-cyan-400" />
+          <h2 className="text-zinc-300 text-sm font-bold uppercase tracking-wider">
+            Asteroid Catalog
+          </h2>
+          <span className="text-xs text-zinc-500 font-mono ml-auto">
+            {data.length} OBJECTS
+          </span>
+        </div>
+
+        {/* Table */}
+        <DataTable columns={columns} data={data} />
       </div>
     )
   }
