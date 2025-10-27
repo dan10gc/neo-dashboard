@@ -8,7 +8,7 @@ import {
   YAxis,
   ZAxis,
 } from "recharts";
-import { Gauge, TrendingUp, Maximize2 } from "lucide-react";
+import { Gauge, TrendingUp, Ruler } from "lucide-react";
 import type { SizeVelocityDataPoint } from "@/lib/transformers";
 import { useSpring, animated } from "@react-spring/web";
 
@@ -64,7 +64,7 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
   );
 
   const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
-    console.log({ active, payload });
+
     if (active && payload && payload.length) {
       // Remove duplicates and group by unique asteroids
       const uniqueAsteroids = payload.reduce((acc, p) => {
@@ -167,7 +167,7 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
         {/* Largest */}
         <div className="bg-zinc-900/50 p-3 sm:p-4 rounded-sm border border-purple-700/50">
           <div className="flex items-center gap-1 mb-1">
-            <Maximize2 className="h-3 w-3 text-purple-400" />
+            <Ruler className="h-3 w-3 text-purple-400" />
             <div className="text-xs text-zinc-500 uppercase tracking-wider">
               Largest Object
             </div>
@@ -207,7 +207,7 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
 
       {/* Chart */}
       <div className="bg-zinc-900/30 p-2 sm:p-4 rounded-sm border border-zinc-700/50">
-        <ResponsiveContainer width="100%" height={380}>
+        <ResponsiveContainer width="100%" height={480}>
           <ScatterChart margin={{ top: 20, right: 10, bottom: 60, left: 10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#3f3f46" />
             <XAxis

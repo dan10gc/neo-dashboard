@@ -96,7 +96,7 @@ export const ApproachBarChart = ({ data }: ApproachBarChartProps) => {
 
       {/* Chart */}
       <div className="bg-zinc-900/30 p-4 rounded-sm border border-zinc-700/50">
-        <ResponsiveContainer width="100%" height={320}>
+        <ResponsiveContainer width="100%" height={400}>
           <BarChart data={formattedData} barGap={0}>
             <CartesianGrid strokeDasharray="3 3" stroke="#3f3f46" vertical={false} />
             <XAxis
