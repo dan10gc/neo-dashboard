@@ -8,7 +8,7 @@ import {
   YAxis,
   ZAxis,
 } from "recharts";
-import { Gauge, TrendingUp, Ruler } from "lucide-react";
+import { ChartScatter, Diameter, Gauge } from "lucide-react";
 import type { SizeVelocityDataPoint } from "@/lib/transformers";
 import { useSpring, animated } from "@react-spring/web";
 
@@ -26,14 +26,24 @@ interface CustomTooltipProps {
 }
 
 // Animated number component
-function AnimatedNumber({ value, duration = 1000 }: { value: number; duration?: number }) {
+function AnimatedNumber({
+  value,
+  duration = 1000,
+}: {
+  value: number;
+  duration?: number;
+}) {
   const { number } = useSpring({
     from: { number: 0 },
     to: { number: value },
     config: { duration },
   });
 
-  return <animated.span>{number.to((n) => Math.floor(n).toLocaleString())}</animated.span>;
+  return (
+    <animated.span>
+      {number.to((n) => Math.floor(n).toLocaleString())}
+    </animated.span>
+  );
 }
 
 interface SizeVelocityScatterProps {
@@ -64,7 +74,6 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
   );
 
   const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
-
     if (active && payload && payload.length) {
       // Remove duplicates and group by unique asteroids
       const uniqueAsteroids = payload.reduce((acc, p) => {
@@ -156,7 +165,7 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
     <div>
       {/* Header */}
       <div className="flex items-center gap-2 mb-6 pb-4 border-b-2 border-zinc-700">
-        <Gauge className="h-5 w-5 text-cyan-400" />
+        <ChartScatter className="h-5 w-5 text-cyan-400" />
         <h2 className="text-zinc-300 text-sm font-bold uppercase tracking-wider">
           Size vs Velocity Distribution
         </h2>
@@ -167,7 +176,7 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
         {/* Largest */}
         <div className="bg-zinc-900/50 p-3 sm:p-4 rounded-sm border border-purple-700/50">
           <div className="flex items-center gap-1 mb-1">
-            <Ruler className="h-3 w-3 text-purple-400" />
+            <Diameter className="h-3 w-3 text-purple-400" />
             <div className="text-xs text-zinc-500 uppercase tracking-wider">
               Largest Object
             </div>
@@ -187,7 +196,7 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
         {/* Fastest */}
         <div className="bg-zinc-900/50 p-3 sm:p-4 rounded-sm border border-cyan-700/50">
           <div className="flex items-center gap-1 mb-1">
-            <TrendingUp className="h-3 w-3 text-cyan-400" />
+            <Gauge className="h-3 w-3 text-cyan-400" />
             <div className="text-xs text-zinc-500 uppercase tracking-wider">
               Fastest Object
             </div>
