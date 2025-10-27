@@ -1,9 +1,63 @@
 import { ShieldAlert } from "lucide-react";
 import { useSpring, animated } from "@react-spring/web";
+import { useMemo } from "react";
 
 interface ThreatAssessmentProps {
   totalHazardous: number;
   totalAsteroids: number;
+}
+
+const THREAT_LEVELS=[
+  {
+    minPercentage: 20,
+    conditionLevel: 1,
+    conditionText: "CRITICAL",
+    textColor: "text-red-400",
+    borderColor: "border-red-700/50",
+    bgColor: "bg-red-950/30",
+  },
+  {
+    minPercentage: 15,
+    conditionLevel: 2,
+    conditionText: "ELEVATED",
+    textColor: "text-yellow-400",
+    borderColor: "border-yellow-700/50",
+    bgColor: "bg-yellow-950/30",
+  },
+  {
+    minPercentage: 10,
+    conditionLevel: 3,
+    conditionText: "MODERATE",
+    textColor: "text-yellow-400",
+    borderColor: "border-yellow-700/50",
+    bgColor: "bg-yellow-950/30",
+  },
+  {
+    minPercentage: 5,
+    conditionLevel: 4,
+    conditionText: "LOW",
+    textColor: "text-green-400",
+    borderColor: "border-green-700/50",
+    bgColor: "bg-green-950/30",
+  },
+  {
+    minPercentage: 0,
+    conditionLevel: 5,
+    conditionText: "MINIMAL",
+    textColor: "text-green-400",
+    borderColor: "border-green-700/50",
+    bgColor: "bg-green-950/30",
+  },
+]
+
+function getThreatLevel(hazardPercentage: number) {
+  for (const level of THREAT_LEVELS) {
+    if (hazardPercentage >= level.minPercentage) {
+      return level;
+    }
+  }
+  // Default to minimal if none matched
+  return THREAT_LEVELS[THREAT_LEVELS.length - 1];
 }
 
 export function ThreatAssessment({ totalHazardous, totalAsteroids }: ThreatAssessmentProps) {
@@ -11,43 +65,8 @@ export function ThreatAssessment({ totalHazardous, totalAsteroids }: ThreatAsses
   // Based on percentage of hazardous asteroids
   const hazardPercentage = totalAsteroids > 0 ? (totalHazardous / totalAsteroids) * 100 : 0;
 
-  let conditionLevel: number;
-  let conditionText: string;
-  let textColor: string;
-  let borderColor: string;
-  let bgColor: string;
-
-  if (hazardPercentage >= 20) {
-    conditionLevel = 1;
-    conditionText = "CRITICAL";
-    textColor = "text-red-400";
-    borderColor = "border-red-700/50";
-    bgColor = "bg-red-950/30";
-  } else if (hazardPercentage >= 15) {
-    conditionLevel = 2;
-    conditionText = "ELEVATED";
-    textColor = "text-yellow-400";
-    borderColor = "border-yellow-700/50";
-    bgColor = "bg-yellow-950/30";
-  } else if (hazardPercentage >= 10) {
-    conditionLevel = 3;
-    conditionText = "MODERATE";
-    textColor = "text-yellow-400";
-    borderColor = "border-yellow-700/50";
-    bgColor = "bg-yellow-950/30";
-  } else if (hazardPercentage >= 5) {
-    conditionLevel = 4;
-    conditionText = "LOW";
-    textColor = "text-green-400";
-    borderColor = "border-green-700/50";
-    bgColor = "bg-green-950/30";
-  } else {
-    conditionLevel = 5;
-    conditionText = "MINIMAL";
-    textColor = "text-green-400";
-    borderColor = "border-green-700/50";
-    bgColor = "bg-green-950/30";
-  }
+  const threatLevel = useMemo(() => getThreatLevel(hazardPercentage), [hazardPercentage]);
+  const { conditionLevel, conditionText, textColor, borderColor, bgColor } = threatLevel;
 
   // Pulse animation - only for threat levels 1-3 (border only)
   const springs = useSpring({
