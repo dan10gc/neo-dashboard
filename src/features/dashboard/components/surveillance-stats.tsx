@@ -1,4 +1,4 @@
-import { Card } from "./ui/card";
+import { Card } from "@/components/ui/card";
 import { Orbit, AlertTriangle, Circle, Target } from "lucide-react";
 import { useSpring, animated } from "@react-spring/web";
 

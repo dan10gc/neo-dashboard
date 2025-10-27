@@ -1,4 +1,4 @@
-import { Card } from "./ui/card";
+import { Card } from "@/components/ui/card";
 import type { NextApproachData } from "@/lib/transformers";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";

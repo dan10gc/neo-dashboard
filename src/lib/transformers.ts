@@ -194,10 +194,10 @@ export interface SizeVelocityDataPoint {
  * @example
  * ```ts
  * const scatterData = getSizeVelocityData(neoData);
- * // [
- * //   { name: "433 Eros", diameter: 49507, velocity: 19957, hazardous: false },
- * //   { name: "(2010 PK9)", diameter: 322, velocity: 67510, hazardous: true }
- * // ]
+ *  [
+ *    { name: "433 Eros", diameter: 49507, velocity: 19957, hazardous: false },
+ *    { name: "(2010 PK9)", diameter: 322, velocity: 67510, hazardous: true }
+ *  ]
  * ```
  */
 export const getSizeVelocityData = (data: NeoFeedResponse): SizeVelocityDataPoint[] => {

@@ -1,14 +1,14 @@
-import { AsteroidTable } from "./components/asteroid-table";
-import { ApproachBarChart } from "./components/approach-bar-chart";
-import { SizeVelocityScatter } from "./components/size-velocity-scatter";
-import { Footer } from "./components/footer";
+import { AsteroidTable } from "./features/dashboard/components/asteroid-table";
+import { ApproachBarChart } from "./features/dashboard/components/approach-bar-chart";
+import { SizeVelocityScatter } from "./features/dashboard/components/size-velocity-scatter";
+import { Footer } from "./components/layout/footer";
 import { Card } from "./components/ui/card";
 import { useNeoDataQuery } from "./hooks/useNeoNasaQuery";
-import { LoaderScreen } from "./components/loader-screen";
+import { LoaderScreen } from "./components/layout/loader-screen";
 import { AlertCircle, Satellite } from "lucide-react";
-import { ThreatAssessment } from "./components/threat-assessment";
-import { NextCloseApproach } from "./components/next-close-approach";
-import { SurveillanceStats } from "./components/surveillance-stats";
+import { ThreatAssessment } from "./features/dashboard/components/threat-assessment";
+import { NextCloseApproach } from "./features/dashboard/components/next-close-approach";
+import { SurveillanceStats } from "./features/dashboard/components/surveillance-stats";
 import { useTrail, animated } from "@react-spring/web";
 
 function App() {
