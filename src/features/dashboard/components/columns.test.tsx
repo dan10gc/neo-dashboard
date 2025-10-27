@@ -58,20 +58,20 @@ describe("Columns", () => {
 
   it("should have name column with correct header", () => {
     const nameColumn = columns[0];
-    expect(nameColumn.accessorKey).toBe("name");
+    expect("accessorKey" in nameColumn && nameColumn.accessorKey).toBe("name");
     expect(nameColumn.header).toBe("Name");
   });
 
   it("should have status column with correct header", () => {
     const statusColumn = columns[1];
-    expect(statusColumn.accessorKey).toBe("is_potentially_hazardous_asteroid");
+    expect("accessorKey" in statusColumn && statusColumn.accessorKey).toBe("is_potentially_hazardous_asteroid");
     // Header is a function component with filter button, not a string
     expect(typeof statusColumn.header).toBe("function");
   });
 
   it("should have diameter column with correct header", () => {
     const diameterColumn = columns[2];
-    expect(diameterColumn.accessorKey).toBe("diameter");
+    expect("accessorKey" in diameterColumn && diameterColumn.accessorKey).toBe("diameter");
     expect(diameterColumn.header).toBe("Diameter (m)");
   });
 
@@ -85,7 +85,7 @@ describe("Columns", () => {
 
   it("should have velocity column with correct header", () => {
     const velocityColumn = columns[3];
-    expect(velocityColumn.accessorKey).toBe("velocity");
+    expect("accessorKey" in velocityColumn && velocityColumn.accessorKey).toBe("velocity");
     expect(velocityColumn.header).toBe("Velocity (km/h)");
   });
 
@@ -99,7 +99,7 @@ describe("Columns", () => {
 
   it("should have miss distance column with correct header", () => {
     const missDistanceColumn = columns[4];
-    expect(missDistanceColumn.accessorKey).toBe("miss_distance_au");
+    expect("accessorKey" in missDistanceColumn && missDistanceColumn.accessorKey).toBe("miss_distance_au");
     expect(missDistanceColumn.header).toBe("Miss Distance (AU)");
   });
 
@@ -113,7 +113,7 @@ describe("Columns", () => {
 
   it("should have close approach date column with correct header", () => {
     const dateColumn = columns[5];
-    expect(dateColumn.accessorKey).toBe("close_approach_date");
+    expect("accessorKey" in dateColumn && dateColumn.accessorKey).toBe("close_approach_date");
     expect(dateColumn.header).toBe("Close Approach Date");
   });
 
