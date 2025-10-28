@@ -74,7 +74,7 @@ const fetchNeoData = async (): Promise<NeoFeedResponse> => {
   // Fetch data and ensure minimum display time for loader
   const [response] = await Promise.all([
     fetch(url),
-    new Promise(resolve => setTimeout(resolve, 2500)), // 2.5 second minimum display
+    new Promise((resolve) => setTimeout(resolve, 2500)), // 2.5 second minimum display
   ]);
 
   if (!response.ok) {
@@ -135,6 +135,7 @@ export const useNeoDataQuery = () => {
       const largestAsteroid = getLargestAsteroid(data);
       const closestApproach = getClosestApproach(data);
       const { startDate, endDate } = getDateRange();
+
       return {
         totalAsteroids,
         totalHazardous,
