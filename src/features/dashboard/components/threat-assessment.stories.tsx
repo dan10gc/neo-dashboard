@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ThreatAssessment } from "./threat-assessment";
 
 const meta = {
-  title: "Components/ThreatAssessment",
+  title: "Features/Dashboard/ThreatAssessment",
   component: ThreatAssessment,
   tags: ["autodocs"],
   parameters: {

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { SurveillanceStats } from "./surveillance-stats";
 
 const meta = {
-  title: "Components/SurveillanceStats",
+  title: "Features/Dashboard/SurveillanceStats",
   component: SurveillanceStats,
   tags: ["autodocs"],
   parameters: {
