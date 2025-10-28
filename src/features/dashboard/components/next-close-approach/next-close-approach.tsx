@@ -1,10 +1,12 @@
+import { useState } from "react";
+
 import { Card } from "@/components/ui/card";
 import type { NextApproachData } from "@/lib/transformers";
-import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+
 import { ApproachCounter } from "./approach-counter";
 import { ApproachHeader } from "./approach-header";
 import { ApproachDetail } from "./approach-detail";
+import { CarouselNavigation } from "./carousel-navigation";
 
 interface NextCloseApproachProps {
   asteroidData: NextApproachData[];
@@ -63,41 +65,13 @@ export function NextCloseApproach({ asteroidData }: NextCloseApproachProps) {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="mt-6 pt-4 border-t border-zinc-700 flex items-center justify-between">
-        {/* Carousel Indicators - Bottom Left */}
-        <div className="flex gap-2">
-          {approaches.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`h-1.5 rounded-full transition-all ${
-                index === currentIndex
-                  ? "w-8 bg-cyan-400"
-                  : "w-1.5 bg-zinc-600 hover:bg-zinc-500"
-              }`}
-              aria-label={`Go to approach ${index + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Arrow Navigation - Bottom Right */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handlePrevious}
-            className="p-1 hover:bg-zinc-700 rounded transition-colors"
-            aria-label="Previous approach"
-          >
-            <ChevronLeft className="w-5 h-5 text-zinc-400" />
-          </button>
-          <button
-            onClick={handleNext}
-            className="p-1 hover:bg-zinc-700 rounded transition-colors"
-            aria-label="Next approach"
-          >
-            <ChevronRight className="w-5 h-5 text-zinc-400" />
-          </button>
-        </div>
-      </div>
+      <CarouselNavigation
+        onGoToIndex={setCurrentIndex}
+        currentIndex={currentIndex}
+        totalApproaches={approaches.length}
+        onNext={handleNext}
+        onPrevious={handlePrevious}
+      />
     </Card>
   );
 }
