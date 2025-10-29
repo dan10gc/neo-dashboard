@@ -8,8 +8,15 @@ import { ApproachBarChart } from "./components/approach-bar-chart";
 import { SizeVelocityScatter } from "./components/size-velocity-scatter";
 import { AsteroidTable } from "./components/asteroid-table/asteroid-table";
 import { Header } from "./components/header";
+import type { TransformedNeoData } from "@/hooks/useNeoNasaQuery";
 
-export const Dashboard = ({ data, isLoading, error }) => {
+interface DashboardProps {
+  data: TransformedNeoData;
+  isLoading: boolean;
+  error: Error | null;
+}
+
+export const Dashboard = ({ data, isLoading, error }: DashboardProps) => {
   // Stagger animation for monitor sections (5 sections total)
   // Only animate when data is loaded (not loading and not error)
   const trail = useTrail(5, {
@@ -45,8 +52,8 @@ export const Dashboard = ({ data, isLoading, error }) => {
           <SurveillanceStats
             totalAsteroids={data?.totalAsteroids || 0}
             totalHazardous={data?.totalHazardous || 0}
-            largestAsteroid={data?.largestAsteroid || "N/A"}
-            closestApproach={data?.closestApproach || "N/A"}
+            largestAsteroidKm={data?.largestAsteroid || 0}
+            closestApproachAu={data?.closestApproach || 0}
           />
         </animated.div>
       </div>

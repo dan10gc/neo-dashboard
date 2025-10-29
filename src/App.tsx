@@ -38,6 +38,31 @@ function App() {
     );
   }
 
+  // Handle case where data is undefined but no error occurred
+  if (!data) {
+    return (
+      <div className="min-h-screen bg-zinc-950 text-zinc-50 p-6 flex items-center justify-center font-mono">
+        <Card className="bg-zinc-800/50 border-2 border-amber-800/50 p-8 max-w-lg rounded-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <AlertCircle className="h-8 w-8 text-amber-500" />
+            <h2 className="text-xl font-bold text-amber-400 uppercase tracking-wider">
+              No Data Available
+            </h2>
+          </div>
+          <p className="text-zinc-300 mb-4 text-sm">
+            No asteroid data is currently available.
+          </p>
+          <button
+            onClick={() => refetch()}
+            className="px-4 py-2 bg-sky-600 hover:bg-sky-700 rounded-sm transition-colors uppercase text-xs tracking-wider font-bold"
+          >
+            Retry
+          </button>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <PageLayout>
       <Dashboard data={data} error={error} isLoading={isLoading} />

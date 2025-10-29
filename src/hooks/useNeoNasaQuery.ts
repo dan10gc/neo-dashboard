@@ -11,6 +11,20 @@ import {
   getTotalHazardousAsteroids,
   getNextApproaches,
 } from "@/lib/transformers";
+
+export interface TransformedNeoData {
+  totalAsteroids: number;
+  totalHazardous: number;
+  largestAsteroid: number;
+  closestApproach: number;
+  asteroidTableData: ReturnType<typeof getAsteroidTableData>;
+  asteroidCountsByDate: ReturnType<typeof getAsteroidCountsByDate>;
+  sizeVelocityData: ReturnType<typeof getSizeVelocityData>;
+  nextApproaches: ReturnType<typeof getNextApproaches>;
+  dateRange: { startDate: string; endDate: string };
+  data: NeoFeedResponse;
+}
+
 /**
  * Generates a 7-day forward-looking date range for NEO tracking
  *
@@ -106,8 +120,8 @@ const fetchNeoData = async (): Promise<NeoFeedResponse> => {
  *  - data: Transformed NEO data including:
  *    - totalAsteroids: Total count of NEOs in the date range
  *    - totalHazardous: Count of potentially hazardous asteroids
- *    - largestAsteroid: Diameter of largest asteroid (formatted string)
- *    - closestApproach: Closest approach distance in AU (formatted string)
+ *    - largestAsteroid: Diameter of largest asteroid in kilometers (number)
+ *    - closestApproach: Closest approach distance in AU (number)
  *    - asteroidTableData: Array of asteroids for table display
  *    - asteroidCountsByDate: Daily counts grouped by hazard status
  *    - sizeVelocityData: Data points for size vs velocity scatter plot
@@ -125,7 +139,7 @@ const fetchNeoData = async (): Promise<NeoFeedResponse> => {
  * return <Dashboard data={data} />;
  */
 export const useNeoDataQuery = () => {
-  return useQuery({
+  return useQuery<NeoFeedResponse, Error | null, TransformedNeoData>({
     queryKey: ["neoData"],
     queryFn: fetchNeoData,
     staleTime: 1000 * 60 * 5, // Data fresh for 5 minutes,

@@ -49,27 +49,27 @@ export const getTotalHazardousAsteroids = (data: NeoFeedResponse): number => {
  * Finds the largest asteroid by maximum estimated diameter
  *
  * @param data - NeoFeedResponse object from NASA's NeoWs API
- * @returns Formatted string with the diameter in meters (e.g., "1000m")
+ * @returns Diameter in kilometers
  *
  * @example
  * ```ts
  * const largest = getLargestAsteroid(neoData);
- * console.log(largest); // "49507m"
+ * console.log(largest); // 49.507
  * ```
  */
-export const getLargestAsteroid = (data: NeoFeedResponse): string => {
+export const getLargestAsteroid = (data: NeoFeedResponse): number => {
   let largest = 0;
   Object.values(data.near_earth_objects).forEach((asteroids) => {
     asteroids.forEach((asteroid) => {
       const diameter =
-        asteroid.estimated_diameter.meters.estimated_diameter_max;
+        asteroid.estimated_diameter.kilometers.estimated_diameter_max;
       if (diameter > largest) {
         largest = diameter;
       }
     });
   });
 
-  return `${Math.floor(largest)}m`;
+  return largest;
 };
 
 /**
@@ -77,19 +77,17 @@ export const getLargestAsteroid = (data: NeoFeedResponse): string => {
  *
  * Searches through all asteroids and their close approach dates to find
  * the minimum miss distance. Returns the value in Astronomical Units (AU).
- * Uses exponential notation for very small distances (< 0.0001 AU).
  *
  * @param data - NeoFeedResponse object from NASA's NeoWs API
- * @returns Formatted string with distance in AU (e.g., "0.0234 AU" or "4.53e-5 AU"),
- *          or "N/A" if no valid data exists
+ * @returns Distance in Astronomical Units (AU), or 0 if no valid data exists
  *
  * @example
  * ```ts
  * const closest = getClosestApproach(neoData);
- * console.log(closest); // "0.0234 AU" or "4.53e-5 AU"
+ * console.log(closest); // 0.0234
  * ```
  */
-export const getClosestApproach = (data: NeoFeedResponse): string => {
+export const getClosestApproach = (data: NeoFeedResponse): number => {
   let closestDistance = Infinity;
 
   Object.values(data.near_earth_objects).forEach((asteroids) => {
@@ -104,14 +102,9 @@ export const getClosestApproach = (data: NeoFeedResponse): string => {
     });
   });
 
-  if (closestDistance === Infinity) return "N/A";
+  if (closestDistance === Infinity) return 0;
 
-  // Use exponential notation for very small numbers (< 0.0001)
-  if (closestDistance < 0.0001) {
-    return `${closestDistance.toExponential(2)} AU`;
-  }
-
-  return `${closestDistance.toFixed(4)} AU`;
+  return closestDistance;
 };
 
 

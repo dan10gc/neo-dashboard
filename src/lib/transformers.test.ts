@@ -49,7 +49,7 @@ describe("Transformers", () => {
     it("should find the largest asteroid by diameter", () => {
       const largest = getLargestAsteroid(mockNeoResponse);
       // 1036 Ganymed has max diameter of 70710.6781186548 meters
-      expect(largest).toBe("70710m");
+      expect(largest).toEqual(70.7106781187);
     });
 
     it("should handle single asteroid", () => {
@@ -60,7 +60,7 @@ describe("Transformers", () => {
         },
       };
       const largest = getLargestAsteroid(singleData);
-      expect(largest).toBe("49507m");
+      expect(largest).toEqual(49.5075579682);
     });
   });
 
@@ -68,7 +68,7 @@ describe("Transformers", () => {
     it("should find the closest approach distance in AU", () => {
       const closest = getClosestApproach(mockNeoResponse);
       // (2019 OK) has 0.0198765432 AU
-      expect(closest).toBe("0.0199 AU");
+      expect(closest).toEqual(0.0198765432);
     });
 
     it("should use exponential notation for very small distances", () => {
@@ -94,17 +94,16 @@ describe("Transformers", () => {
         },
       };
       const closest = getClosestApproach(veryCloseData);
-      expect(closest).toContain("e-");
-      expect(closest).toContain("AU");
+      expect(closest).toBe(0.000045); // Closest approach in AU
     });
 
-    it("should return N/A for empty data", () => {
+    it("should return 0 for empty data", () => {
       const emptyData = {
         ...mockNeoResponse,
         near_earth_objects: {},
       };
       const closest = getClosestApproach(emptyData);
-      expect(closest).toBe("N/A");
+      expect(closest).toEqual(0);
     });
   });
 

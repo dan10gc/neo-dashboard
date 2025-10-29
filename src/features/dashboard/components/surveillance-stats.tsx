@@ -1,12 +1,15 @@
 import { Card } from "@/components/ui/card";
 import { Orbit, AlertTriangle, Circle, Target } from "lucide-react";
 import { useSpring, animated } from "@react-spring/web";
+import { useUnitPreferences } from "@/hooks/useUnitPreferences";
+import { formatDiameter, formatDistance, getDistanceUnitLabel } from "@/lib/units";
+import { UnitToggle } from "./unit-toggle";
 
 interface SurveillanceStatsProps {
   totalAsteroids: number;
   totalHazardous: number;
-  largestAsteroid: string;
-  closestApproach: string;
+  largestAsteroidKm: number;
+  closestApproachAu: number;
 }
 
 // Animated number component
@@ -34,9 +37,16 @@ function AnimatedDecimal({ value, decimals = 1, duration = 1000 }: { value: numb
 export function SurveillanceStats({
   totalAsteroids,
   totalHazardous,
-  largestAsteroid,
-  closestApproach,
+  largestAsteroidKm,
+  closestApproachAu,
 }: SurveillanceStatsProps) {
+  const {
+    diameterUnit,
+    distanceUnit,
+    toggleDiameterUnit,
+    toggleDistanceUnit
+  } = useUnitPreferences();
+
   return (
     <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm h-full">
       <div className="flex flex-col h-full">
@@ -91,9 +101,14 @@ export function SurveillanceStats({
               <div className="text-xs text-zinc-500 uppercase tracking-wider">
                 Largest Object
               </div>
+              <UnitToggle
+                currentUnit={diameterUnit}
+                onToggle={toggleDiameterUnit}
+                ariaLabel={`Toggle diameter unit from ${diameterUnit}`}
+              />
             </div>
             <div className="text-3xl font-bold text-purple-400 font-mono">
-              {largestAsteroid}
+              {formatDiameter(largestAsteroidKm, diameterUnit)}
             </div>
             <div className="mt-1 text-xs text-zinc-600">
               max diameter
@@ -110,12 +125,17 @@ export function SurveillanceStats({
               <div className="text-xs text-zinc-500 uppercase tracking-wider">
                 Closest Approach
               </div>
+              <UnitToggle
+                currentUnit={distanceUnit}
+                onToggle={toggleDistanceUnit}
+                ariaLabel={`Toggle distance unit from ${distanceUnit}`}
+              />
             </div>
             <div className="text-3xl font-bold text-green-400 font-mono">
-              {closestApproach}
+              {formatDistance(closestApproachAu, distanceUnit)}
             </div>
             <div className="mt-1 text-xs text-zinc-600">
-              astronomical units
+              {getDistanceUnitLabel(distanceUnit)}
             </div>
           </div>
         </div>
