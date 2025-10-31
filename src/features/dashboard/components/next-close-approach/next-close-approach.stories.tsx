@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { NextCloseApproach } from "./next-close-approach";
-import type { NextApproachData } from "@/lib/transformers";
+import type { NextApproachData } from "@/lib/transformers/transformers";
 
 const meta = {
   title: "Features/Dashboard/NextCloseApproach",
@@ -120,7 +120,7 @@ const singleApproach: NextApproachData[] = [
     diameter: 320,
     velocity: 42000,
     miss_distance_km: 38000000,
-    miss_distance_au: 0.2540,
+    miss_distance_au: 0.254,
     close_approach_date: "2025-11-10",
     close_approach_date_full: "2025-Nov-10 12:00",
     epoch_date_close_approach: daysFromNow(15),
@@ -135,7 +135,9 @@ export const Default: Story = {
 
 export const WithHazardousAsteroids: Story = {
   args: {
-    asteroidData: futureApproaches.filter((a) => a.is_potentially_hazardous_asteroid),
+    asteroidData: futureApproaches.filter(
+      (a) => a.is_potentially_hazardous_asteroid
+    ),
   },
 };
 
@@ -147,7 +149,10 @@ export const PastApproaches: Story = {
 
 export const MixedTimeframes: Story = {
   args: {
-    asteroidData: [...pastApproaches.slice(0, 2), ...futureApproaches.slice(0, 3)],
+    asteroidData: [
+      ...pastApproaches.slice(0, 2),
+      ...futureApproaches.slice(0, 3),
+    ],
   },
 };
 

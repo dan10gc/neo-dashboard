@@ -9,7 +9,7 @@ import {
   ZAxis,
 } from "recharts";
 import { ChartScatter, Diameter, Gauge } from "lucide-react";
-import type { SizeVelocityDataPoint } from "@/lib/transformers";
+import type { SizeVelocityDataPoint } from "@/lib/transformers/transformers";
 import { useSpring, animated } from "@react-spring/web";
 
 // Recharts tooltip types

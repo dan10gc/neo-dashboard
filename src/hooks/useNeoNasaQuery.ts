@@ -4,12 +4,15 @@ import type { NeoFeedResponse } from "@/types/neo";
 import {
   getAsteroidCountsByDate,
   getAsteroidTableData,
+  getSizeVelocityData,
+  getNextApproaches,
+} from "@/lib/transformers/transformers";
+import {
+  calculateThreatAssessment,
   getClosestApproach,
   getLargestAsteroid,
-  getSizeVelocityData,
   getTotalAsteroids,
   getTotalHazardousAsteroids,
-  getNextApproaches,
 } from "@/lib/transformers";
 
 export interface TransformedNeoData {
@@ -21,6 +24,7 @@ export interface TransformedNeoData {
   asteroidCountsByDate: ReturnType<typeof getAsteroidCountsByDate>;
   sizeVelocityData: ReturnType<typeof getSizeVelocityData>;
   nextApproaches: ReturnType<typeof getNextApproaches>;
+  threatAssessment: ReturnType<typeof calculateThreatAssessment>;
   dateRange: { startDate: string; endDate: string };
   data: NeoFeedResponse;
 }
@@ -148,6 +152,7 @@ export const useNeoDataQuery = () => {
       const totalHazardous = getTotalHazardousAsteroids(data);
       const largestAsteroid = getLargestAsteroid(data);
       const closestApproach = getClosestApproach(data);
+      const threatAssessment = calculateThreatAssessment(data);
       const { startDate, endDate } = getDateRange();
 
       return {
@@ -159,6 +164,7 @@ export const useNeoDataQuery = () => {
         asteroidCountsByDate: getAsteroidCountsByDate(data),
         sizeVelocityData: getSizeVelocityData(data),
         nextApproaches: getNextApproaches(data),
+        threatAssessment,
         dateRange: { startDate, endDate },
         data,
       };
