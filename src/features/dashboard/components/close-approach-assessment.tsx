@@ -41,7 +41,7 @@ export function CloseApproachAssessment({ assessment }: CloseApproachAssessmentP
   const [isExpanded, setIsExpanded] = useState(false);
   const posthog = usePostHog();
 
-  const { totalScore, closeApproachLevel, conditionLevel, factors, totalHazardous, totalAsteroids, hazardPercentage } = assessment;
+  const { totalScore, closeApproachLevel, factors, totalHazardous, totalAsteroids, hazardPercentage } = assessment;
 
   const styles = useMemo(() => THREAT_LEVEL_STYLES[closeApproachLevel as keyof typeof THREAT_LEVEL_STYLES], [closeApproachLevel]);
   const { textColor, borderColor, bgColor, borderRgb } = styles;
