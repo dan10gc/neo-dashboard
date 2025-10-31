@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { animated, useTrail } from "@react-spring/web";
 
-import { ThreatAssessment } from "./components/threat-assessment";
+import { CloseApproachAssessment } from "./components/close-approach-assessment";
 import { NextCloseApproach } from "./components/next-close-approach/next-close-approach";
 import { SurveillanceStats } from "./components/surveillance-stats";
 import { ApproachBarChart } from "./components/approach-bar-chart";
@@ -37,10 +37,9 @@ export const Dashboard = ({ data, isLoading, error }: DashboardProps) => {
         {/* Left Column - Threat & Next Approach */}
         <div className="lg:col-span-2 space-y-6">
           <animated.div style={trail[0]}>
-            <ThreatAssessment
-              totalHazardous={data?.totalHazardous || 0}
-              totalAsteroids={data?.totalAsteroids || 0}
-            />
+            {data?.threatAssessment && (
+              <CloseApproachAssessment assessment={data.threatAssessment} />
+            )}
           </animated.div>
           <animated.div style={trail[1]}>
             <NextCloseApproach asteroidData={data?.nextApproaches || []} />

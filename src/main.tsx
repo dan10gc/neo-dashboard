@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { BrowserRouter } from "react-router";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 
@@ -47,7 +48,9 @@ enableMocking().then(() => {
       <PostHogProvider client={posthog}>
         <QueryClientProvider client={queryClient}>
           <ErrorBoundary>
-            <App />
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
           </ErrorBoundary>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
