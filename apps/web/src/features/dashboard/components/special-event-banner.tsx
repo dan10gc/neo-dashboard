@@ -24,6 +24,43 @@ export function SpecialEventBanner({
   const [isVisible, setIsVisible] = useState(true);
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
+  // Calculate days until event (needed for hooks)
+  const daysUntil = Math.ceil(
+    (event.eventTimestamp - Date.now()) / (1000 * 60 * 60 * 24)
+  );
+
+  const isPast = daysUntil < 0;
+  const isToday = daysUntil === 0;
+
+  // React Spring animation for smooth expand/collapse - MUST be called before any returns
+  const contentAnimation = useSpring({
+    maxHeight: isExpanded ? "1000px" : "0px",
+    opacity: isExpanded ? 1 : 0,
+    marginTop: isExpanded ? 16 : 0,
+    config: { tension: 280, friction: 60 },
+  });
+
+  const chevronRotation = useSpring({
+    transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
+    config: { tension: 300, friction: 25 },
+  });
+
+  const titleAnimation = useSpring({
+    fontSize: isExpanded ? "1.125rem" : "0.875rem", // text-lg (18px) to text-sm (14px)
+    config: { tension: 280, friction: 60 },
+  });
+
+  const iconAnimation = useSpring({
+    width: isExpanded ? 28 : 20,
+    height: isExpanded ? 28 : 20,
+    config: { tension: 280, friction: 60 },
+  });
+
+  const badgeAnimation = useSpring({
+    padding: isExpanded ? "0.125rem 0.5rem" : "0.125rem 0.375rem", // py-0.5 px-2 to py-0.5 px-1.5
+    config: { tension: 280, friction: 60 },
+  });
+
   const handleDismiss = () => {
     setIsVisible(false);
     onDismiss?.();
@@ -33,6 +70,7 @@ export function SpecialEventBanner({
     setIsExpanded(!isExpanded);
   };
 
+  // Early return AFTER all hooks
   if (!isVisible) return null;
 
   // Icon mapping based on event type
@@ -111,43 +149,6 @@ export function SpecialEventBanner({
       year: "numeric",
     });
   };
-
-  // Calculate days until event
-  const daysUntil = Math.ceil(
-    (event.eventTimestamp - Date.now()) / (1000 * 60 * 60 * 24)
-  );
-
-  const isPast = daysUntil < 0;
-  const isToday = daysUntil === 0;
-
-  // React Spring animation for smooth expand/collapse
-  const contentAnimation = useSpring({
-    maxHeight: isExpanded ? "1000px" : "0px",
-    opacity: isExpanded ? 1 : 0,
-    marginTop: isExpanded ? 16 : 0,
-    config: { tension: 280, friction: 60 },
-  });
-
-  const chevronRotation = useSpring({
-    transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
-    config: { tension: 300, friction: 25 },
-  });
-
-  const titleAnimation = useSpring({
-    fontSize: isExpanded ? "1.125rem" : "0.875rem", // text-lg (18px) to text-sm (14px)
-    config: { tension: 280, friction: 60 },
-  });
-
-  const iconAnimation = useSpring({
-    width: isExpanded ? 28 : 20,
-    height: isExpanded ? 28 : 20,
-    config: { tension: 280, friction: 60 },
-  });
-
-  const badgeAnimation = useSpring({
-    padding: isExpanded ? "0.125rem 0.5rem" : "0.125rem 0.375rem", // py-0.5 px-2 to py-0.5 px-1.5
-    config: { tension: 280, friction: 60 },
-  });
 
   // Determine if we should show the "new" pulse animation
   const shouldShowNewPulse = !isExpanded && (event.priority === "critical" || event.priority === "high");
