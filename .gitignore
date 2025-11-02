@@ -32,3 +32,14 @@ public/mockServiceWorker.js
 .env
 *storybook.log
 storybook-static
+
+# Turborepo
+.turbo
+
+# Build outputs
+apps/*/dist
+apps/*/build
+apps/server/dist
+
+# Backups
+*.backup

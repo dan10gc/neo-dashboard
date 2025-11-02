@@ -1,33 +1,57 @@
-# NEO Monitor 🌌
+# NEO Monitor Monorepo 🌌
 
-A real-time Near Earth Objects (NEO) tracking monitor powered by NASA's API. Built with React, TypeScript, and modern web technologies.
+A Turborepo monorepo containing the NEO Monitor web application and API server for tracking Near Earth Objects using NASA's API.
 
 ![NASA API](https://img.shields.io/badge/NASA-API-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)
 ![React](https://img.shields.io/badge/React-19-blue)
-![Vite](https://img.shields.io/badge/Vite-7-purple)
+![Turborepo](https://img.shields.io/badge/Turborepo-2.3-purple)
 
 ## 🚀 [Live Demo](https://neo.danielgc.design/)
 
+## What's inside?
+
+This Turborepo includes the following apps and packages:
+
+### Apps
+
+- **[web](./apps/web)**: React 19 + Vite web application for NEO tracking
+- **[server](./apps/server)**: Express API server for backend services
+
+### Packages
+
+- **[@neo-monitor/typescript-config](./packages/typescript-config)**: Shared TypeScript configurations
+- **[@neo-monitor/eslint-config](./packages/eslint-config)**: Shared ESLint configurations
+
 ## Features
 
-- 📊 **Real-time asteroid tracking** - Monitor Near Earth Objects from the past 7 days
+- 📊 **Real-time asteroid tracking** - Monitor Near Earth Objects
 - 🚨 **Hazard detection** - Identify potentially hazardous asteroids
-- 📈 **Interactive data table** - Sort and filter asteroid data
+- 📈 **Interactive data visualization** - Charts and tables
 - 🎨 **Modern UI** - Built with Tailwind CSS and Radix UI
-- ⚡ **Fast performance** - Powered by React Query for efficient data fetching
-- ✅ **Fully tested** - Unit tests with Vitest and React Testing Library
+- ⚡ **Fast builds** - Turborepo caching for instant rebuilds
+- 🔄 **Monorepo architecture** - Shared code and configs
+- ✅ **Fully tested** - Unit tests with Vitest
 
 ## Tech Stack
 
-- **Framework:** React 19 + TypeScript
-- **Build Tool:** Vite 7
-- **Styling:** Tailwind CSS 4
-- **Data Fetching:** TanStack Query (React Query)
-- **UI Components:** Radix UI
-- **Table:** TanStack Table
-- **Testing:** Vitest + React Testing Library
-- **API:** NASA NeoWs (Near Earth Object Web Service)
+### Web App
+- **Framework**: React 19 + TypeScript
+- **Build Tool**: Vite 7
+- **Styling**: Tailwind CSS 4
+- **Data Fetching**: TanStack Query
+- **UI Components**: Radix UI
+- **Testing**: Vitest + React Testing Library
+- **Storybook**: Component development
+
+### API Server
+- **Framework**: Express 5
+- **Language**: TypeScript
+- **Runtime**: Node.js
+
+### Monorepo
+- **Build System**: Turborepo 2.3
+- **Package Manager**: npm workspaces
 
 ## Getting Started
 
@@ -51,68 +75,132 @@ cd neo-dashboard
 npm install
 ```
 
-3. Set up environment variables:
+3. Set up environment variables for the web app:
 
 ```bash
-cp .env.example .env
+cp apps/web/.env.example apps/web/.env
 ```
 
-4. Add your NASA API key to `.env`:
+4. Add your NASA API key to `apps/web/.env`:
 
 ```env
 VITE_NASA_API_KEY=your_nasa_api_key_here
 ```
 
-5. Start the development server:
+5. (Optional) Set up server environment:
+
+```bash
+cp apps/server/.env.example apps/server/.env
+```
+
+### Development
+
+Run all apps in development mode:
 
 ```bash
 npm run dev
 ```
 
-The application will be available at `http://localhost:5173`
+Or run individual apps:
 
-### Available Scripts
+```bash
+# Web app only (http://localhost:5173)
+npm run dev:web
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm test` - Run tests
-- `npm run test:coverage` - Generate coverage report
-- `npm run lint` - Run ESLint
-- `npm run storybook` - Start Storybook
+# Server only (http://localhost:3001)
+npm run dev:server
+```
+
+### Build
+
+Build all apps for production:
+
+```bash
+npm run build
+```
+
+Or build individual apps:
+
+```bash
+# Build web app
+npm run build:web
+
+# Build server
+npm run build:server
+```
+
+### Other Commands
+
+```bash
+# Run tests across all apps
+npm run test
+
+# Run linting
+npm run lint
+
+# Preview web app production build
+npm run preview
+
+# Run Storybook
+npm run storybook
+```
 
 ## Project Structure
 
+```text
+neo-dashboard/
+├── apps/
+│   ├── web/                    # React web application
+│   │   ├── src/
+│   │   │   ├── components/    # React components
+│   │   │   ├── features/      # Feature modules
+│   │   │   ├── hooks/         # Custom React hooks
+│   │   │   ├── lib/           # Utilities and helpers
+│   │   │   └── types/         # TypeScript types
+│   │   ├── public/
+│   │   └── package.json
+│   └── server/                 # Express API server
+│       ├── src/
+│       │   └── index.ts
+│       └── package.json
+├── packages/
+│   ├── typescript-config/      # Shared TS configs
+│   └── eslint-config/          # Shared ESLint configs
+├── package.json                # Root workspace config
+├── turbo.json                  # Turborepo configuration
+└── render.yaml                 # Render deployment config
 ```
-src/
-├── components/        # React components
-│   ├── ui/           # Reusable UI components (shadcn)
-│   ├── asteroid-table.tsx
-│   └── stats-card.tsx
-├── hooks/            # Custom React hooks
-│   └── useNeoNasaQuery.ts
-├── lib/              # Utilities and helpers
-│   ├── transformers/ # Data transformation functions
-│   └── utils.ts
-├── test/             # Test configuration
-│   ├── fixtures/     # Mock data for testing
-│   └── setup.ts
-├── types/            # TypeScript type definitions
-│   └── neo.ts
-└── App.tsx           # Main application component
-```
 
-## API Reference
+## Deployment
 
-This project uses the [NASA NeoWs API](https://api.nasa.gov/) to fetch Near Earth Object data.
+### Render
 
-**Endpoint:** `https://api.nasa.gov/neo/rest/v1/feed`
+This project is configured for deployment on Render using the included [render.yaml](./render.yaml) file.
 
-**Parameters:**
+**Web App (Static Site)**:
 
-- `start_date` - Starting date for asteroid search (YYYY-MM-DD)
-- `end_date` - Ending date for asteroid search (YYYY-MM-DD)
-- `api_key` - Your NASA API key
+- Build Command: `npm install && npm run build:web`
+- Publish Directory: `apps/web/dist`
+- Environment Variable: `VITE_NASA_API_KEY`
+
+**API Server (Web Service)**:
+
+- Build Command: `npm install && npm run build:server`
+- Start Command: `npm run start --filter=server`
+- Environment Variables: `NODE_ENV`, `PORT`
+
+You can deploy using:
+
+1. Render Dashboard - Connect your repo and Render will auto-detect the render.yaml
+2. Render Blueprint - Use the render.yaml directly
+
+## Benefits of Turborepo
+
+- **⚡ Lightning fast builds**: Intelligent caching system
+- **📦 Shared dependencies**: Install once, use everywhere
+- **🔄 Parallel execution**: Run tasks across apps simultaneously
+- **🎯 Task pipelines**: Define task dependencies and order
+- **🚀 Optimized CI/CD**: Only build what changed
 
 ## Test Coverage
 
@@ -149,4 +237,5 @@ MIT
 ## Acknowledgments
 
 - NASA NeoWs API for providing asteroid data
+- [Turborepo](https://turbo.build/) for monorepo tooling
 - [shadcn/ui](https://ui.shadcn.com/) for beautiful UI components
