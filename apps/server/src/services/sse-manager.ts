@@ -88,7 +88,7 @@ export class SSEManager {
   }
 
   // Stop sending heartbeats
-  private stop() {
+  stop() {
     if (this.heartbeatInterval) {
       clearInterval(this.heartbeatInterval);
       this.heartbeatInterval = null;
