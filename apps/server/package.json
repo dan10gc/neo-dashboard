@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@neo-monitor/shared": "*",
+    "@octokit/rest": "^22.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.44.7",
