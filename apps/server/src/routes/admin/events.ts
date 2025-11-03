@@ -21,10 +21,10 @@ router.post("/", async (req: Request, res: Response) => {
       description: req.body.description,
       eventDate: new Date(req.body.eventDate),
       eventTimestamp: Date.parse(req.body.eventDate),
-      distanceValue: req.body.distanceValue.value.toString(),
-      distanceUnit: req.body.distanceValue.unit,
-      velocityValue: req.body.velocityValue?.value.toString() || null,
-      velocityUnit: req.body.velocityValue?.unit,
+      distanceValue: req.body.distance?.value.toString(),
+      distanceUnit: req.body.distance?.unit,
+      velocityValue: req.body.velocity?.value.toString() || null,
+      velocityUnit: req.body.velocity?.unit,
       priority: req.body.priority,
       isActive: req.body.isActive,
       metadata: req.body.metadata,
@@ -47,6 +47,7 @@ router.post("/", async (req: Request, res: Response) => {
 router.put("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    
 
     const updateData: Partial<NewSpecialEventRow> = {
       ...(req.body.name && { name: req.body.name }),
