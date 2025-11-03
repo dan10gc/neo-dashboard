@@ -1,5 +1,6 @@
 type APIConfig = {
   // platform: string;
+  CLIENT_URL?: string;
   PORT: number;
 };
 
@@ -32,6 +33,7 @@ function envOrThrow(key: string) {
 
 export const env: Config = {
   API: {
+    CLIENT_URL: envOrThrow("CLIENT_URL"),
     PORT: Number(envOrThrow("PORT")),
   },
   DB: {
