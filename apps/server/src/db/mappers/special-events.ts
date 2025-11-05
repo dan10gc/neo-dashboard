@@ -12,7 +12,7 @@ export function mapRowToSpecialEvent(row: SpecialEventRow): SpecialEvent {
     type: row.type as SpecialEvent["type"],
     origin: row.origin as SpecialEvent["origin"],
     description: row.description,
-    eventData: row.eventDate.toISOString(),
+    eventDate: row.eventDate.toISOString(),
     eventTimestamp: row.eventTimestamp,
     distance: {
       value: Number(row.distanceValue),

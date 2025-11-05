@@ -1,7 +1,6 @@
 import {
   X,
   Sparkles,
-  Star,
   Orbit,
   AlertTriangle,
   ChevronDown,
@@ -83,7 +82,7 @@ export function SpecialEventBanner({
   // Icon mapping based on event type
   const iconMap = {
     comet: Orbit,
-    interstellar_object: Star,
+    interstellar_object: Orbit,
     meteor_shower: Sparkles,
     unusual_neo: Orbit,
     mission_related: Orbit,
@@ -218,7 +217,7 @@ export function SpecialEventBanner({
           {/* Header Row - Always Visible */}
           <div className="flex items-center gap-3">
             <animated.div
-              className={`flex-shrink-0 ${colors.icon}`}
+              className={`shrink-0 ${colors.icon}`}
               style={iconAnimation}
             >
               <Icon className="w-full h-full" />
@@ -253,7 +252,7 @@ export function SpecialEventBanner({
               </div>
 
               {/* Expand/Collapse Button - Fixed Position */}
-              <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="flex items-center gap-2 shrink-0">
                 <button
                   onClick={toggleExpanded}
                   className={`flex items-center gap-2 p-1.5 rounded hover:bg-white/10 transition-colors ${colors.icon}`}
@@ -275,7 +274,7 @@ export function SpecialEventBanner({
                   <button
                     onClick={handleDismiss}
                     className={`
-                    flex-shrink-0 p-1 rounded hover:bg-white/10
+                    shrink-0 p-1 rounded hover:bg-white/10
                     transition-colors ${colors.icon}
                   `}
                     aria-label="Dismiss notification"

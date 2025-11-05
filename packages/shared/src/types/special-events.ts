@@ -39,7 +39,7 @@ export interface SpecialEvent {
   type: EventType;
   origin: EventOrigin;
   description: string;
-  eventData: string; // ISO 8601
+  eventDate: string; // ISO 8601
   eventTimestamp: number; // Unix timestamp
   distance: {
     value: number;
