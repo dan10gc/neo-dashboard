@@ -24,7 +24,7 @@ export async function getEventById(
   const result = await db
     .select()
     .from(specialEvents)
-    .where(eq(specialEvents.id, id));
+    .where(eq(specialEvents.id, id))
 
   if (result.length === 0) {
     return undefined;

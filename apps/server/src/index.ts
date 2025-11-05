@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/node";
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { middlewareLogResponses } from "./utils/logger";
@@ -50,6 +51,9 @@ app.use((_req: Request, res: Response) => {
   res.status(404).json({ error: "Route not found" });
 });
 
+// Sentry error handler must be before custom error handlers
+Sentry.setupExpressErrorHandler(app);
+
 app.use(errorHandler);
 
 // Start server
@@ -59,9 +63,13 @@ const server = app.listen(PORT, () => {
   console.log(`📍 API status: http://localhost:${PORT}/api/status`);
 });
 
-const shutdown = () => {
+const shutdown = async () => {
   console.log("Shutting down server...");
   sseManager.stop();
+
+  // Flush any pending Sentry events
+  await Sentry.close(2000); // Wait up to 2 seconds for events to be sent
+
   server.close(() => {
     console.log("Server closed.");
     process.exit(0);

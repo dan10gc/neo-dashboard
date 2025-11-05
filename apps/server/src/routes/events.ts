@@ -4,6 +4,8 @@ import {
   getAllEvents,
   getEventById,
 } from "../db/queries/special-events";
+import { InternalServerError, NotFoundError } from "../utils/errors";
+import { respondWithJSON } from "../utils/json";
 
 const router = Router();
 
@@ -34,16 +36,17 @@ router.get("/active", async (_req: Request, res: Response) => {
 router.get("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    console.log("Fetching event with ID:", id);
     const event = await getEventById(id);
 
     if (!event) {
-      res.status(404).json({ error: "Event not found" });
+      throw new NotFoundError("Event not found");
     }
 
-    res.json({ event });
+    respondWithJSON(res, 200, { event });
   } catch (error) {
     console.error("Error fetching event by ID:", error);
-    res.status(500).json({ error: "Internal server error" });
+    throw new InternalServerError("Failed to fetch event by ID");
   }
 });
 
