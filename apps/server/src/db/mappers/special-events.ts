@@ -1,0 +1,40 @@
+import { SpecialEvent } from "@neo-monitor/shared";
+import { SpecialEventRow } from "../schema";
+
+/**
+ * Maps a database row to the API SpecialEvent format
+ * Transforms flat database fields into nested objects
+ */
+export function mapRowToSpecialEvent(row: SpecialEventRow): SpecialEvent {
+  return {
+    id: row.id,
+    name: row.name,
+    type: row.type as SpecialEvent["type"],
+    origin: row.origin as SpecialEvent["origin"],
+    description: row.description,
+    eventData: row.eventDate.toISOString(),
+    eventTimestamp: row.eventTimestamp,
+    distance: {
+      value: Number(row.distanceValue),
+      unit: row.distanceUnit as SpecialEvent["distance"]["unit"],
+    },
+    velocity: row.velocityValue
+      ? {
+          value: Number(row.velocityValue),
+          unit: row.velocityUnit as SpecialEvent["velocity"]["unit"],
+        }
+      : undefined,
+    priority: row.priority as SpecialEvent["priority"],
+    isActive: row.isActive,
+    metadata: row.metadata,
+    createdAt: row.createdAt.getTime(),
+    updatedAt: row.updatedAt.getTime(),
+  };
+}
+
+/**
+ * Maps an array of database rows to API SpecialEvent format
+ */
+export function mapRowsToSpecialEvents(rows: SpecialEventRow[]): SpecialEvent[] {
+  return rows.map(mapRowToSpecialEvent);
+}

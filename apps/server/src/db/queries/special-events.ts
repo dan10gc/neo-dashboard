@@ -1,53 +1,62 @@
 import { desc, eq } from "drizzle-orm";
-import { NewSpecialEventRow, SpecialEventRow, specialEvents } from "../schema";
+import { NewSpecialEventRow, specialEvents } from "../schema";
 import { db } from "../index";
+import { SpecialEvent } from "@neo-monitor/shared";
+import {
+  mapRowToSpecialEvent,
+  mapRowsToSpecialEvents,
+} from "../mappers/special-events";
 
 // get all events
-export async function getAllEvents(): Promise<SpecialEventRow[]> {
-  // Implementation goes here
-  return db.select().from(specialEvents).orderBy(desc(specialEvents.createdAt));
+export async function getAllEvents(): Promise<SpecialEvent[]> {
+  const rows = await db
+    .select()
+    .from(specialEvents)
+    .orderBy(desc(specialEvents.createdAt));
+  return mapRowsToSpecialEvents(rows);
 }
 
 // get active events only (sorted by priority)
-export async function getActiveEvents(): Promise<SpecialEventRow[]> {
-  return db
+export async function getActiveEvents(): Promise<SpecialEvent[]> {
+  const rows = await db
     .select()
     .from(specialEvents)
     .where(eq(specialEvents.isActive, true))
     .orderBy(desc(specialEvents.priority), desc(specialEvents.eventDate));
+  return mapRowsToSpecialEvents(rows);
 }
 
 // get single event by ID
 export async function getEventById(
   id: string
-): Promise<SpecialEventRow | undefined> {
+): Promise<SpecialEvent | undefined> {
   const result = await db
     .select()
     .from(specialEvents)
     .where(eq(specialEvents.id, id))
+    .limit(1);
 
   if (result.length === 0) {
     return undefined;
   }
 
-  return result[0];
+  return mapRowToSpecialEvent(result[0]);
 }
 
 // create new event
 export async function createEvent(
   event: NewSpecialEventRow
-): Promise<SpecialEventRow> {
+): Promise<SpecialEvent> {
   const [newEvent] = await db.insert(specialEvents).values(event).returning();
 
-  return newEvent;
+  return mapRowToSpecialEvent(newEvent);
 }
 
 // update existing event
-
 export async function updateEvent(
   id: string,
   event: Partial<NewSpecialEventRow>
-): Promise<SpecialEventRow | undefined> {
+): Promise<SpecialEvent | undefined> {
   const [updatedEvent] = await db
     .update(specialEvents)
     .set({
@@ -57,17 +66,25 @@ export async function updateEvent(
     .where(eq(specialEvents.id, id))
     .returning();
 
-  return updatedEvent;
+  if (!updatedEvent) {
+    return undefined;
+  }
+
+  return mapRowToSpecialEvent(updatedEvent);
 }
 
 // delete event by ID
 export async function deleteEventById(
   id: string
-): Promise<SpecialEventRow | undefined> {
+): Promise<SpecialEvent | undefined> {
   const [deletedEvent] = await db
     .delete(specialEvents)
     .where(eq(specialEvents.id, id))
     .returning();
 
-  return deletedEvent;
+  if (!deletedEvent) {
+    return undefined;
+  }
+
+  return mapRowToSpecialEvent(deletedEvent);
 }
