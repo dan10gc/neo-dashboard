@@ -1,6 +1,6 @@
 import type { Response } from "express";
 import { SpecialEventRow } from "../db/schema";
-import { SSEEventType } from "@neo-monitor/shared";
+import { SpecialEvent, SSEEventType } from "@neo-monitor/shared";
 
 export class SSEManager {
   private clients: Map<string, Response> = new Map();
@@ -26,14 +26,14 @@ export class SSEManager {
     );
   }
 
-  broadcastNewEvent(event: SpecialEventRow): void {
+  broadcastNewEvent(event: SpecialEvent): void {
     console.log(
       `📢 Broadcasting new event: ${event.id} to ${this.clients.size} clients`
     );
     this.broadcast("event:new", event);
   }
 
-  broadcastEventUpdate(event: SpecialEventRow): void {
+  broadcastEventUpdate(event: SpecialEvent): void {
     console.log(
       `📢 Broadcasting event update: ${event.id} to ${this.clients.size} clients`
     );

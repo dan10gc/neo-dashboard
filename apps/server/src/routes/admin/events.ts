@@ -5,6 +5,7 @@ import { NewSpecialEventRow } from "../../db/schema";
 import { createEvent, updateEvent } from "../../db/queries/special-events";
 import { sseManager } from "../../services/sse-manager";
 import { respondWithJSON } from "../../utils/json";
+import { logger } from "../../utils/logger";
 
 const router = Router();
 
@@ -34,11 +35,11 @@ router.post("/", async (req: Request, res: Response) => {
 
     sseManager.broadcastNewEvent(event);
 
-    console.log("Event created successfully:", event.id);
+    logger.info("Event created successfully", { eventId: event.id, eventType: event.type });
 
     respondWithJSON(res, 201, { event });
   } catch (error) {
-    console.log("Error creating event:", error);
+    logger.error("Error creating event", error);
     throw new InternalServerError("Failed to create event");
   }
 });
@@ -80,11 +81,11 @@ router.put("/:id", async (req: Request, res: Response) => {
 
     sseManager.broadcastEventUpdate(updatedEvent);
 
-    console.log("Event updated successfully:", updatedEvent.id);
+    logger.info("Event updated successfully", { eventId: updatedEvent.id });
 
     respondWithJSON(res, 200, { event: updatedEvent });
   } catch (error) {
-    console.error("Error updating event:", error);
+    logger.error("Error updating event", error);
     throw new InternalServerError("Failed to update event");
   }
 });
@@ -101,11 +102,11 @@ router.delete("/:id", async (req: Request, res: Response) => {
 
     sseManager.broadcastEventDeletion(id);
 
-    console.log("Event deleted successfully:", id);
+    logger.info("Event deleted successfully", { eventId: id });
 
     respondWithJSON(res, 200, { event: deletedEvent });
   } catch (error) {
-    console.error("Error deleting event:", error);
+    logger.error("Error deleting event", error);
     throw new InternalServerError("Failed to delete event");
   }
 });

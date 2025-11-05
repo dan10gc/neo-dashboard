@@ -1,4 +1,4 @@
-export const EVENT_TYPES = ["interstellar_object"] as const;
+export const EVENT_TYPES = ["interstellar_object", "comet"] as const;
 
 export const EVENT_ORIGINS = [
   "extrasolar",
