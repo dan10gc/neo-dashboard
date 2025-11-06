@@ -3,8 +3,12 @@
 import * as Sentry from "@sentry/node";
 import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
-// Load environment variables
-process.loadEnvFile(".env");
+// Try to load .env file if it exists (development), ignore if not found (production)
+try {
+  process.loadEnvFile(".env");
+} catch {
+  // No .env file - using platform environment variables
+}
 
 const SENTRY_DSN = process.env.SENTRY_DSN || "";
 const SENTRY_ENVIRONMENT =
