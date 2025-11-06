@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch --import ./src/instrument.ts src/index.ts",
     "build": "tsc",
-    "start": "node --import ./dist/instrument.js dist/index.js",
+    "start": "node --import ./dist/src/instrument.js dist/src/index.js",
     "lint": "eslint src --ext .ts",
     "test": "vitest",
     "test:watch": "vitest --watch",
