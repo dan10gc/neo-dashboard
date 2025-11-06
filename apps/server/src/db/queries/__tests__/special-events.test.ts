@@ -46,6 +46,7 @@ describe("Special Events Queries", () => {
       const mockOrderBy = vi.fn().mockResolvedValue(mockEvents);
       const mockWhere = vi.fn().mockReturnValue({ orderBy: mockOrderBy });
       const mockFrom = vi.fn().mockReturnValue({ where: mockWhere });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       vi.mocked(db.select).mockReturnValue({ from: mockFrom } as any);
 
       // Act: Call the function
@@ -66,6 +67,7 @@ describe("Special Events Queries", () => {
       const mockOrderBy = vi.fn().mockResolvedValue([]);
       const mockWhere = vi.fn().mockReturnValue({ orderBy: mockOrderBy });
       const mockFrom = vi.fn().mockReturnValue({ where: mockWhere });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       vi.mocked(db.select).mockReturnValue({ from: mockFrom } as any);
 
       // Act
