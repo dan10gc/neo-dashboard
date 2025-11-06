@@ -28,7 +28,12 @@ interface Config {
   // JWT: JWTConfig;
 }
 
-process.loadEnvFile(".env");
+// Try to load .env file if it exists (development), ignore if not found (production)
+try {
+  process.loadEnvFile(".env");
+} catch {
+  // No .env file - using platform environment variables
+}
 
 function envOrThrow(key: string) {
   const value = process.env[key];
