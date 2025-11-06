@@ -57,7 +57,7 @@ describe("Admin Events Routes", () => {
     app.use(errorHandler);
 
     // Mock auth middleware to always pass
-    vi.mocked(requireGitHubAuth).mockImplementation(async (req, _res, next) => {
+    vi.mocked(requireGitHubAuth).mockImplementation(async (_req, _res, next) => {
       next();
     });
   });
