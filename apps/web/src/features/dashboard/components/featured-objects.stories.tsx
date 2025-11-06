@@ -63,7 +63,7 @@ const comet31Atlas: SpecialEvent = {
 const interstellarObject: SpecialEvent = {
   id: "interstellar-001",
   name: "2I/Borisov-like Object",
-  type: "interstellar",
+  type: "interstellar_object",
   origin: "interstellar",
   description:
     "Confirmed interstellar object detected entering our solar system. This is only the third known interstellar visitor ever observed.",
@@ -370,7 +370,7 @@ export const ActiveMonitoring: Story = {
       {
         id: "active-001",
         name: "'Oumuamua-type Object Detected",
-        type: "interstellar",
+        type: "interstellar_object",
         origin: "interstellar",
         description:
           "BREAKING: New interstellar object detected by Vera C. Rubin Observatory. Trajectory analysis in progress.",

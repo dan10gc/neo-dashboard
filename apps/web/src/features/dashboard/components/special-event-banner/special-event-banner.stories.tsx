@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { SpecialEventBanner } from "./special-event-banner";
-import type { SpecialEvent } from "../../../types/special-events";
+import type { SpecialEvent } from "@/types/special-events";
 
 const meta = {
   title: "Features/Dashboard/SpecialEventBanner",
@@ -101,7 +101,7 @@ export const InterstellarVisitor: Story = {
     event: {
       id: "interstellar-001",
       name: "2I/Borisov-like Object",
-      type: "interstellar",
+      type: "interstellar_object",
       origin: "interstellar",
       description:
         "Confirmed interstellar object detected entering our solar system. This is only the third known interstellar visitor ever observed.",

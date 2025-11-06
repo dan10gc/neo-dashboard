@@ -8,7 +8,7 @@
  */
 export type SpecialObjectType =
   | "comet"
-  | "interstellar"
+  | "interstellar_object"
   | "meteor_shower"
   | "unusual_neo"
   | "mission_related";

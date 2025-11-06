@@ -1,7 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { animated, useTrail } from "@react-spring/web";
 
-import { CloseApproachAssessment } from "./components/close-approach-assessment";
+import { CloseApproachAssessment } from "./components/close-approach-assessment/close-approach-assessment";
 import { NextCloseApproach } from "./components/next-close-approach/next-close-approach";
 import { SurveillanceStats } from "./components/surveillance-stats";
 import { ApproachBarChart } from "./components/approach-bar-chart";
@@ -9,6 +10,9 @@ import { SizeVelocityScatter } from "./components/size-velocity-scatter";
 import { AsteroidTable } from "./components/asteroid-table/asteroid-table";
 import { Header } from "./components/header";
 import type { TransformedNeoData } from "@/hooks/useNeoNasaQuery";
+import { useSpecialEventsSSE } from "@/hooks/useSpecialEventsSSE";
+import type { SpecialEvent } from "@/types/special-events";
+import { SpecialEventBanner } from "./components/special-event-banner/special-event-banner";
 
 interface DashboardProps {
   data: TransformedNeoData;
@@ -17,6 +21,35 @@ interface DashboardProps {
 }
 
 export const Dashboard = ({ data, isLoading, error }: DashboardProps) => {
+  // connect to SSE stream for real-time updates
+
+  const { status } = useSpecialEventsSSE();
+  // Query special events from React Query cache (populated by SSE)
+  const {
+    data: specialEventsData,
+  } = useQuery<SpecialEvent[], Error, { topEvent: SpecialEvent | undefined, activeEvents: SpecialEvent[]}>({
+    queryKey: ["special-events"],
+    queryFn: async () => {
+      // Fallback: fetch from API if cache is empty
+      const apiUrl =
+        import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+      const response = await fetch(`${apiUrl}/events/active`);
+      if (!response.ok) throw new Error("Failed to fetch events");
+      const result = await response.json();
+      return result.events;
+    },
+    staleTime: Infinity, // SSE keeps it fresh
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    select: (events) => {
+      const activeEvents = events.filter((e) => e.isActive);
+      const topEvent = activeEvents.sort((a, b) => {
+        const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
+        return priorityOrder[a.priority] - priorityOrder[b.priority];
+      })[0];
+      return { topEvent, activeEvents };
+    },
+  });
+
   // Stagger animation for monitor sections (5 sections total)
   // Only animate when data is loaded (not loading and not error)
   const trail = useTrail(5, {
@@ -30,6 +63,24 @@ export const Dashboard = ({ data, isLoading, error }: DashboardProps) => {
 
   return (
     <>
+      {/* Special Event Banner - Shows above everything */}
+      {specialEventsData?.topEvent && (
+        <div className="mb-6">
+          <SpecialEventBanner event={specialEventsData?.topEvent} />
+        </div>
+      )}
+
+      {/* Connection Status Indicator */}
+      {!status.isConnected && (
+        <div className="mb-6 bg-yellow-900/20 border border-yellow-500/50 rounded-sm p-3 text-sm text-yellow-200">
+          ⚠️ Real-time updates disconnected. Showing cached data.
+          {status.reconnectAttempts > 0 && (
+            <span className="ml-2">
+              (Reconnect attempt {status.reconnectAttempts})
+            </span>
+          )}
+        </div>
+      )}
       <Header dateRange={data?.dateRange} />
 
       {/* ACTIVE LAYOUT: Compact Threat + Next Approach + Sidebar */}

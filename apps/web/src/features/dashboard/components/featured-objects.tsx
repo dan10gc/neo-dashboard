@@ -41,7 +41,7 @@ export function FeaturedObjects({ specialEvents }: FeaturedObjectsProps) {
   // Icon mapping
   const iconMap = {
     comet: Orbit,
-    interstellar: Star,
+    interstellar_object: Star,
     meteor_shower: Sparkles,
     unusual_neo: Orbit,
     mission_related: Orbit,
@@ -59,7 +59,7 @@ export function FeaturedObjects({ specialEvents }: FeaturedObjectsProps) {
       };
     }
 
-    if (event.type === "interstellar") {
+    if (event.type === "interstellar_object") {
       return {
         border: "border-purple-500/50",
         bg: "bg-purple-950/20",

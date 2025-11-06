@@ -1,7 +1,13 @@
-import { X, Sparkles, Star, Orbit, AlertTriangle, ChevronDown } from "lucide-react";
+import {
+  X,
+  Sparkles,
+  Orbit,
+  AlertTriangle,
+  ChevronDown,
+} from "lucide-react";
 import { useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
-import type { SpecialEvent } from "../../../types/special-events";
+import type { SpecialEvent } from "@/types/special-events";
 
 interface SpecialEventBannerProps {
   event: SpecialEvent;
@@ -76,7 +82,7 @@ export function SpecialEventBanner({
   // Icon mapping based on event type
   const iconMap = {
     comet: Orbit,
-    interstellar: Star,
+    interstellar_object: Orbit,
     meteor_shower: Sparkles,
     unusual_neo: Orbit,
     mission_related: Orbit,
@@ -96,7 +102,7 @@ export function SpecialEventBanner({
       };
     }
 
-    if (event.type === "interstellar") {
+    if (event.type === "interstellar_object") {
       return {
         border: "border-purple-500/50",
         bg: "bg-purple-950/20",
@@ -151,7 +157,8 @@ export function SpecialEventBanner({
   };
 
   // Determine if we should show the "new" pulse animation
-  const shouldShowNewPulse = !isExpanded && (event.priority === "critical" || event.priority === "high");
+  const shouldShowNewPulse =
+    !isExpanded && (event.priority === "critical" || event.priority === "high");
 
   return (
     <>
@@ -174,103 +181,113 @@ export function SpecialEventBanner({
           backdrop-blur-sm
         `}
       >
-      {/* Animated gradient border pulse for collapsed new events */}
-      {shouldShowNewPulse && !isPast && (
-        <div
-          className="absolute inset-0 rounded-lg pointer-events-none animate-pulse"
-          style={{
-            background: `linear-gradient(90deg,
+        {/* Animated gradient border pulse for collapsed new events */}
+        {shouldShowNewPulse && !isPast && (
+          <div
+            className="absolute inset-0 rounded-lg pointer-events-none animate-pulse"
+            style={{
+              background: `linear-gradient(90deg,
               transparent 0%,
-              ${event.isPotentiallyHazardous ? "rgba(234, 179, 8, 0.15)" : "rgba(168, 85, 247, 0.15)"} 50%,
+              ${
+                event.isPotentiallyHazardous
+                  ? "rgba(234, 179, 8, 0.15)"
+                  : "rgba(168, 85, 247, 0.15)"
+              } 50%,
               transparent 100%)`,
-            animation: "shimmer 3s ease-in-out infinite",
-          }}
-        />
-      )}
+              animation: "shimmer 3s ease-in-out infinite",
+            }}
+          />
+        )}
 
-      {/* Animated background pulse for expanded critical events */}
-      {event.priority === "critical" && !isPast && isExpanded && (
-        <div
-          className="absolute inset-0 opacity-20 animate-pulse"
-          style={{
-            background: `radial-gradient(circle at 50% 50%, ${
-              event.isPotentiallyHazardous
-                ? "rgb(234, 179, 8)"
-                : "rgb(168, 85, 247)"
-            } 0%, transparent 70%)`,
-          }}
-        />
-      )}
+        {/* Animated background pulse for expanded critical events */}
+        {event.priority === "critical" && !isPast && isExpanded && (
+          <div
+            className="absolute inset-0 opacity-20 animate-pulse"
+            style={{
+              background: `radial-gradient(circle at 50% 50%, ${
+                event.isPotentiallyHazardous
+                  ? "rgb(234, 179, 8)"
+                  : "rgb(168, 85, 247)"
+              } 0%, transparent 70%)`,
+            }}
+          />
+        )}
 
-      <div className="relative px-4 py-3">
-        {/* Header Row - Always Visible */}
-        <div className="flex items-center gap-3">
-          <animated.div
-            className={`flex-shrink-0 ${colors.icon}`}
-            style={iconAnimation}
-          >
-            <Icon className="w-full h-full" />
-          </animated.div>
+        <div className="relative px-4 py-3">
+          {/* Header Row - Always Visible */}
+          <div className="flex items-center gap-3">
+            <animated.div
+              className={`shrink-0 ${colors.icon}`}
+              style={iconAnimation}
+            >
+              <Icon className="w-full h-full" />
+            </animated.div>
 
-          <div className="flex-1 flex items-center justify-between gap-4 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <animated.h3
-                className={`font-bold ${colors.text}`}
-                style={titleAnimation}
-              >
-                {event.name}
-              </animated.h3>
-              {event.isPotentiallyHazardous && (
-                <animated.span
-                  className="inline-flex items-center gap-1 rounded text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
-                  style={badgeAnimation}
+            <div className="flex-1 flex items-center justify-between gap-4 min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <animated.h3
+                  className={`font-bold ${colors.text}`}
+                  style={titleAnimation}
                 >
-                  <AlertTriangle size={isExpanded ? 12 : 10} />
-                  HAZARDOUS
-                </animated.span>
-              )}
-              {!isExpanded && (
-                <span className="text-xs text-zinc-400">
-                  {isPast ? "Past Event" : isToday ? "Today!" : `${daysUntil} days`}
-                </span>
-              )}
-            </div>
-
-            {/* Expand/Collapse Button - Fixed Position */}
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <button
-                onClick={toggleExpanded}
-                className={`flex items-center gap-2 p-1.5 rounded hover:bg-white/10 transition-colors ${colors.icon}`}
-                aria-label={isExpanded ? "Collapse details" : "Expand details"}
-              >
+                  {event.name}
+                </animated.h3>
+                {event.isPotentiallyHazardous && (
+                  <animated.span
+                    className="inline-flex items-center gap-1 rounded text-xs font-medium bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
+                    style={badgeAnimation}
+                  >
+                    <AlertTriangle size={isExpanded ? 12 : 10} />
+                    HAZARDOUS
+                  </animated.span>
+                )}
                 {!isExpanded && (
-                  <span className="text-xs text-zinc-500 hidden sm:inline">
-                    Expand
+                  <span className="text-xs text-zinc-400">
+                    {isPast
+                      ? "Past Event"
+                      : isToday
+                      ? "Today!"
+                      : `${daysUntil} days`}
                   </span>
                 )}
-                <animated.div style={chevronRotation}>
-                  <ChevronDown className="w-4 h-4" />
-                </animated.div>
-              </button>
+              </div>
 
-              {isDismissible && (
+              {/* Expand/Collapse Button - Fixed Position */}
+              <div className="flex items-center gap-2 shrink-0">
                 <button
-                  onClick={handleDismiss}
-                  className={`
-                    flex-shrink-0 p-1 rounded hover:bg-white/10
+                  onClick={toggleExpanded}
+                  className={`flex items-center gap-2 p-1.5 rounded hover:bg-white/10 transition-colors ${colors.icon}`}
+                  aria-label={
+                    isExpanded ? "Collapse details" : "Expand details"
+                  }
+                >
+                  {!isExpanded && (
+                    <span className="text-xs text-zinc-500 hidden sm:inline">
+                      Expand
+                    </span>
+                  )}
+                  <animated.div style={chevronRotation}>
+                    <ChevronDown className="w-4 h-4" />
+                  </animated.div>
+                </button>
+
+                {isDismissible && (
+                  <button
+                    onClick={handleDismiss}
+                    className={`
+                    shrink-0 p-1 rounded hover:bg-white/10
                     transition-colors ${colors.icon}
                   `}
-                  aria-label="Dismiss notification"
-                >
-                  <X size={16} />
-                </button>
-              )}
+                    aria-label="Dismiss notification"
+                  >
+                    <X size={16} />
+                  </button>
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Expanded Content - Animated */}
-        <animated.div style={contentAnimation} className="overflow-hidden">
+          {/* Expanded Content - Animated */}
+          <animated.div style={contentAnimation} className="overflow-hidden">
             {/* Badges Row */}
             <div className="flex items-center gap-2 flex-wrap mb-3 ml-11">
               <span
@@ -311,8 +328,8 @@ export function SpecialEventBanner({
                     {isPast
                       ? "Past Event"
                       : isToday
-                        ? "Today!"
-                        : `${daysUntil} days`}
+                      ? "Today!"
+                      : `${daysUntil} days`}
                   </span>
                 </div>
 
@@ -346,9 +363,9 @@ export function SpecialEventBanner({
                 </div>
               )}
             </div>
-        </animated.div>
+          </animated.div>
+        </div>
       </div>
-    </div>
     </>
   );
 }
