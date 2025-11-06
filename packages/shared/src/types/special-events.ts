@@ -1,7 +1,7 @@
 export const EVENT_TYPES = ["interstellar_object", "comet"] as const;
 
 export const EVENT_ORIGINS = [
-  "extrasolar",
+  "interstellar",
   // 'oort_cloud',
   // 'asteroid_belt',
   // 'kuiper_belt',
