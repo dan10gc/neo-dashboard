@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { ForbiddenError, UnauthorizedError } from "../utils/errors";
 import { Octokit } from "@octokit/rest";
 import { env } from "../config";
+import logger from "../utils/logger";
 
 export async function requireGitHubAuth(
   req: Request,
@@ -19,25 +20,24 @@ export async function requireGitHubAuth(
   const octokit = new Octokit({
     auth: githubToken,
   });
-  try {
-    const { data: user } = await octokit.users.getAuthenticated();
+  const { data: user } = await octokit.users.getAuthenticated();
 
-    if (user.login !== env.AUTH.GITHUB_ALLOWED_USER) {
-      throw new ForbiddenError(
-        "User is not authorized to access this resource"
-      );
-    }
-
-    // TODO: attach user info to req object if needed
-    // req.user = {
-    //   login: user.login,
-    //   id: user.id,
-    //   name: user.name,
-    //   email: user.email,
-    // };
-    next();
-  } catch (error) {
-    console.error("Auth error:", error);
-    throw new UnauthorizedError("Invalid GitHub token");
+  if (user.login !== env.AUTH.GITHUB_ALLOWED_USER) {
+    throw new ForbiddenError("User is not authorized to access this resource");
   }
+
+  logger.info("User authenticated successfully", {
+    user: user.login,
+    method: req.method,
+    path: req.path,
+  });
+
+  // TODO: attach user info to req object if needed
+  // req.user = {
+  //   login: user.login,
+  //   id: user.id,
+  //   name: user.name,
+  //   email: user.email,
+  // };
+  next();
 }
