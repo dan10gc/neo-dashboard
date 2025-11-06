@@ -18,15 +18,15 @@ export function mapRowToSpecialEvent(row: SpecialEventRow): SpecialEvent {
       value: Number(row.distanceValue),
       unit: row.distanceUnit as SpecialEvent["distance"]["unit"],
     },
-    velocity: row.velocityValue
+    velocity: row.velocityValue && row.velocityUnit
       ? {
           value: Number(row.velocityValue),
-          unit: row.velocityUnit as SpecialEvent["velocity"]["unit"],
+          unit: row.velocityUnit as NonNullable<SpecialEvent["velocity"]>["unit"],
         }
       : undefined,
     priority: row.priority as SpecialEvent["priority"],
-    isActive: row.isActive,
-    metadata: row.metadata,
+    isActive: row.isActive ?? true,
+    metadata: row.metadata ?? undefined,
     createdAt: row.createdAt.getTime(),
     updatedAt: row.updatedAt.getTime(),
   };
