@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import type { SpecialEvent } from "@/types/special-events";
 
 interface ConnectionStatus {
   isConnected: boolean;
@@ -70,8 +71,8 @@ export const useSpecialEventsSSE = () => {
       //     });
       //   }
       // add to cache
-      queryClient.setQueryData(["special-events"], (oldData: any) => {
-        [newEvent, ...(oldData || [])];
+      queryClient.setQueryData(["special-events"], (oldData: SpecialEvent[] | undefined) => {
+        return [newEvent, ...(oldData || [])];
       });
       //   queryClient.invalidateQueries({ queryKey: ["special-events"] });
     });
@@ -82,9 +83,9 @@ export const useSpecialEventsSSE = () => {
       console.log("✏️ Special event update received via SSE:", updatedEvent);
 
       // update cache
-      queryClient.setQueryData(["special-events"], (oldData: any) => {
+      queryClient.setQueryData(["special-events"], (oldData: SpecialEvent[] | undefined) => {
         if (!oldData) return [];
-        return oldData.map((evt: any) =>
+        return oldData.map((evt) =>
           evt.id === updatedEvent.id ? updatedEvent : evt
         );
       });
@@ -97,9 +98,9 @@ export const useSpecialEventsSSE = () => {
       console.log("🗑️ Special event deletion received via SSE:", deletedData);
 
       // remove from cache
-      queryClient.setQueryData(["special-events"], (oldData: any) => {
+      queryClient.setQueryData(["special-events"], (oldData: SpecialEvent[] | undefined) => {
         if (!oldData) return [];
-        return oldData.filter((evt: any) => evt.id !== deletedData.id);
+        return oldData.filter((evt) => evt.id !== deletedData.id);
       });
     });
 

@@ -32,5 +32,20 @@ export default defineConfig([
       },
     },
   },
+  {
+    files: ['vite.config.ts', 'vitest.config.ts', 'vitest.shims.d.ts', '.storybook/**/*.{ts,tsx}'],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommended,
+    ],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.node,
+      parserOptions: {
+        project: "./tsconfig.node.json",
+        tsconfigRootDir: __dirname,
+      },
+    },
+  },
   ...storybook.configs['flat/recommended'],
 ])
