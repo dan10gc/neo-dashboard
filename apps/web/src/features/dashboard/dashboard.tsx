@@ -34,7 +34,7 @@ export const Dashboard = ({ data, isLoading, error }: DashboardProps) => {
     queryFn: async () => {
       // Fallback: fetch from API if cache is empty
       const apiUrl = import.meta.env.VITE_API_URL;
-      const response = await fetch(`${apiUrl}/events/active`);
+      const response = await fetch(`${apiUrl}/api/events/active`);
       if (!response.ok) throw new Error("Failed to fetch events");
       return response.json(); // Returns { activeEvents: SpecialEvent[], total: number }
     },
