@@ -50,9 +50,9 @@ export const useSpecialEventsSSE = () => {
     // listen for initial batch of events
     eventSource.addEventListener("event:batch", (event: MessageEvent) => {
       const events = JSON.parse(event.data);
-      console.log(
-        `📥 Initial batch of ${events.length} special events received via SSE.`
-      );
+      // console.log(
+      //   `📥 Initial batch of ${events.length} special events received via SSE.`
+      // );
 
       // populate cache
       queryClient.setQueryData(["special-events"], events);
@@ -61,7 +61,7 @@ export const useSpecialEventsSSE = () => {
     // listen for new events
     eventSource.addEventListener("event:new", (event: MessageEvent) => {
       const newEvent = JSON.parse(event.data);
-      console.log("🆕 New special event received via SSE:", newEvent);
+      // console.log("🆕 New special event received via SSE:", newEvent);
 
       //   // Show browser notification if supported
       //   if (event.priority === 'critical' && 'Notification' in window && Notification.permission === 'granted') {
@@ -71,37 +71,46 @@ export const useSpecialEventsSSE = () => {
       //     });
       //   }
       // add to cache
-      queryClient.setQueryData(["special-events"], (oldData: SpecialEvent[] | undefined) => {
-        return [newEvent, ...(oldData || [])];
-      });
+      queryClient.setQueryData(
+        ["special-events"],
+        (oldData: SpecialEvent[] | undefined) => {
+          return [newEvent, ...(oldData || [])];
+        }
+      );
       //   queryClient.invalidateQueries({ queryKey: ["special-events"] });
     });
 
     // listen for event updates
     eventSource.addEventListener("event:update", (event: MessageEvent) => {
       const updatedEvent = JSON.parse(event.data);
-      console.log("✏️ Special event update received via SSE:", updatedEvent);
+      // console.log("✏️ Special event update received via SSE:", updatedEvent);
 
       // update cache
-      queryClient.setQueryData(["special-events"], (oldData: SpecialEvent[] | undefined) => {
-        if (!oldData) return [];
-        return oldData.map((evt) =>
-          evt.id === updatedEvent.id ? updatedEvent : evt
-        );
-      });
+      queryClient.setQueryData(
+        ["special-events"],
+        (oldData: SpecialEvent[] | undefined) => {
+          if (!oldData) return [];
+          return oldData.map((evt) =>
+            evt.id === updatedEvent.id ? updatedEvent : evt
+          );
+        }
+      );
       //   queryClient.invalidateQueries({ queryKey: ["special-events"] });
     });
 
     // listen for event deletions
     eventSource.addEventListener("event:delete", (event: MessageEvent) => {
       const deletedData = JSON.parse(event.data);
-      console.log("🗑️ Special event deletion received via SSE:", deletedData);
+      // console.log("🗑️ Special event deletion received via SSE:", deletedData);
 
       // remove from cache
-      queryClient.setQueryData(["special-events"], (oldData: SpecialEvent[] | undefined) => {
-        if (!oldData) return [];
-        return oldData.filter((evt) => evt.id !== deletedData.id);
-      });
+      queryClient.setQueryData(
+        ["special-events"],
+        (oldData: SpecialEvent[] | undefined) => {
+          if (!oldData) return [];
+          return oldData.filter((evt) => evt.id !== deletedData.id);
+        }
+      );
     });
 
     // update heartbeat timestamp (for connection monitoring)
