@@ -7,7 +7,6 @@ import { errorHandler } from "./middleware/error.js";
 import { env } from "./config.js";
 import { sseManager } from "./services/sse-manager.js";
 import eventsRouter from "./routes/events.js";
-import eventsStreamRouter from "./routes/events-stream.js";
 import adminEventsRouter from "./routes/admin/events.js";
 
 const app = express();
@@ -42,7 +41,6 @@ app.get("/api/status", (_req: Request, res: Response) => {
   });
 });
 
-app.use("/api/events", eventsStreamRouter);
 app.use("/api/events", eventsRouter);
 app.use("/api/admin/events", adminEventsRouter);
 
