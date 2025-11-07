@@ -42,9 +42,8 @@ export const useSpecialEventsSSE = () => {
     };
 
     //listed for connected event
-    eventSource.addEventListener("connected", (event: MessageEvent) => {
-      const data = JSON.parse(event.data);
-      console.log("✅ SSE connected event:", data);
+    eventSource.addEventListener("connected", () => {
+      // Connection established
     });
 
     // listen for initial batch of events
