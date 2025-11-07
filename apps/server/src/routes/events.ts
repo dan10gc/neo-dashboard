@@ -3,9 +3,9 @@ import {
   getActiveEvents,
   getAllEvents,
   getEventById,
-} from "../db/queries/special-events";
-import { InternalServerError, NotFoundError } from "../utils/errors";
-import { respondWithJSON } from "../utils/json";
+} from "../db/queries/special-events.js";
+import { InternalServerError, NotFoundError } from "../utils/errors.js";
+import { respondWithJSON } from "../utils/json.js";
 
 const router = Router();
 

@@ -2,16 +2,16 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import request from "supertest";
 import express from "express";
 import type { Express } from "express";
-import router from "../events";
-import { requireGitHubAuth } from "../../../middleware/auth";
+import router from "../events.js";
+import { requireGitHubAuth } from "../../../middleware/auth.js";
 import {
   createEvent,
   updateEvent,
   deleteEventById,
-} from "../../../db/queries/special-events";
-import { sseManager } from "../../../services/sse-manager";
+} from "../../../db/queries/special-events.js";
+import { sseManager } from "../../../services/sse-manager.js";
 import type { SpecialEvent } from "@neo-monitor/shared";
-import { errorHandler } from "../../../middleware/error";
+import { errorHandler } from "../../../middleware/error.js";
 
 // Mock dependencies
 vi.mock("../../../db/queries/special-events");

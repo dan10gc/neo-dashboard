@@ -1,15 +1,15 @@
 import { Router, type Request, type Response } from "express";
-import { requireGitHubAuth } from "../../middleware/auth";
-import { NotFoundError } from "../../utils/errors";
-import { NewSpecialEventRow } from "../../db/schema";
+import { requireGitHubAuth } from "../../middleware/auth.js";
+import { NotFoundError } from "../../utils/errors.js";
+import { NewSpecialEventRow } from "../../db/schema.js";
 import {
   createEvent,
   updateEvent,
   deleteEventById,
-} from "../../db/queries/special-events";
-import { sseManager } from "../../services/sse-manager";
-import { respondWithJSON } from "../../utils/json";
-import { logger } from "../../utils/logger";
+} from "../../db/queries/special-events.js";
+import { sseManager } from "../../services/sse-manager.js";
+import { respondWithJSON } from "../../utils/json.js";
+import { logger } from "../../utils/logger.js";
 
 const router = Router();
 

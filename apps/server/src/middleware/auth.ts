@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
-import { ForbiddenError, UnauthorizedError } from "../utils/errors";
+import { ForbiddenError, UnauthorizedError } from "../utils/errors.js";
 import { Octokit } from "@octokit/rest";
-import { env } from "../config";
-import logger from "../utils/logger";
+import { env } from "../config.js";
+import logger from "../utils/logger.js";
 
 export async function requireGitHubAuth(
   req: Request,

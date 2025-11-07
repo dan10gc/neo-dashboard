@@ -1,5 +1,5 @@
 import { SpecialEvent } from "@neo-monitor/shared";
-import { SpecialEventRow } from "../schema";
+import { SpecialEventRow } from "../schema.js";
 
 /**
  * Maps a database row to the API SpecialEvent format

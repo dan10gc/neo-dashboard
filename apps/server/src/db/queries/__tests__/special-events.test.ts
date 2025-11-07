@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import * as queries from "../special-events";
+import * as queries from "../special-events.js";
 
-import { specialEvents } from "../../schema";
-import { db } from "../..";
+import { specialEvents } from "../../schema.js";
+import { db } from "../../index.js";
 
 // Mock the database
 vi.mock("../..", () => ({

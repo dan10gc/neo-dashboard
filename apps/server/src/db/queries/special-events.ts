@@ -1,11 +1,11 @@
 import { desc, eq } from "drizzle-orm";
-import { NewSpecialEventRow, specialEvents } from "../schema";
-import { db } from "../index";
+import { NewSpecialEventRow, specialEvents } from "../schema.js";
+import { db } from "../index.js";
 import { SpecialEvent } from "@neo-monitor/shared";
 import {
   mapRowToSpecialEvent,
   mapRowsToSpecialEvents,
-} from "../mappers/special-events";
+} from "../mappers/special-events.js";
 
 // get all events
 export async function getAllEvents(): Promise<SpecialEvent[]> {
