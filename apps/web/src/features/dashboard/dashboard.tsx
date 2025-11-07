@@ -25,24 +25,24 @@ export const Dashboard = ({ data, isLoading, error }: DashboardProps) => {
 
   const { status } = useSpecialEventsSSE();
   // Query special events from React Query cache (populated by SSE)
-  const {
-    data: specialEventsData,
-  } = useQuery<SpecialEvent[], Error, { topEvent: SpecialEvent | undefined, activeEvents: SpecialEvent[]}>({
+  const { data: specialEventsData } = useQuery<
+    { activeEvents: SpecialEvent[]; total: number },
+    Error,
+    { topEvent: SpecialEvent | undefined; activeEvents: SpecialEvent[] }
+  >({
     queryKey: ["special-events"],
     queryFn: async () => {
       // Fallback: fetch from API if cache is empty
-      const apiUrl =
-        import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+      const apiUrl = import.meta.env.VITE_API_URL;
       const response = await fetch(`${apiUrl}/events/active`);
       if (!response.ok) throw new Error("Failed to fetch events");
-      const result = await response.json();
-      return result.events;
+      return response.json(); // Returns { activeEvents: SpecialEvent[], total: number }
     },
     staleTime: Infinity, // SSE keeps it fresh
     gcTime: 10 * 60 * 1000, // 10 minutes
-    select: (events) => {
-      const activeEvents = events.filter((e) => e.isActive);
-      const topEvent = activeEvents.sort((a, b) => {
+    select: (data) => {
+      const activeEvents = data.activeEvents; 
+      const topEvent = [...activeEvents].sort((a, b) => {
         const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
         return priorityOrder[a.priority] - priorityOrder[b.priority];
       })[0];
