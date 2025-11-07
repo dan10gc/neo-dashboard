@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
-import { respondWithError } from "../utils/json";
-import { logger } from "../utils/logger";
+import { respondWithError } from "../utils/json.js";
+import { logger } from "../utils/logger.js";
 
 interface CustomError extends Error {
   statusCode?: number;

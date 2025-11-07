@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { Router, type Request, type Response } from "express";
-import { sseManager } from "../services/sse-manager";
-import { getActiveEvents } from "../db/queries/special-events";
+import { sseManager } from "../services/sse-manager.js";
+import { getActiveEvents } from "../db/queries/special-events.js";
 
 const router = Router();
 

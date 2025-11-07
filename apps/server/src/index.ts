@@ -1,14 +1,14 @@
 import * as Sentry from "@sentry/node";
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { middlewareLogResponses } from "./utils/logger";
-import { errorHandler } from "./middleware/error";
+import { middlewareLogResponses } from "./utils/logger.js";
+import { errorHandler } from "./middleware/error.js";
 // Load environment variables
-import { env } from "./config";
-import { sseManager } from "./services/sse-manager";
-import eventsRouter from "./routes/events";
-import eventsStreamRouter from "./routes/events-stream";
-import adminEventsRouter from "./routes/admin/events";
+import { env } from "./config.js";
+import { sseManager } from "./services/sse-manager.js";
+import eventsRouter from "./routes/events.js";
+import eventsStreamRouter from "./routes/events-stream.js";
+import adminEventsRouter from "./routes/admin/events.js";
 
 const app = express();
 const PORT = env.API.PORT || 3001;

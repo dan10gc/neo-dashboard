@@ -1,5 +1,5 @@
 import type { Response } from "express";
-import { SpecialEventRow } from "../db/schema";
+import { SpecialEventRow } from "../db/schema.js";
 import { SpecialEvent, SSEEventType } from "@neo-monitor/shared";
 
 export class SSEManager {

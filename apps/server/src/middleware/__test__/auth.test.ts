@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { Request, Response, NextFunction } from 'express';
-import { requireGitHubAuth } from '../auth';
+import { requireGitHubAuth } from '../auth.js';
 import { Octokit } from '@octokit/rest';
 
 // Mock Octokit class
