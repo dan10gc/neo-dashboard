@@ -19,7 +19,7 @@ export const useSpecialEventsSSE = () => {
 
   useEffect(() => {
     const apiUrl = import.meta.env.VITE_API_URL;
-    const eventSource = new EventSource(`${apiUrl}/events/stream`);
+    const eventSource = new EventSource(`${apiUrl}/api/events/stream`);
 
     //connection opened
     eventSource.onopen = () => {
@@ -54,8 +54,11 @@ export const useSpecialEventsSSE = () => {
       //   `📥 Initial batch of ${events.length} special events received via SSE.`
       // );
 
-      // populate cache
-      queryClient.setQueryData(["special-events"], events);
+      // populate cache with correct format
+      queryClient.setQueryData(["special-events"], {
+        activeEvents: events,
+        total: events.length,
+      });
     });
 
     // listen for new events
@@ -73,8 +76,9 @@ export const useSpecialEventsSSE = () => {
       // add to cache
       queryClient.setQueryData(
         ["special-events"],
-        (oldData: SpecialEvent[] | undefined) => {
-          return [newEvent, ...(oldData || [])];
+        (oldData: { activeEvents: SpecialEvent[]; total: number } | undefined) => {
+          const events = [newEvent, ...(oldData?.activeEvents || [])];
+          return { activeEvents: events, total: events.length };
         }
       );
       //   queryClient.invalidateQueries({ queryKey: ["special-events"] });
@@ -88,11 +92,12 @@ export const useSpecialEventsSSE = () => {
       // update cache
       queryClient.setQueryData(
         ["special-events"],
-        (oldData: SpecialEvent[] | undefined) => {
-          if (!oldData) return [];
-          return oldData.map((evt) =>
+        (oldData: { activeEvents: SpecialEvent[]; total: number } | undefined) => {
+          if (!oldData) return { activeEvents: [], total: 0 };
+          const events = oldData.activeEvents.map((evt) =>
             evt.id === updatedEvent.id ? updatedEvent : evt
           );
+          return { activeEvents: events, total: events.length };
         }
       );
       //   queryClient.invalidateQueries({ queryKey: ["special-events"] });
@@ -106,9 +111,10 @@ export const useSpecialEventsSSE = () => {
       // remove from cache
       queryClient.setQueryData(
         ["special-events"],
-        (oldData: SpecialEvent[] | undefined) => {
-          if (!oldData) return [];
-          return oldData.filter((evt) => evt.id !== deletedData.id);
+        (oldData: { activeEvents: SpecialEvent[]; total: number } | undefined) => {
+          if (!oldData) return { activeEvents: [], total: 0 };
+          const events = oldData.activeEvents.filter((evt) => evt.id !== deletedData.id);
+          return { activeEvents: events, total: events.length };
         }
       );
     });
