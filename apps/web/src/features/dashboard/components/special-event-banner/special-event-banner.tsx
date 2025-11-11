@@ -8,6 +8,7 @@ import {
 import { useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
 import type { SpecialEvent } from "@/types/special-events";
+import { trackEvent } from "@/lib/analytics";
 
 interface SpecialEventBannerProps {
   event: SpecialEvent;
@@ -68,12 +69,27 @@ export function SpecialEventBanner({
   });
 
   const handleDismiss = () => {
+    trackEvent('special_event_dismissed', {
+      event_id: event.id,
+      event_type: event.type,
+    });
     setIsVisible(false);
     onDismiss?.();
   };
 
   const toggleExpanded = () => {
-    setIsExpanded(!isExpanded);
+    const willBeExpanded = !isExpanded;
+
+    if (willBeExpanded) {
+      trackEvent('special_event_expanded', {
+        event_id: event.id,
+        event_type: event.type,
+        event_name: event.name,
+        priority: event.priority,
+      });
+    }
+
+    setIsExpanded(willBeExpanded);
   };
 
   // Early return AFTER all hooks

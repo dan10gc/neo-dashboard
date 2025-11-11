@@ -7,6 +7,7 @@ import { ApproachHeader } from "./approach-header";
 import { ApproachDetail } from "./approach-detail";
 import { CarouselNavigation } from "./carousel-navigation";
 import type { NextApproachData } from "@/lib/transformers/transformers";
+import { trackEvent } from "@/lib/analytics";
 
 interface NextCloseApproachProps {
   asteroidData: NextApproachData[];
@@ -21,11 +22,36 @@ export function NextCloseApproach({ asteroidData }: NextCloseApproachProps) {
   const isPast = currentApproach.epoch_date_close_approach < Date.now();
 
   const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? approaches.length - 1 : prev - 1));
+    setCurrentIndex((prev) => {
+      const newIndex = prev === 0 ? approaches.length - 1 : prev - 1;
+      trackEvent("carousel_navigation", {
+        direction: "previous",
+        from_position: prev,
+        to_position: newIndex,
+      });
+      return newIndex;
+    });
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === approaches.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => {
+      const newIndex = prev === approaches.length - 1 ? 0 : prev + 1;
+      trackEvent("carousel_navigation", {
+        direction: "next",
+        from_position: prev,
+        to_position: newIndex,
+      });
+      return newIndex;
+    });
+  };
+
+  const handleGoToIndex = (index: number) => {
+    trackEvent("carousel_navigation", {
+      direction: "jump",
+      from_position: currentIndex,
+      to_position: index,
+    });
+    setCurrentIndex(index);
   };
 
   if (approaches.length === 0) {
@@ -54,7 +80,7 @@ export function NextCloseApproach({ asteroidData }: NextCloseApproachProps) {
       />
 
       {/* Current Approach Content - Single Column, Inline Layout */}
-      <div>
+      <>
         <ApproachDetail currentApproach={currentApproach} />
 
         {/* Countdown Section */}
@@ -62,11 +88,11 @@ export function NextCloseApproach({ asteroidData }: NextCloseApproachProps) {
           isPast={isPast}
           epochDate={currentApproach.epoch_date_close_approach}
         />
-      </div>
+      </>
 
       {/* Bottom Navigation */}
       <CarouselNavigation
-        onGoToIndex={setCurrentIndex}
+        onGoToIndex={handleGoToIndex}
         currentIndex={currentIndex}
         totalApproaches={approaches.length}
         onNext={handleNext}
