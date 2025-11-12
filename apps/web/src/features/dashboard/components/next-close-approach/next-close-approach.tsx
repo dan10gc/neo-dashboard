@@ -72,7 +72,6 @@ export function NextCloseApproach({ asteroidData }: NextCloseApproachProps) {
       {/* Header */}
       <ApproachHeader
         currentIndex={currentIndex}
-        isPast={isPast}
         totalApproaches={approaches.length}
         isPotentiallyHazardous={
           currentApproach.is_potentially_hazardous_asteroid
