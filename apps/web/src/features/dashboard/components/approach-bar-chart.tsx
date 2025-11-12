@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import {
   Bar,
   BarChart,
@@ -9,6 +10,7 @@ import {
 } from "recharts";
 import { ChartBarStacked } from "lucide-react";
 import { useSpring, animated } from "@react-spring/web";
+import { trackEvent } from "@/lib/analytics";
 
 // Animated decimal number component (for averages)
 function AnimatedDecimal({
@@ -41,6 +43,8 @@ interface ApproachBarChartProps {
 }
 
 export const ApproachBarChart = ({ data }: ApproachBarChartProps) => {
+  const hasTrackedHover = useRef(false);
+
   if (!data || data.length === 0) {
     return (
       <div className="h-64 flex items-center justify-center text-zinc-500">
@@ -67,6 +71,25 @@ export const ApproachBarChart = ({ data }: ApproachBarChartProps) => {
     ...item,
     dateFormatted: formatDate(item.date),
   }));
+
+  // Track chart interactions
+  const handleChartClick = () => {
+    trackEvent('chart_interaction', {
+      chart_type: 'approaches_bar',
+      interaction_type: 'click',
+    });
+  };
+
+  const handleChartMouseMove = () => {
+    // Track hover (debounced by only tracking once)
+    if (!hasTrackedHover.current) {
+      trackEvent('chart_interaction', {
+        chart_type: 'approaches_bar',
+        interaction_type: 'hover',
+      });
+      hasTrackedHover.current = true;
+    }
+  };
 
   return (
     <div>
@@ -102,7 +125,7 @@ export const ApproachBarChart = ({ data }: ApproachBarChartProps) => {
             {peakDay.hazardous > 0 && (
               <span className="text-yellow-400">
                 {" "}
-                ({peakDay.hazardous} hazardous)
+                ({peakDay.hazardous} potentially hazardous)
               </span>
             )}
           </div>
@@ -112,7 +135,12 @@ export const ApproachBarChart = ({ data }: ApproachBarChartProps) => {
       {/* Chart */}
       <div className="bg-zinc-900/30 p-4 rounded-sm border border-zinc-700/50">
         <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={formattedData} barGap={0}>
+          <BarChart
+            data={formattedData}
+            barGap={0}
+            onClick={handleChartClick}
+            onMouseMove={handleChartMouseMove}
+          >
             <CartesianGrid
               strokeDasharray="3 3"
               stroke="#3f3f46"
@@ -168,7 +196,7 @@ export const ApproachBarChart = ({ data }: ApproachBarChartProps) => {
             <Bar
               dataKey="hazardous"
               fill="#facc15"
-              name="Hazardous"
+              name="Potentially Hazardous"
               radius={[2, 2, 0, 0]}
               stackId="a"
             />
@@ -186,7 +214,7 @@ export const ApproachBarChart = ({ data }: ApproachBarChartProps) => {
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-yellow-400 rounded-sm"></div>
             <span className="text-xs text-zinc-400 uppercase tracking-wider font-mono">
-              Hazardous
+              Potentially Hazardous
             </span>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import {
   CartesianGrid,
   ResponsiveContainer,
@@ -11,6 +12,7 @@ import {
 import { ChartScatter, Diameter, Gauge } from "lucide-react";
 import type { SizeVelocityDataPoint } from "@/lib/transformers/transformers";
 import { useSpring, animated } from "@react-spring/web";
+import { trackEvent } from "@/lib/analytics";
 
 // Recharts tooltip types
 interface TooltipPayload {
@@ -51,6 +53,8 @@ interface SizeVelocityScatterProps {
 }
 
 export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
+  const hasTrackedHover = useRef(false);
+
   if (!data || data.length === 0) {
     return (
       <div className="h-64 flex items-center justify-center text-zinc-500">
@@ -72,6 +76,25 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
     (max, item) => (item.velocity > max.velocity ? item : max),
     data[0]
   );
+
+  // Track chart interactions
+  const handleChartClick = () => {
+    trackEvent('chart_interaction', {
+      chart_type: 'size_velocity_scatter',
+      interaction_type: 'click',
+    });
+  };
+
+  const handleChartMouseMove = () => {
+    // Track hover (debounced by only tracking once)
+    if (!hasTrackedHover.current) {
+      trackEvent('chart_interaction', {
+        chart_type: 'size_velocity_scatter',
+        interaction_type: 'hover',
+      });
+      hasTrackedHover.current = true;
+    }
+  };
 
   const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
@@ -118,7 +141,7 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
                         isHazardous ? "text-yellow-400" : "text-green-400"
                       }`}
                     >
-                      {isHazardous ? "⚠ HAZARDOUS" : "✓ NON-HAZARDOUS"}
+                      {isHazardous ? "⚠ POTENTIALLY HAZARDOUS" : "✓ NON-HAZARDOUS"}
                     </div>
                   </div>
                 );
@@ -153,7 +176,7 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
               isHazardous ? "text-yellow-400" : "text-green-400"
             }`}
           >
-            {isHazardous ? "⚠ HAZARDOUS" : "✓ NON-HAZARDOUS"}
+            {isHazardous ? "⚠ POTENTIALLY HAZARDOUS" : "✓ NON-HAZARDOUS"}
           </div>
         </div>
       );
@@ -217,7 +240,11 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
       {/* Chart */}
       <div className="bg-zinc-900/30 p-2 sm:p-4 rounded-sm border border-zinc-700/50">
         <ResponsiveContainer width="100%" height={480}>
-          <ScatterChart margin={{ top: 20, right: 10, bottom: 60, left: 10 }}>
+          <ScatterChart
+            margin={{ top: 20, right: 10, bottom: 60, left: 10 }}
+            onClick={handleChartClick}
+            onMouseMove={handleChartMouseMove}
+          >
             <CartesianGrid strokeDasharray="3 3" stroke="#3f3f46" />
             <XAxis
               type="number"
@@ -275,7 +302,7 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
               strokeWidth={1}
             />
             <Scatter
-              name="Hazardous"
+              name="Potentially Hazardous"
               data={hazardousAsteroids}
               fill="#facc15"
               fillOpacity={0.8}
@@ -296,7 +323,7 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-yellow-400 rounded-full border border-yellow-500"></div>
             <span className="text-xs text-zinc-400 uppercase tracking-wider font-mono">
-              Hazardous
+              Potentially Hazardous
             </span>
           </div>
         </div>

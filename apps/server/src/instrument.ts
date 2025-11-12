@@ -43,6 +43,7 @@ if (!SENTRY_DSN) {
       // Express integration
       Sentry.expressIntegration(),
     ],
+    enableLogs: true,
 
     // Capture unhandled promise rejections
     beforeSend(event) {
