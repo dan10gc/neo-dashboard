@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { animated, useTrail } from "@react-spring/web";
+import { useEffect } from "react";
 
 import { CloseApproachAssessment } from "./components/close-approach-assessment/close-approach-assessment";
 import { NextCloseApproach } from "./components/next-close-approach/next-close-approach";
@@ -13,6 +14,7 @@ import type { TransformedNeoData } from "@/hooks/useNeoNasaQuery";
 import { useSpecialEventsSSE } from "@/hooks/useSpecialEventsSSE";
 import type { SpecialEvent } from "@/types/special-events";
 import { SpecialEventBanner } from "./components/special-event-banner/special-event-banner";
+import { trackEvent } from "@/lib/analytics";
 
 interface DashboardProps {
   data: TransformedNeoData;
@@ -24,6 +26,18 @@ export const Dashboard = ({ data, isLoading, error }: DashboardProps) => {
   // connect to SSE stream for real-time updates
 
   const { status } = useSpecialEventsSSE();
+
+  // Track dashboard view on mount
+  useEffect(() => {
+    const isFirstVisit = !localStorage.getItem('has_visited_dashboard');
+    if (isFirstVisit) {
+      localStorage.setItem('has_visited_dashboard', 'true');
+    }
+
+    trackEvent('dashboard_viewed', {
+      is_first_visit: isFirstVisit,
+    });
+  }, []);
   // Query special events from React Query cache (populated by SSE)
   const { data: specialEventsData } = useQuery<
     { activeEvents: SpecialEvent[]; total: number },
