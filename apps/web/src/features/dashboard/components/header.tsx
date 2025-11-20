@@ -9,7 +9,7 @@ interface HeaderProps {
   reconnectAttempts?: number;
 }
 
-export const Header=({ dateRange, isConnected = true, reconnectAttempts = 0 }:HeaderProps)=>{
+export const Header = ({ dateRange, isConnected = true, reconnectAttempts = 0 }: HeaderProps) => {
     return (
         <header className="text-left mb-12">
         <div className="flex items-center gap-3 mb-2">

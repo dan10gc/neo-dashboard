@@ -24,29 +24,29 @@ import {
 } from "./components/skeletons";
 
 interface DashboardProps {
-  data: TransformedNeoData;
+  data: TransformedNeoData | undefined;
   isLoading: boolean;
   error: Error | null;
 }
 
-export const Dashboard = ({ data, isLoading, error }: DashboardProps) => {
+export const Dashboard = ({ data, isLoading }: DashboardProps) => {
   // connect to SSE stream for real-time updates
 
   const { status } = useSpecialEventsSSE();
 
   // Track dashboard view on mount
   useEffect(() => {
-    const isFirstVisit = !localStorage.getItem('has_visited_dashboard');
+    const isFirstVisit = !localStorage.getItem("has_visited_dashboard");
     if (isFirstVisit) {
-      localStorage.setItem('has_visited_dashboard', 'true');
+      localStorage.setItem("has_visited_dashboard", "true");
     }
 
-    trackEvent('dashboard_viewed', {
+    trackEvent("dashboard_viewed", {
       is_first_visit: isFirstVisit,
     });
   }, []);
   // Query special events from React Query cache (populated by SSE)
-  const { data: specialEventsData, isError} = useQuery<
+  const { data: specialEventsData } = useQuery<
     { activeEvents: SpecialEvent[]; total: number },
     Error,
     { topEvent: SpecialEvent | undefined; activeEvents: SpecialEvent[] }
@@ -62,7 +62,7 @@ export const Dashboard = ({ data, isLoading, error }: DashboardProps) => {
     staleTime: Infinity, // SSE keeps it fresh
     gcTime: 10 * 60 * 1000, // 10 minutes
     select: (data) => {
-      const activeEvents = data.activeEvents; 
+      const activeEvents = data.activeEvents;
       const topEvent = [...activeEvents].sort((a, b) => {
         const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
         return priorityOrder[a.priority] - priorityOrder[b.priority];
@@ -87,7 +87,10 @@ export const Dashboard = ({ data, isLoading, error }: DashboardProps) => {
   const bannerAnimation = useSpring({
     from: { transform: "translateY(-100%)", opacity: 0 },
     to: {
-      transform: specialEventsData?.topEvent && !isLoading ? "translateY(0%)" : "translateY(-100%)",
+      transform:
+        specialEventsData?.topEvent && !isLoading
+          ? "translateY(0%)"
+          : "translateY(-100%)",
       opacity: specialEventsData?.topEvent && !isLoading ? 1 : 0,
     },
     config: { tension: 220, friction: 30 },
@@ -150,7 +153,11 @@ export const Dashboard = ({ data, isLoading, error }: DashboardProps) => {
       <div className="space-y-8 mb-12">
         <animated.div style={trail[3]}>
           {isLoading ? (
-            <ChartSkeleton title="Close Approaches Over Time" showStats={true} statCount={2} />
+            <ChartSkeleton
+              title="Close Approaches Over Time"
+              showStats={true}
+              statCount={2}
+            />
           ) : (
             <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
               <ApproachBarChart data={data?.asteroidCountsByDate} />
@@ -160,7 +167,11 @@ export const Dashboard = ({ data, isLoading, error }: DashboardProps) => {
 
         <animated.div style={trail[3]}>
           {isLoading ? (
-            <ChartSkeleton title="Size vs Velocity Distribution" showStats={true} statCount={2} />
+            <ChartSkeleton
+              title="Size vs Velocity Distribution"
+              showStats={true}
+              statCount={2}
+            />
           ) : (
             <Card className="bg-zinc-800/50 border-2 border-zinc-700 p-6 rounded-sm">
               <SizeVelocityScatter data={data?.sizeVelocityData} />
