@@ -11,7 +11,6 @@ interface ChartSkeletonProps {
 }
 
 export function ChartSkeleton({
-  title = "Chart",
   showStats = true,
   statCount = 2
 }: ChartSkeletonProps) {
