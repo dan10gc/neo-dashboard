@@ -49,11 +49,9 @@ const WorkingComponent = () => (
  * Displays military-styled error message with technical diagnostics.
  */
 export const Default: Story = {
-  render: () => (
-    <ErrorBoundary>
-      <ThrowError message="Failed to fetch asteroid data from NASA API" />
-    </ErrorBoundary>
-  ),
+  args: {
+    children: <ThrowError message="Failed to fetch asteroid data from NASA API" />,
+  },
 };
 
 /**
@@ -61,11 +59,9 @@ export const Default: Story = {
  * Simulates connection failure scenario.
  */
 export const NetworkError: Story = {
-  render: () => (
-    <ErrorBoundary>
-      <ThrowError message="Network request failed: ERR_CONNECTION_REFUSED" />
-    </ErrorBoundary>
-  ),
+  args: {
+    children: <ThrowError message="Network request failed: ERR_CONNECTION_REFUSED" />,
+  },
 };
 
 /**
@@ -73,11 +69,9 @@ export const NetworkError: Story = {
  * Simulates data corruption or invalid JSON response.
  */
 export const ParseError: Story = {
-  render: () => (
-    <ErrorBoundary>
-      <ThrowError message="JSON.parse: unexpected character at line 1 column 1 of the JSON data" />
-    </ErrorBoundary>
-  ),
+  args: {
+    children: <ThrowError message="JSON.parse: unexpected character at line 1 column 1 of the JSON data" />,
+  },
 };
 
 /**
@@ -85,22 +79,15 @@ export const ParseError: Story = {
  * Simulates API request timeout scenario.
  */
 export const TimeoutError: Story = {
-  render: () => (
-    <ErrorBoundary>
-      <ThrowError message="Request timeout: Server did not respond within 30 seconds" />
-    </ErrorBoundary>
-  ),
+  args: {
+    children: <ThrowError message="Request timeout: Server did not respond within 30 seconds" />,
+  },
 };
 
-/**
- * Error boundary with a long stack trace.
- * Shows how the component handles verbose error details.
- */
-export const LongStackTrace: Story = {
-  render: () => {
-    const ErrorWithStack = () => {
-      const error = new Error("Runtime error in data processing module");
-      error.stack = `Error: Runtime error in data processing module
+// Component that throws an error with a long stack trace
+const ErrorWithStack = () => {
+  const error = new Error("Runtime error in data processing module");
+  error.stack = `Error: Runtime error in data processing module
     at processAsteroidData (asteroid-processor.ts:145:12)
     at transformNeoData (data-transformer.ts:89:5)
     at Dashboard (dashboard.tsx:67:23)
@@ -109,14 +96,16 @@ export const LongStackTrace: Story = {
     at beginWork (react-dom.development.js:19063:16)
     at HTMLUnknownElement.callCallback (react-dom.development.js:3945:14)
     at Object.invokeGuardedCallbackDev (react-dom.development.js:3994:16)`;
-      throw error;
-    };
+  throw error;
+};
 
-    return (
-      <ErrorBoundary>
-        <ErrorWithStack />
-      </ErrorBoundary>
-    );
+/**
+ * Error boundary with a long stack trace.
+ * Shows how the component handles verbose error details.
+ */
+export const LongStackTrace: Story = {
+  args: {
+    children: <ErrorWithStack />,
   },
 };
 
@@ -125,11 +114,9 @@ export const LongStackTrace: Story = {
  * Shows that the boundary doesn't interfere with normal operation.
  */
 export const NoError: Story = {
-  render: () => (
-    <ErrorBoundary>
-      <WorkingComponent />
-    </ErrorBoundary>
-  ),
+  args: {
+    children: <WorkingComponent />,
+  },
 };
 
 /**
@@ -137,22 +124,19 @@ export const NoError: Story = {
  * Demonstrates the fallback prop functionality.
  */
 export const CustomFallback: Story = {
-  render: () => (
-    <ErrorBoundary
-      fallback={
-        <div className="min-h-screen bg-zinc-950 text-zinc-50 p-6 flex items-center justify-center font-mono">
-          <div className="bg-zinc-800/50 border-2 border-yellow-700/50 p-8 rounded-sm max-w-lg">
-            <h2 className="text-xl font-bold text-yellow-400 uppercase tracking-wider mb-4">
-              Custom Error Handler
-            </h2>
-            <p className="text-zinc-300 text-sm">
-              This is a custom fallback UI provided via the fallback prop.
-            </p>
-          </div>
+  args: {
+    children: <ThrowError message="Custom fallback test" />,
+    fallback: (
+      <div className="min-h-screen bg-zinc-950 text-zinc-50 p-6 flex items-center justify-center font-mono">
+        <div className="bg-zinc-800/50 border-2 border-yellow-700/50 p-8 rounded-sm max-w-lg">
+          <h2 className="text-xl font-bold text-yellow-400 uppercase tracking-wider mb-4">
+            Custom Error Handler
+          </h2>
+          <p className="text-zinc-300 text-sm">
+            This is a custom fallback UI provided via the fallback prop.
+          </p>
         </div>
-      }
-    >
-      <ThrowError message="Custom fallback test" />
-    </ErrorBoundary>
-  ),
+      </div>
+    ),
+  },
 };
