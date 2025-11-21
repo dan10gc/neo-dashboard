@@ -7,7 +7,7 @@ A Turborepo monorepo containing the NEO Monitor web application and API server f
 ![React](https://img.shields.io/badge/React-19-blue)
 ![Turborepo](https://img.shields.io/badge/Turborepo-2.3-purple)
 
-## 🚀 [Live Demo](https://neo.danielgc.design/)
+## 🚀 [Live Demo](https://neomonitor.app/)
 
 ## What's inside?
 
