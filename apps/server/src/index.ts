@@ -13,9 +13,21 @@ const app = express();
 const PORT = env.API.PORT || 3001;
 
 // Middleware
+// Allow both root domain and www subdomain for production
 app.use(
   cors({
-    origin: env.API.CLIENT_URL || "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true); // Allow requests with no origin
+
+      const allowedPattern = /^https:\/\/(www\.)?neomonitor\.app$/;
+      const devOrigin = "http://localhost:5173";
+
+      if (origin === devOrigin || allowedPattern.test(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   })
 );
