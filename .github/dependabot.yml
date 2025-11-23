@@ -53,15 +53,24 @@ updates:
       day: "monday"
     open-pull-requests-limit: 10
     groups:
+      security-monitoring:
+        patterns:
+          - "@sentry/*"
       express-ecosystem:
         patterns:
           - "express*"
           - "@types/express*"
+          - "cors"
+          - "@types/cors"
       database:
         patterns:
           - "drizzle*"
           - "postgres"
           - "pg"
+          - "@types/pg"
+      analytics:
+        patterns:
+          - "posthog*"
 
   # GitHub Actions
   - package-ecosystem: "github-actions"
