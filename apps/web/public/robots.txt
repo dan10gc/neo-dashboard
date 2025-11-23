@@ -1,0 +1,8 @@
+# robots.txt for NEO Monitor
+# https://neomonitor.app
+
+User-agent: *
+Allow: /
+
+# Sitemap location (update if sitemap is added later)
+# Sitemap: https://neomonitor.app/sitemap.xml

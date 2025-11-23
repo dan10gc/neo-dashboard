@@ -22,6 +22,12 @@ app.use(
 app.use(express.json());
 app.use(middlewareLogResponses);
 
+// robots.txt - disallow all crawlers from API
+app.get("/robots.txt", (_req: Request, res: Response) => {
+  res.type("text/plain");
+  res.send("User-agent: *\nDisallow: /\n");
+});
+
 // Health check endpoint
 app.get("/health", (_req: Request, res: Response) => {
   res.json({
