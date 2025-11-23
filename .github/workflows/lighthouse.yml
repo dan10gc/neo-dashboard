@@ -24,12 +24,17 @@ jobs:
 
       - name: Build web app
         run: npm run build:web
+        env:
+          VITE_NASA_API_KEY: DEMO_KEY
+
+      - name: Verify build output
+        run: ls -la apps/web/dist
 
       - name: Install Lighthouse CI
         run: npm install -g @lhci/cli@0.14.x
 
       - name: Run Lighthouse CI
-        run: lhci autorun
+        run: lhci autorun --config=./lighthouserc.json
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
