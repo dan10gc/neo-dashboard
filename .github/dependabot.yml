@@ -37,6 +37,7 @@ updates:
       testing:
         patterns:
           - "vitest*"
+          - "@vitest/*"
           - "@testing-library/*"
           - "jsdom"
       ui-components:
