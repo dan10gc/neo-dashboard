@@ -20,7 +20,24 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/test/setup.ts",
     include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
-    exclude: ['node_modules', 'dist', '.storybook', 'storybook-static', 'coverage']
+    exclude: ['node_modules', 'dist', '.storybook', 'storybook-static', 'coverage'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html', 'lcov'],
+      reportsDirectory: './coverage',
+      exclude: [
+        'node_modules/',
+        'src/test/',
+        '**/*.d.ts',
+        '**/*.config.*',
+        '**/mockData',
+        'dist/',
+        '.storybook/',
+        'storybook-static/'
+      ],
+      include: ['src/**/*.{ts,tsx,js,jsx}'],
+      all: true
+    }
 
     // Storybook tests temporarily disabled due to MSW/Vite compatibility issues
     // Uncomment to re-enable when resolved

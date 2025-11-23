@@ -6,6 +6,9 @@ A Turborepo monorepo containing the NEO Monitor web application and API server f
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)
 ![React](https://img.shields.io/badge/React-19-blue)
 ![Turborepo](https://img.shields.io/badge/Turborepo-2.3-purple)
+[![CI](https://github.com/dan10gc/neo-dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/dan10gc/neo-dashboard/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/dan10gc/neo-dashboard/branch/main/graph/badge.svg)](https://codecov.io/gh/dan10gc/neo-dashboard)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## 🚀 [Live Demo](https://neomonitor.app/)
 
