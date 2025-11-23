@@ -35,8 +35,7 @@ export default defineConfig({
         '.storybook/',
         'storybook-static/'
       ],
-      include: ['src/**/*.{ts,tsx,js,jsx}'],
-      all: true
+      include: ['src/**/*.{ts,tsx,js,jsx}']
     }
 
     // Storybook tests temporarily disabled due to MSW/Vite compatibility issues
