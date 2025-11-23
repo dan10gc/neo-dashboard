@@ -29,12 +29,21 @@ jobs:
       - name: Run tests with coverage
         run: npm run test:coverage
 
-      - name: Upload coverage to Codecov
+      - name: Upload web coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage
+          directory: ./apps/web/coverage
           flags: web
+          fail_ci_if_error: false
+          verbose: true
+
+      - name: Upload server coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./apps/server/coverage
+          flags: server
           fail_ci_if_error: false
           verbose: true
 

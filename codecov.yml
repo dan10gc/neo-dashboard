@@ -1,5 +1,5 @@
 codecov:
-  require_ci_to_pass: yes
+  require_ci_to_pass: true
 
 coverage:
   precision: 2
@@ -18,7 +18,7 @@ coverage:
         threshold: 1%
 
 comment:
-  layout: "reach,diff,flags,tree,reach"
+  layout: "reach,diff,flags,tree"
   behavior: default
   require_changes: false
 
@@ -26,4 +26,8 @@ flags:
   web:
     paths:
       - apps/web/src/
+    carryforward: true
+  server:
+    paths:
+      - apps/server/src/
     carryforward: true

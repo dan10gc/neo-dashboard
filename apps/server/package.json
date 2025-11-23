@@ -39,6 +39,7 @@
     "@types/node": "^22.10.5",
     "@types/pg": "^8.15.6",
     "@types/supertest": "^6.0.3",
+    "@vitest/coverage-v8": "^4.0.7",
     "drizzle-kit": "^0.31.6",
     "eslint": "^9.17.0",
     "supertest": "^7.1.4",
