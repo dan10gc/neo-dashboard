@@ -17,6 +17,7 @@ export default defineConfig([
   globalIgnores(['dist']),
   {
     files: ['**/*.{ts,tsx}'],
+    ignores: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', 'src/test/**/*'],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
@@ -28,6 +29,21 @@ export default defineConfig([
       globals: globals.browser,
       parserOptions: {
         project: "./tsconfig.app.json",
+        tsconfigRootDir: __dirname,
+      },
+    },
+  },
+  {
+    files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', 'src/test/**/*'],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommended,
+    ],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: { ...globals.browser, ...globals.node },
+      parserOptions: {
+        project: "./tsconfig.spec.json",
         tsconfigRootDir: __dirname,
       },
     },
