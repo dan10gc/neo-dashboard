@@ -26,8 +26,38 @@ jobs:
       - name: Lint check
         run: npm run lint
 
-      - name: Run tests
-        run: npm run test
+      - name: Run tests with coverage
+        run: npm run test:coverage
+
+      - name: Upload web coverage to Codecov
+        id: codecov-web
+        uses: codecov/codecov-action@v4
+        continue-on-error: true
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./apps/web/coverage
+          flags: web
+          fail_ci_if_error: false
+          verbose: true
+
+      - name: Upload server coverage to Codecov
+        id: codecov-server
+        uses: codecov/codecov-action@v4
+        continue-on-error: true
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./apps/server/coverage
+          flags: server
+          fail_ci_if_error: false
+          verbose: true
+
+      - name: Check coverage upload status
+        if: steps.codecov-web.outcome == 'failure' || steps.codecov-server.outcome == 'failure'
+        run: |
+          echo "::warning::Coverage upload failed for one or more packages"
+          echo "Web coverage upload: ${{ steps.codecov-web.outcome }}"
+          echo "Server coverage upload: ${{ steps.codecov-server.outcome }}"
+          echo "This does not fail the build, but coverage reporting may be incomplete."
 
       - name: Build check
         run: npm run build
