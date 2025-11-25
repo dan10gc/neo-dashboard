@@ -1,6 +1,10 @@
-import "@testing-library/jest-dom/vitest";
+import { expect } from "vitest";
+import * as matchers from "@testing-library/jest-dom/matchers";
 import { server } from "./mocks/server";
 import { beforeAll, afterEach, afterAll } from "vitest";
+
+// Extend Vitest's expect with @testing-library/jest-dom matchers
+expect.extend(matchers);
 
 // Mock ResizeObserver for Radix UI components
 global.ResizeObserver = class ResizeObserver {
