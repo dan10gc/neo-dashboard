@@ -133,7 +133,11 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
                       </p>
                       <p className="text-cyan-400">
                         <span className="text-zinc-500">Velocity:</span>{" "}
-                        {data.velocity.toLocaleString()} km/h
+                        {data.velocity.toLocaleString()} km/s
+                      </p>
+                      <p className="text-purple-400">
+                        <span className="text-zinc-500">Abs. Magnitude:</span>{" "}
+                        {data.absoluteMagnitude.toFixed(1)} H
                       </p>
                     </div>
                     <div
@@ -168,7 +172,11 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
             </p>
             <p className="text-cyan-400">
               <span className="text-zinc-500">Velocity:</span>{" "}
-              {asteroidData.velocity.toLocaleString()} km/h
+              {asteroidData.velocity.toLocaleString()} km/s
+            </p>
+            <p className="text-purple-400">
+              <span className="text-zinc-500">Abs. Magnitude:</span>{" "}
+              {asteroidData.absoluteMagnitude.toFixed(1)} H
             </p>
           </div>
           <div
@@ -227,7 +235,7 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
           <div className="text-xl sm:text-2xl md:text-3xl font-bold text-cyan-400 font-mono break-words">
             <AnimatedNumber value={fastestAsteroid.velocity} />
           </div>
-          <div className="text-xs text-zinc-600 mt-1">km/h velocity</div>
+          <div className="text-xs text-zinc-600 mt-1">km/s velocity</div>
           <div
             className="text-xs text-zinc-500 mt-2 truncate"
             title={fastestAsteroid.name}
@@ -251,12 +259,14 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
               dataKey="diameter"
               name="Diameter"
               unit=" m"
+              scale="log"
+              domain={['auto', 'auto']}
               stroke="#71717a"
               tick={{ fill: "#a1a1aa", fontSize: 11 }}
               tickLine={{ stroke: "#52525b" }}
               style={{ fontFamily: "monospace" }}
               label={{
-                value: "DIAMETER (METERS)",
+                value: "DIAMETER (METERS) - LOG SCALE",
                 position: "bottom",
                 offset: 40,
                 style: {
@@ -271,13 +281,13 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
               type="number"
               dataKey="velocity"
               name="Velocity"
-              unit=" km/h"
+              unit=" km/s"
               stroke="#71717a"
               tick={{ fill: "#a1a1aa", fontSize: 11 }}
               tickLine={{ stroke: "#52525b" }}
               style={{ fontFamily: "monospace" }}
               label={{
-                value: "VELOCITY (KM/H)",
+                value: "VELOCITY (KM/S)",
                 angle: -90,
                 position: "insideLeft",
                 style: {
