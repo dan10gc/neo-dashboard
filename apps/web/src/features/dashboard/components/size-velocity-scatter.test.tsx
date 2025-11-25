@@ -2,7 +2,6 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SizeVelocityScatter } from "./size-velocity-scatter";
-import type { SizeVelocityDataPoint } from "@/lib/transformers/transformers";
 
 // Mock analytics
 vi.mock("@/lib/analytics", () => ({
@@ -11,6 +10,7 @@ vi.mock("@/lib/analytics", () => ({
 
 // Import the mock after defining it
 import { trackEvent } from "@/lib/analytics";
+import type { SizeVelocityDataPoint } from "@/lib/transformers/transformers";
 
 describe("SizeVelocityScatter", () => {
   beforeEach(() => {
@@ -66,7 +66,9 @@ describe("SizeVelocityScatter", () => {
       const { container } = renderComponent(data);
 
       // Check for ResponsiveContainer (Recharts renders it)
-      const chartContainer = container.querySelector(".recharts-responsive-container");
+      const chartContainer = container.querySelector(
+        ".recharts-responsive-container"
+      );
       expect(chartContainer).toBeInTheDocument();
     });
   });
@@ -284,9 +286,7 @@ describe("SizeVelocityScatter", () => {
       renderComponent(data);
 
       // Should pick the first one as largest
-      const largestSection = screen
-        .getByText("Largest Object")
-        .closest("div");
+      const largestSection = screen.getByText("Largest Object").closest("div");
       expect(largestSection).toBeInTheDocument();
     });
 
