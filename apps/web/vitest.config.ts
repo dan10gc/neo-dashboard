@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import path from "path";
 // import { fileURLToPath } from 'node:url';
@@ -20,18 +20,15 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/test/setup.ts",
     include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
-    exclude: ['node_modules', 'dist', '.storybook', 'storybook-static', 'coverage'],
+    exclude: [...configDefaults.exclude, '.storybook', 'storybook-static'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'lcov'],
       reportsDirectory: './coverage',
       exclude: [
-        'node_modules/',
+        ...configDefaults.exclude,
         'src/test/',
-        '**/*.d.ts',
-        '**/*.config.*',
         '**/mockData',
-        'dist/',
         '.storybook/',
         'storybook-static/'
       ],
