@@ -1,13 +1,14 @@
 import { useState } from "react";
 
 import { Card } from "@/components/ui/card";
+import { trackEvent } from "@/lib/analytics";
+import type { NextApproachData } from "@/lib/transformers/transformers";
 
 import { ApproachCounter } from "./approach-counter";
-import { ApproachHeader } from "./approach-header";
 import { ApproachDetail } from "./approach-detail";
+import { ApproachHeader } from "./approach-header";
 import { CarouselNavigation } from "./carousel-navigation";
-import type { NextApproachData } from "@/lib/transformers/transformers";
-import { trackEvent } from "@/lib/analytics";
+
 
 interface NextCloseApproachProps {
   asteroidData: NextApproachData[];

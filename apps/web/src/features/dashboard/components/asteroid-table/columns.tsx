@@ -1,4 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
+import { Filter } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import {
   Tooltip,
@@ -6,7 +8,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Filter } from "lucide-react";
 
 interface NEO {
   id: string;

@@ -1,27 +1,28 @@
+import { animated, useSpring, useTrail } from "@react-spring/web";
 import { useQuery } from "@tanstack/react-query";
-import { Card } from "@/components/ui/card";
-import { animated, useTrail, useSpring } from "@react-spring/web";
 import { useEffect } from "react";
 
-import { CloseApproachAssessment } from "./components/close-approach-assessment/close-approach-assessment";
-import { NextCloseApproach } from "./components/next-close-approach/next-close-approach";
-import { SurveillanceStats } from "./components/surveillance-stats";
-import { ApproachBarChart } from "./components/approach-bar-chart";
-import { SizeVelocityScatter } from "./components/size-velocity-scatter";
-import { AsteroidTable } from "./components/asteroid-table/asteroid-table";
-import { Header } from "./components/header";
+import { Card } from "@/components/ui/card";
 import type { TransformedNeoData } from "@/hooks/useNeoNasaQuery";
 import { useSpecialEventsSSE } from "@/hooks/useSpecialEventsSSE";
-import type { SpecialEvent } from "@/types/special-events";
-import { SpecialEventBanner } from "./components/special-event-banner/special-event-banner";
 import { trackEvent } from "@/lib/analytics";
+import type { SpecialEvent } from "@/types/special-events";
+
+import { ApproachBarChart } from "./components/approach-bar-chart";
+import { AsteroidTable } from "./components/asteroid-table/asteroid-table";
+import { CloseApproachAssessment } from "./components/close-approach-assessment/close-approach-assessment";
+import { Header } from "./components/header";
+import { NextCloseApproach } from "./components/next-close-approach/next-close-approach";
+import { SizeVelocityScatter } from "./components/size-velocity-scatter";
 import {
+  ChartSkeleton,
   CloseApproachAssessmentSkeleton,
   NextApproachSkeleton,
   SurveillanceStatsSkeleton,
-  ChartSkeleton,
   TableSkeleton,
 } from "./components/skeletons";
+import { SpecialEventBanner } from "./components/special-event-banner/special-event-banner";
+import { SurveillanceStats } from "./components/surveillance-stats/surveillance-stats";
 
 interface DashboardProps {
   data: TransformedNeoData | undefined;

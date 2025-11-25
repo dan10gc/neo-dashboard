@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { SizeVelocityScatter } from "./size-velocity-scatter";
+
 import type { SizeVelocityDataPoint } from "@/lib/transformers/transformers";
+
+import { SizeVelocityScatter } from "./size-velocity-scatter";
 
 const meta = {
   title: "Features/Dashboard/SizeVelocityScatter",

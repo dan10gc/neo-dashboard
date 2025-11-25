@@ -1,7 +1,8 @@
-import { Component, type ErrorInfo, type ReactNode } from "react";
-import { Card } from "./ui/card";
 import { AlertTriangle, RotateCw } from "lucide-react";
 import posthog from "posthog-js";
+import { Component, type ErrorInfo, type ReactNode } from "react";
+
+import { Card } from "./ui/card";
 
 interface Props {
   children: ReactNode;

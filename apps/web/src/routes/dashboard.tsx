@@ -1,5 +1,7 @@
 import { AlertCircle, AlertTriangle, Satellite } from "lucide-react";
+
 import { Card } from "@/components/ui/card";
+
 import { Dashboard } from "../features/dashboard/dashboard";
 import { useNeoDataQuery } from "../hooks/useNeoNasaQuery";
 

@@ -1,3 +1,5 @@
+import { animated, useSpring } from "@react-spring/web";
+import { ChartScatter, Diameter, Gauge } from "lucide-react";
 import { useRef } from "react";
 import {
   CartesianGrid,
@@ -9,10 +11,11 @@ import {
   YAxis,
   ZAxis,
 } from "recharts";
-import { ChartScatter, Diameter, Gauge } from "lucide-react";
-import type { SizeVelocityDataPoint } from "@/lib/transformers/transformers";
-import { useSpring, animated } from "@react-spring/web";
+
 import { trackEvent } from "@/lib/analytics";
+import type { SizeVelocityDataPoint } from "@/lib/transformers/transformers";
+
+
 
 // Recharts tooltip types
 interface TooltipPayload {

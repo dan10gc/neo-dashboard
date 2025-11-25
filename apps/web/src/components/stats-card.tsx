@@ -1,6 +1,7 @@
-import { Card } from "./ui/card";
 import { HelpCircle } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+
+import { Card } from "./ui/card";
 import {
   Tooltip,
   TooltipContent,

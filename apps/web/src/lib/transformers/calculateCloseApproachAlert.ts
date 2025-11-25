@@ -1,4 +1,5 @@
 import type { NeoFeedResponse } from "@/types/neo";
+
 import {
   getTotalAsteroids,
   getTotalHazardousAsteroids,
