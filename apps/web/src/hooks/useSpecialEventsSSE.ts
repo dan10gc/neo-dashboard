@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+
 import type { SpecialEvent } from "@/types/special-events";
 
 interface ConnectionStatus {

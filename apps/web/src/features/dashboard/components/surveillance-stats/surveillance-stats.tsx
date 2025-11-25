@@ -1,8 +1,10 @@
+import { animated, useSpring } from "@react-spring/web";
+import { AlertTriangle, Circle, Orbit, Target } from "lucide-react";
+
 import { Card } from "@/components/ui/card";
-import { Orbit, AlertTriangle, Circle, Target } from "lucide-react";
-import { useSpring, animated } from "@react-spring/web";
 import { useUnitPreferences } from "@/hooks/useUnitPreferences";
 import { formatDiameter, formatDistance, getDistanceUnitLabel } from "@/lib/units";
+
 import { UnitToggle } from "./unit-toggle";
 
 interface SurveillanceStatsProps {

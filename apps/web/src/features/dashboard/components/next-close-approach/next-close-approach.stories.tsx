@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { NextCloseApproach } from "./next-close-approach";
+
 import type { NextApproachData } from "@/lib/transformers/transformers";
+
+import { NextCloseApproach } from "./next-close-approach";
 
 const meta = {
   title: "Features/Dashboard/NextCloseApproach",

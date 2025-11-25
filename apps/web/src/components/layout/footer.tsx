@@ -1,6 +1,6 @@
-import { Github, BookOpen, Home } from "lucide-react";
-import { Link, useLocation } from "react-router";
+import { BookOpen, Github, Home } from "lucide-react";
 import { usePostHog } from "posthog-js/react";
+import { Link, useLocation } from "react-router";
 
 export const Footer = () => {
   const location = useLocation();

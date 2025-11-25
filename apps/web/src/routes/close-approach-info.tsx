@@ -1,6 +1,7 @@
-import { Shield, BookOpen, ExternalLink, ArrowLeft } from "lucide-react";
-import { Link } from "react-router";
+import { ArrowLeft, BookOpen, ExternalLink, Shield } from "lucide-react";
 import { usePostHog } from "posthog-js/react";
+import { Link } from "react-router";
+
 import {
   Accordion,
   AccordionContent,

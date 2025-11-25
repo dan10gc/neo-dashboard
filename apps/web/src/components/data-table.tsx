@@ -1,11 +1,14 @@
 import {
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   useReactTable,
-  type ColumnDef,
-  type ColumnFiltersState,
 } from "@tanstack/react-table";
+import { X } from "lucide-react";
+import { useState } from "react";
+
 import {
   Table,
   TableBody,
@@ -14,8 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import { useState } from "react";
-import { X } from "lucide-react";
+
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

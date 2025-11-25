@@ -1,14 +1,15 @@
+import { animated, useSpring } from "@react-spring/web";
 import {
-  X,
-  Sparkles,
-  Orbit,
   AlertTriangle,
   ChevronDown,
+  Orbit,
+  Sparkles,
+  X,
 } from "lucide-react";
 import { useState } from "react";
-import { useSpring, animated } from "@react-spring/web";
-import type { SpecialEvent } from "@/types/special-events";
+
 import { trackEvent } from "@/lib/analytics";
+import type { SpecialEvent } from "@/types/special-events";
 
 interface SpecialEventBannerProps {
   event: SpecialEvent;

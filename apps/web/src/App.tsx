@@ -1,7 +1,8 @@
-import { Routes, Route } from "react-router";
-import { Root } from "./routes/root";
-import { DashboardRoute } from "./routes/dashboard";
+import { Route, Routes } from "react-router";
+
 import { CloseApproachInfo } from "./routes/close-approach-info";
+import { DashboardRoute } from "./routes/dashboard";
+import { Root } from "./routes/root";
 
 function App() {
   return (

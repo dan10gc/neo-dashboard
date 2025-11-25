@@ -1,8 +1,10 @@
-import { columns } from "./columns";
+import { Database } from "lucide-react";
+
 import { DataTable } from "@/components/data-table";
 import type { AsteroidTableRow } from "@/lib/transformers/transformers";
 
-import { Database } from "lucide-react";
+import { columns } from "./columns";
+
 
 export const AsteroidTable = ({ data }: { data: AsteroidTableRow[] }) => {
   return (

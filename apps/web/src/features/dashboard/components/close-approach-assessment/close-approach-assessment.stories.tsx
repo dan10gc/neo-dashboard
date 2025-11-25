@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { BrowserRouter } from "react-router";
-import { CloseApproachAssessment } from "./close-approach-assessment";
+
 import type { CloseApproachAssessment as CloseApproachAssessmentData } from "@/lib/transformers/calculateCloseApproachAlert";
 import { PROXIMITY_THRESHOLDS } from "@/lib/transformers/calculateCloseApproachAlert";
+
+import { CloseApproachAssessment } from "./close-approach-assessment";
 
 const meta = {
   title: "Features/Dashboard/Close Approach Alert",

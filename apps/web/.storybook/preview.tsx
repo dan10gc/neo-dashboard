@@ -1,8 +1,10 @@
 import type { Preview } from "@storybook/react-vite";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { PostHog } from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 import { BrowserRouter } from "react-router";
+
 import "../src/index.css";
-import type { PostHog } from "posthog-js";
 
 // Ensure localStorage is available in Storybook
 if (typeof globalThis !== 'undefined' && typeof globalThis.localStorage === 'undefined') {
@@ -27,14 +29,28 @@ const mockPostHogClient = {
   setPersonProperties: () => {},
 } as unknown as PostHog;
 
+// Create a mock QueryClient for Storybook
+// This prevents real API calls from being made in stories
+const mockQueryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      enabled: false, // Disable all queries by default in Storybook
+      retry: false,
+      staleTime: Infinity,
+    },
+  },
+});
+
 const preview: Preview = {
   decorators: [
     (Story) => (
-      <PostHogProvider client={mockPostHogClient}>
-        <BrowserRouter>
-          <Story />
-        </BrowserRouter>
-      </PostHogProvider>
+      <QueryClientProvider client={mockQueryClient}>
+        <PostHogProvider client={mockPostHogClient}>
+          <BrowserRouter>
+            <Story />
+          </BrowserRouter>
+        </PostHogProvider>
+      </QueryClientProvider>
     ),
   ],
   parameters: {

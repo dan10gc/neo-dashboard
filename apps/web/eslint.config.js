@@ -6,6 +6,7 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
+import importPlugin from 'eslint-plugin-import'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
@@ -24,6 +25,17 @@ export default defineConfig([
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
     ],
+    plugins: {
+      import: importPlugin,
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: './tsconfig.app.json',
+        },
+      },
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -31,6 +43,32 @@ export default defineConfig([
         project: "./tsconfig.app.json",
         tsconfigRootDir: __dirname,
       },
+    },
+    rules: {
+      'sort-imports': ['error', {
+        ignoreCase: false,
+        ignoreDeclarationSort: true, // Let import/order handle declaration sorting
+        ignoreMemberSort: false,
+        allowSeparatedGroups: true,
+      }],
+      'import/order': ['error', {
+        groups: [
+          'builtin',   // Node.js built-in modules
+          'external',  // npm packages
+          'internal',  // Aliased modules (@/)
+          'parent',    // ../
+          'sibling',   // ./
+          'index',     // ./index
+        ],
+        'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
+      }],
+      'import/first': 'error',
+      'import/newline-after-import': 'error',
+      'import/no-duplicates': 'error',
     },
   },
   {

@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { SpecialEventBanner } from "./special-event-banner";
+
 import type { SpecialEvent } from "@/types/special-events";
+
+import { SpecialEventBanner } from "./special-event-banner";
 
 const meta = {
   title: "Features/Dashboard/SpecialEventBanner",

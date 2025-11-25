@@ -1,8 +1,9 @@
-import { ShieldAlert, ArrowRight } from "lucide-react";
-import { useSpring, animated } from "@react-spring/web";
+import { animated, useSpring } from "@react-spring/web";
+import { ArrowRight, ShieldAlert } from "lucide-react";
+import { usePostHog } from "posthog-js/react";
 import { useMemo } from "react";
 import { Link } from "react-router";
-import { usePostHog } from "posthog-js/react";
+
 import type { CloseApproachAssessment } from "@/lib/transformers";
 
 interface CloseApproachAssessmentProps {

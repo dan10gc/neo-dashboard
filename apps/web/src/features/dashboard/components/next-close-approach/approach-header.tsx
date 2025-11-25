@@ -1,5 +1,6 @@
-import { Badge } from "@/components/ui/badge";
 import { AlertTriangle } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
 
 interface ApproachHeaderProps {
   currentIndex: number;

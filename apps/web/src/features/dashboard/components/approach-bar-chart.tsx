@@ -1,3 +1,5 @@
+import { animated, useSpring } from "@react-spring/web";
+import { ChartBarStacked } from "lucide-react";
 import { useRef } from "react";
 import {
   Bar,
@@ -8,8 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { ChartBarStacked } from "lucide-react";
-import { useSpring, animated } from "@react-spring/web";
+
 import { trackEvent } from "@/lib/analytics";
 
 // Animated decimal number component (for averages)
