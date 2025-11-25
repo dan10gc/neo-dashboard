@@ -12,13 +12,13 @@ export function cn(...inputs: ClassValue[]) {
  * @returns {string} The environment variable value
  * @throws {Error} If the environment variable is not set
  */
-export function getEnvVar(key: string) {
+export function getEnvVar(key: string): string {
+  // Access env with proper typing - import.meta.env has an index signature
+  const value = import.meta.env[key] as string | undefined;
 
-  const value = import.meta.env[key]
-  
   if (!value) {
-    throw new Error(`Error: ${key} not provided`)
+    throw new Error(`Error: ${key} not provided`);
   }
-  
-  return value
+
+  return value;
 } 
