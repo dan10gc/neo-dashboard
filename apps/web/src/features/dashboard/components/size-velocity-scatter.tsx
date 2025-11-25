@@ -63,18 +63,31 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
     );
   }
 
-  // Split data by hazard status
-  const safeAsteroids = data.filter((item) => !item.hazardous);
-  const hazardousAsteroids = data.filter((item) => item.hazardous);
+  // Filter out zero or near-zero diameter values (< 1m) for logarithmic scale
+  // Log scale cannot handle zero or negative values
+  const MIN_DIAMETER = 1;
+  const validData = data.filter((item) => item.diameter >= MIN_DIAMETER);
 
-  // Calculate statistics
-  const largestAsteroid = data.reduce(
+  if (validData.length === 0) {
+    return (
+      <div className="h-64 flex items-center justify-center text-zinc-500">
+        No data available (all diameters below minimum threshold)
+      </div>
+    );
+  }
+
+  // Split data by hazard status
+  const safeAsteroids = validData.filter((item) => !item.hazardous);
+  const hazardousAsteroids = validData.filter((item) => item.hazardous);
+
+  // Calculate statistics using valid data only
+  const largestAsteroid = validData.reduce(
     (max, item) => (item.diameter > max.diameter ? item : max),
-    data[0]
+    validData[0]
   );
-  const fastestAsteroid = data.reduce(
+  const fastestAsteroid = validData.reduce(
     (max, item) => (item.velocity > max.velocity ? item : max),
-    data[0]
+    validData[0]
   );
 
   // Track chart interactions
@@ -260,7 +273,8 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
               name="Diameter"
               unit=" m"
               scale="log"
-              domain={['auto', 'auto']}
+              domain={[1, 'auto']}
+              allowDataOverflow={false}
               stroke="#71717a"
               tick={{ fill: "#a1a1aa", fontSize: 11 }}
               tickLine={{ stroke: "#52525b" }}

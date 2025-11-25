@@ -103,8 +103,8 @@ export const getSizeVelocityData = (
         diameter: Math.floor(
           neo.estimated_diameter.meters.estimated_diameter_max
         ),
-        velocity: parseFloat(
-          parseFloat(closeApproach.relative_velocity.kilometers_per_second).toFixed(2)
+        velocity: Number(
+          Number(closeApproach.relative_velocity.kilometers_per_second).toFixed(2)
         ),
         hazardous: neo.is_potentially_hazardous_asteroid,
         absoluteMagnitude: neo.absolute_magnitude_h,

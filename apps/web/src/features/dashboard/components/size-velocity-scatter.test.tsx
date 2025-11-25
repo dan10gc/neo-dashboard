@@ -303,14 +303,28 @@ describe("SizeVelocityScatter", () => {
       expect(fastestSection).toBeInTheDocument();
     });
 
-    it("should handle zero values gracefully", () => {
+    it("should handle zero diameter values by filtering them out", () => {
       const data = [
-        createMockDataPoint({ diameter: 0, velocity: 0, name: "Zero" }),
+        createMockDataPoint({ diameter: 0, velocity: 10, name: "Zero" }),
       ];
       renderComponent(data);
 
-      // With single asteroid, name appears in both largest and fastest sections
-      expect(screen.getAllByText("Zero")).toHaveLength(2);
+      // Zero diameter should be filtered out, showing empty state message
+      expect(
+        screen.getByText("No data available (all diameters below minimum threshold)")
+      ).toBeInTheDocument();
+    });
+
+    it("should filter out sub-minimum diameter values but keep valid ones", () => {
+      const data = [
+        createMockDataPoint({ diameter: 0.5, velocity: 10, name: "TooSmall" }),
+        createMockDataPoint({ diameter: 100, velocity: 15, name: "Valid" }),
+      ];
+      renderComponent(data);
+
+      // Should render with only the valid asteroid
+      expect(screen.getAllByText("Valid")).toHaveLength(2); // Both largest and fastest
+      expect(screen.queryByText("TooSmall")).not.toBeInTheDocument();
     });
   });
 
@@ -346,7 +360,7 @@ describe("SizeVelocityScatter", () => {
   describe("Visual Elements", () => {
     it("should render icon in the header", () => {
       const data = [createMockDataPoint()];
-      const { container } = renderComponent(data);
+      renderComponent(data);
 
       // Check for Lucide icon in header
       const header = screen

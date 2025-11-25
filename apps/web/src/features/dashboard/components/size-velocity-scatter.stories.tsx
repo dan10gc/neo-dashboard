@@ -258,15 +258,16 @@ export const OverlappingPoints: Story = {
 
 /**
  * Large dataset - tests performance and clustering
+ * Uses deterministic pseudo-random values for reproducible visual regression testing
  */
 export const LargeDataset: Story = {
   args: {
     data: Array.from({ length: 50 }, (_, i) => ({
       name: `Asteroid ${i + 1}`,
-      diameter: Math.floor(Math.random() * 10000) + 10,
-      velocity: Math.random() * 40 + 2,
-      hazardous: Math.random() > 0.7,
-      absoluteMagnitude: Math.random() * 15 + 15,
+      diameter: Math.floor((i * 197 + 31) % 10000) + 10, // Deterministic pseudo-random
+      velocity: ((i * 23 + 7) % 40) + 2,
+      hazardous: i % 10 > 7,
+      absoluteMagnitude: ((i * 13 + 5) % 15) + 15,
     })),
   },
 };
@@ -286,6 +287,76 @@ export const EmptyState: Story = {
 export const UndefinedData: Story = {
   args: {
     data: undefined,
+  },
+};
+
+/**
+ * Zero diameter edge case - filtered out due to logarithmic scale
+ * Demonstrates that asteroids with diameter < 1m are filtered out
+ */
+export const ZeroDiameterFiltered: Story = {
+  args: {
+    data: [
+      {
+        name: "Zero Diameter",
+        diameter: 0,
+        velocity: 10.0,
+        hazardous: false,
+        absoluteMagnitude: 35.0,
+      },
+      {
+        name: "Sub-meter",
+        diameter: 0.5,
+        velocity: 15.0,
+        hazardous: false,
+        absoluteMagnitude: 33.0,
+      },
+    ],
+  },
+};
+
+/**
+ * Mixed with filtered values - some asteroids filtered, others displayed
+ */
+export const PartiallyFilteredData: Story = {
+  args: {
+    data: [
+      {
+        name: "Too Small (filtered)",
+        diameter: 0.8,
+        velocity: 25.0,
+        hazardous: false,
+        absoluteMagnitude: 34.0,
+      },
+      {
+        name: "Valid Small",
+        diameter: 5,
+        velocity: 18.0,
+        hazardous: false,
+        absoluteMagnitude: 28.0,
+      },
+      {
+        name: "Valid Medium",
+        diameter: 150,
+        velocity: 12.0,
+        hazardous: true,
+        absoluteMagnitude: 22.0,
+      },
+      {
+        name: "Zero (filtered)",
+        diameter: 0,
+        velocity: 30.0,
+        hazardous: false,
+        absoluteMagnitude: 36.0,
+      },
+      {
+        name: "Valid Large",
+        diameter: 800,
+        velocity: 8.0,
+        hazardous: false,
+        absoluteMagnitude: 19.0,
+      },
+    ],
   },
 };
 
