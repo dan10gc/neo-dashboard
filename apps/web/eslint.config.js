@@ -38,12 +38,13 @@ export default defineConfig([
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
+      reactHooks.configs['recommended-latest'],
     ],
     languageOptions: {
       ecmaVersion: 2020,
       globals: { ...globals.browser, ...globals.node },
       parserOptions: {
-        project: "./tsconfig.spec.json",
+        project: "./tsconfig.app.json",
         tsconfigRootDir: __dirname,
       },
     },
