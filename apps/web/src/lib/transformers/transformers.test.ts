@@ -38,7 +38,7 @@ describe("Transformers", () => {
   });
 
   describe("getSizeVelocityData", () => {
-    it("should extract diameter and velocity for each asteroid", () => {
+    it("should extract diameter, velocity (km/s), and absolute magnitude for each asteroid", () => {
       const data = getSizeVelocityData(mockNeoResponse);
 
       expect(data).toHaveLength(5);
@@ -47,23 +47,35 @@ describe("Transformers", () => {
       expect(data[0]).toEqual({
         name: "433 Eros (A898 PA)",
         diameter: 49507, // Math.floor of estimated_diameter_max
-        velocity: 19957, // Math.floor of velocity km/h
+        velocity: 5.54, // km/s rounded to 2 decimals
         hazardous: false,
+        absoluteMagnitude: 10.31,
       });
 
       // Check hazardous asteroid ((2010 PK9))
       expect(data[1]).toEqual({
         name: "(2010 PK9)",
         diameter: 322,
-        velocity: 67510,
+        velocity: 18.75, // km/s rounded to 2 decimals
         hazardous: true,
+        absoluteMagnitude: 21.1,
       });
     });
 
     it("should handle asteroids with multiple close approaches", () => {
       const data = getSizeVelocityData(mockNeoResponse);
       // Should use first close approach data
-      expect(data[0].velocity).toBe(19957); // From first approach
+      expect(data[0].velocity).toBe(5.54); // From first approach (in km/s)
+    });
+
+    it("should include absolute magnitude from NASA data", () => {
+      const data = getSizeVelocityData(mockNeoResponse);
+
+      // Verify all asteroids have absolute magnitude
+      data.forEach((asteroid) => {
+        expect(asteroid.absoluteMagnitude).toBeDefined();
+        expect(typeof asteroid.absoluteMagnitude).toBe("number");
+      });
     });
   });
 

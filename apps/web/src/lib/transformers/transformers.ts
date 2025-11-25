@@ -63,10 +63,12 @@ export interface SizeVelocityDataPoint {
   name: string;
   /** Maximum estimated diameter in meters (rounded down) */
   diameter: number;
-  /** Velocity in kilometers per hour (rounded down) */
+  /** Velocity in kilometers per second (rounded to 2 decimals) */
   velocity: number;
   /** Whether the asteroid is potentially hazardous */
   hazardous: boolean;
+  /** Absolute magnitude H (brightness measurement) */
+  absoluteMagnitude: number;
 }
 
 /**
@@ -74,18 +76,18 @@ export interface SizeVelocityDataPoint {
  *
  * Creates a dataset showing the relationship between asteroid diameter
  * and velocity. Uses the first close approach data for each asteroid.
- * Values are rounded down to integers for cleaner display.
+ * Diameter is rounded down to integers, velocity is in km/s with 2 decimals.
  *
  * @param data - NeoFeedResponse object from NASA's NeoWs API
- * @returns Array of data points containing diameter, velocity, and hazard status
- *          for each asteroid
+ * @returns Array of data points containing diameter, velocity (km/s), absolute magnitude,
+ *          and hazard status for each asteroid
  *
  * @example
  * ```ts
  * const scatterData = getSizeVelocityData(neoData);
  *  [
- *    { name: "433 Eros", diameter: 49507, velocity: 19957, hazardous: false },
- *    { name: "(2010 PK9)", diameter: 322, velocity: 67510, hazardous: true }
+ *    { name: "433 Eros", diameter: 49507, velocity: 5.54, hazardous: false, absoluteMagnitude: 10.31 },
+ *    { name: "(2010 PK9)", diameter: 322, velocity: 18.75, hazardous: true, absoluteMagnitude: 21.1 }
  *  ]
  * ```
  */
@@ -101,10 +103,11 @@ export const getSizeVelocityData = (
         diameter: Math.floor(
           neo.estimated_diameter.meters.estimated_diameter_max
         ),
-        velocity: Math.floor(
-          parseFloat(closeApproach.relative_velocity.kilometers_per_hour)
+        velocity: Number(
+          Number(closeApproach.relative_velocity.kilometers_per_second).toFixed(2)
         ),
         hazardous: neo.is_potentially_hazardous_asteroid,
+        absoluteMagnitude: neo.absolute_magnitude_h,
       };
     });
 

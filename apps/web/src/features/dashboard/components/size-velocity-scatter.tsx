@@ -63,18 +63,31 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
     );
   }
 
-  // Split data by hazard status
-  const safeAsteroids = data.filter((item) => !item.hazardous);
-  const hazardousAsteroids = data.filter((item) => item.hazardous);
+  // Filter out zero or near-zero diameter values (< 1m) for logarithmic scale
+  // Log scale cannot handle zero or negative values
+  const MIN_DIAMETER = 1;
+  const validData = data.filter((item) => item.diameter >= MIN_DIAMETER);
 
-  // Calculate statistics
-  const largestAsteroid = data.reduce(
+  if (validData.length === 0) {
+    return (
+      <div className="h-64 flex items-center justify-center text-zinc-500">
+        No data available (all diameters below minimum threshold)
+      </div>
+    );
+  }
+
+  // Split data by hazard status
+  const safeAsteroids = validData.filter((item) => !item.hazardous);
+  const hazardousAsteroids = validData.filter((item) => item.hazardous);
+
+  // Calculate statistics using valid data only
+  const largestAsteroid = validData.reduce(
     (max, item) => (item.diameter > max.diameter ? item : max),
-    data[0]
+    validData[0]
   );
-  const fastestAsteroid = data.reduce(
+  const fastestAsteroid = validData.reduce(
     (max, item) => (item.velocity > max.velocity ? item : max),
-    data[0]
+    validData[0]
   );
 
   // Track chart interactions
@@ -133,7 +146,11 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
                       </p>
                       <p className="text-cyan-400">
                         <span className="text-zinc-500">Velocity:</span>{" "}
-                        {data.velocity.toLocaleString()} km/h
+                        {data.velocity.toLocaleString()} km/s
+                      </p>
+                      <p className="text-purple-400">
+                        <span className="text-zinc-500">Abs. Magnitude:</span>{" "}
+                        {data.absoluteMagnitude.toFixed(1)} H
                       </p>
                     </div>
                     <div
@@ -168,7 +185,11 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
             </p>
             <p className="text-cyan-400">
               <span className="text-zinc-500">Velocity:</span>{" "}
-              {asteroidData.velocity.toLocaleString()} km/h
+              {asteroidData.velocity.toLocaleString()} km/s
+            </p>
+            <p className="text-purple-400">
+              <span className="text-zinc-500">Abs. Magnitude:</span>{" "}
+              {asteroidData.absoluteMagnitude.toFixed(1)} H
             </p>
           </div>
           <div
@@ -227,7 +248,7 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
           <div className="text-xl sm:text-2xl md:text-3xl font-bold text-cyan-400 font-mono break-words">
             <AnimatedNumber value={fastestAsteroid.velocity} />
           </div>
-          <div className="text-xs text-zinc-600 mt-1">km/h velocity</div>
+          <div className="text-xs text-zinc-600 mt-1">km/s velocity</div>
           <div
             className="text-xs text-zinc-500 mt-2 truncate"
             title={fastestAsteroid.name}
@@ -251,12 +272,15 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
               dataKey="diameter"
               name="Diameter"
               unit=" m"
+              scale="log"
+              domain={[1, 'auto']}
+              allowDataOverflow={false}
               stroke="#71717a"
               tick={{ fill: "#a1a1aa", fontSize: 11 }}
               tickLine={{ stroke: "#52525b" }}
               style={{ fontFamily: "monospace" }}
               label={{
-                value: "DIAMETER (METERS)",
+                value: "DIAMETER (METERS) - LOG SCALE",
                 position: "bottom",
                 offset: 40,
                 style: {
@@ -271,13 +295,13 @@ export const SizeVelocityScatter = ({ data }: SizeVelocityScatterProps) => {
               type="number"
               dataKey="velocity"
               name="Velocity"
-              unit=" km/h"
+              unit=" km/s"
               stroke="#71717a"
               tick={{ fill: "#a1a1aa", fontSize: 11 }}
               tickLine={{ stroke: "#52525b" }}
               style={{ fontFamily: "monospace" }}
               label={{
-                value: "VELOCITY (KM/H)",
+                value: "VELOCITY (KM/S)",
                 angle: -90,
                 position: "insideLeft",
                 style: {
