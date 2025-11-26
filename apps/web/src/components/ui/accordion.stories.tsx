@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta } from "@storybook/react-vite";
 
 import {
   Accordion,
@@ -9,7 +9,6 @@ import {
 
 const meta = {
   title: "Components/UI/Accordion",
-  component: Accordion,
   parameters: {
     layout: "centered",
     backgrounds: {
@@ -21,15 +20,14 @@ const meta = {
     },
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof Accordion>;
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
 /**
  * Single accordion item that can be expanded or collapsed.
  */
-export const Single: Story = {
+export const Single = {
   render: () => (
     <div className="w-[400px]">
       <Accordion type="single" collapsible>
@@ -49,7 +47,7 @@ export const Single: Story = {
 /**
  * Multiple accordion items where only one can be open at a time.
  */
-export const SingleCollapsible: Story = {
+export const SingleCollapsible = {
   render: () => (
     <div className="w-[400px]">
       <Accordion type="single" collapsible defaultValue="item-1">
@@ -62,7 +60,9 @@ export const SingleCollapsible: Story = {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
-          <AccordionTrigger>How often do asteroids pass Earth?</AccordionTrigger>
+          <AccordionTrigger>
+            How often do asteroids pass Earth?
+          </AccordionTrigger>
           <AccordionContent>
             Small asteroids pass between Earth and the Moon's orbit several
             times per week. Larger asteroids pass by less frequently, with
@@ -90,7 +90,7 @@ export const SingleCollapsible: Story = {
 /**
  * Multiple accordion items where several can be open at the same time.
  */
-export const Multiple: Story = {
+export const Multiple = {
   render: () => (
     <div className="w-[400px]">
       <Accordion type="multiple" defaultValue={["item-1", "item-2"]}>
@@ -112,11 +112,14 @@ export const Multiple: Story = {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-3">
-          <AccordionTrigger>Didymos & Dimorphos (DART Mission)</AccordionTrigger>
+          <AccordionTrigger>
+            Didymos & Dimorphos (DART Mission)
+          </AccordionTrigger>
           <AccordionContent>
-            In 2022, NASA's DART spacecraft intentionally crashed into Dimorphos,
-            the moonlet of asteroid Didymos, successfully demonstrating
-            planetary defense technology by altering the asteroid's orbit.
+            In 2022, NASA's DART spacecraft intentionally crashed into
+            Dimorphos, the moonlet of asteroid Didymos, successfully
+            demonstrating planetary defense technology by altering the
+            asteroid's orbit.
           </AccordionContent>
         </AccordionItem>
       </Accordion>
@@ -127,7 +130,7 @@ export const Multiple: Story = {
 /**
  * Accordion with long content to demonstrate scrolling behavior.
  */
-export const LongContent: Story = {
+export const LongContent = {
   render: () => (
     <div className="w-[400px]">
       <Accordion type="single" collapsible>
@@ -162,7 +165,7 @@ export const LongContent: Story = {
 /**
  * Disabled accordion item.
  */
-export const Disabled: Story = {
+export const Disabled = {
   render: () => (
     <div className="w-[400px]">
       <Accordion type="single" collapsible>
@@ -192,7 +195,7 @@ export const Disabled: Story = {
 /**
  * Compact accordion with minimal content.
  */
-export const Compact: Story = {
+export const Compact = {
   render: () => (
     <div className="w-[350px]">
       <Accordion type="single" collapsible>

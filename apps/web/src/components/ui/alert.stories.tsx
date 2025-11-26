@@ -1,5 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-import { AlertCircle, AlertTriangle, Info, Terminal as TerminalIcon } from "lucide-react";
+import type { Meta } from "@storybook/react-vite";
+import {
+  AlertCircle,
+  AlertTriangle,
+  Info,
+  Terminal as TerminalIcon,
+} from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "./alert";
 
@@ -20,12 +25,11 @@ const meta = {
 } satisfies Meta<typeof Alert>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
 /**
  * Default alert with an informational message.
  */
-export const Default: Story = {
+export const Default = {
   render: () => (
     <Alert className="w-[400px]">
       <Info />
@@ -41,7 +45,7 @@ export const Default: Story = {
 /**
  * Destructive alert for errors or warnings.
  */
-export const Destructive: Story = {
+export const Destructive = {
   render: () => (
     <Alert variant="destructive" className="w-[400px]">
       <AlertCircle />
@@ -57,7 +61,7 @@ export const Destructive: Story = {
 /**
  * Alert with warning icon for important notices.
  */
-export const Warning: Story = {
+export const Warning = {
   render: () => (
     <Alert className="w-[400px]">
       <AlertTriangle />
@@ -73,7 +77,7 @@ export const Warning: Story = {
 /**
  * Alert with terminal icon for system messages.
  */
-export const Terminal: Story = {
+export const Terminal = {
   render: () => (
     <Alert className="w-[400px]">
       <TerminalIcon />
@@ -89,7 +93,7 @@ export const Terminal: Story = {
 /**
  * Alert without icon.
  */
-export const WithoutIcon: Story = {
+export const WithoutIcon = {
   render: () => (
     <Alert className="w-[400px]">
       <AlertTitle>Data Refresh Complete</AlertTitle>
@@ -104,7 +108,7 @@ export const WithoutIcon: Story = {
 /**
  * Alert with only description, no title.
  */
-export const DescriptionOnly: Story = {
+export const DescriptionOnly = {
   render: () => (
     <Alert className="w-[400px]">
       <Info />
@@ -119,7 +123,7 @@ export const DescriptionOnly: Story = {
 /**
  * Alert with long content.
  */
-export const LongContent: Story = {
+export const LongContent = {
   render: () => (
     <Alert className="w-[500px]">
       <AlertTriangle />
@@ -146,7 +150,7 @@ export const LongContent: Story = {
 /**
  * Multiple alerts stacked vertically.
  */
-export const MultipleAlerts: Story = {
+export const MultipleAlerts = {
   render: () => (
     <div className="w-[400px] space-y-4">
       <Alert>
@@ -177,7 +181,7 @@ export const MultipleAlerts: Story = {
 /**
  * Compact alert with minimal styling.
  */
-export const Compact: Story = {
+export const Compact = {
   render: () => (
     <Alert className="w-[350px]">
       <AlertDescription>

@@ -51,6 +51,8 @@ export const RangeSelection: Story = {
     return (
       <Calendar
         mode="range"
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         selected={range}
         onSelect={setRange}
         className="rounded-md border"

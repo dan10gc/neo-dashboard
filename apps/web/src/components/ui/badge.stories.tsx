@@ -23,6 +23,7 @@ const meta = {
       options: ["default", "secondary", "destructive", "outline"],
     },
   },
+  args:{}
 } satisfies Meta<typeof Badge>;
 
 export default meta;
@@ -31,46 +32,46 @@ type Story = StoryObj<typeof meta>;
 /**
  * Default badge variant.
  */
-export const Default: Story = {
+export const Default = {
   args: {
     children: "Tracked",
   },
-};
+} as Story;
 
 /**
  * Secondary badge variant for less prominent information.
  */
-export const Secondary: Story = {
+export const Secondary = {
   args: {
     variant: "secondary",
     children: "Common",
   },
-};
+} as Story;
 
 /**
  * Destructive badge for warnings or errors.
  */
-export const Destructive: Story = {
+export const Destructive = {
   args: {
     variant: "destructive",
     children: "Potentially Hazardous",
   },
-};
+} as Story;
 
 /**
  * Outline badge variant.
  */
-export const Outline: Story = {
+export const Outline = {
   args: {
     variant: "outline",
     children: "Monitoring",
   },
-};
+} as Story;
 
 /**
  * Badge with icon on the left.
  */
-export const WithIcon: Story = {
+export const WithIcon = {
   render: () => (
     <div className="flex gap-2">
       <Badge>
@@ -92,7 +93,7 @@ export const WithIcon: Story = {
 /**
  * Badges demonstrating asteroid rarity levels.
  */
-export const RarityLevels: Story = {
+export const RarityLevels = {
   render: () => (
     <div className="flex flex-wrap gap-2">
       <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/50">
@@ -116,7 +117,7 @@ export const RarityLevels: Story = {
 /**
  * Status badges for system monitoring.
  */
-export const StatusBadges: Story = {
+export const StatusBadges = {
   render: () => (
     <div className="flex flex-wrap gap-2">
       <Badge className="bg-green-500/20 text-green-400 border-green-500/50">
@@ -139,7 +140,7 @@ export const StatusBadges: Story = {
 /**
  * Size category badges.
  */
-export const SizeCategories: Story = {
+export const SizeCategories = {
   render: () => (
     <div className="flex flex-col gap-2">
       <div className="flex gap-2">
@@ -161,7 +162,7 @@ export const SizeCategories: Story = {
 /**
  * All variants displayed together.
  */
-export const AllVariants: Story = {
+export const AllVariants = {
   render: () => (
     <div className="flex flex-wrap gap-2">
       <Badge variant="default">Default</Badge>
@@ -175,7 +176,7 @@ export const AllVariants: Story = {
 /**
  * Interactive badge as a link.
  */
-export const AsLink: Story = {
+export const AsLink = {
   render: () => (
     <Badge asChild>
       <a href="#" className="cursor-pointer">
@@ -188,17 +189,17 @@ export const AsLink: Story = {
 /**
  * Long text in badge to demonstrate wrapping behavior.
  */
-export const LongText: Story = {
+export const LongText = {
   args: {
     children: "Potentially Hazardous - Close Approach Warning",
     className: "max-w-[200px]",
   },
-};
+} as Story;
 
 /**
  * Multiple badges in a group.
  */
-export const BadgeGroup: Story = {
+export const BadgeGroup = {
   render: () => (
     <div className="flex flex-wrap gap-2 max-w-md">
       <Badge>2024 ZX</Badge>
