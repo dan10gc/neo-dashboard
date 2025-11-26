@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { BrowserRouter } from "react-router";
 
-import type { CloseApproachAssessment as CloseApproachAssessmentData } from "@/lib/transformers/calculateCloseApproachAlert";
-import { PROXIMITY_THRESHOLDS } from "@/lib/transformers/calculateCloseApproachAlert";
+import type { CloseApproachAssessment as CloseApproachAssessmentData } from "@/lib/transformers/calculate-close-approach-alert";
+import { PROXIMITY_THRESHOLDS } from "@/lib/transformers/calculate-close-approach-alert";
 
 import { CloseApproachAssessment } from "./close-approach-assessment";
 
