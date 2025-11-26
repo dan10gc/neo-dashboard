@@ -24,7 +24,7 @@ export const useSpecialEventsSSE = () => {
 
     //connection opened
     eventSource.onopen = () => {
-      console.log("🔌 SSE connection opened.");
+      // console.log("🔌 SSE connection opened.");
       setStatus((prev) => ({
         ...prev,
         isConnected: true,
@@ -34,7 +34,7 @@ export const useSpecialEventsSSE = () => {
 
     // connection error
     eventSource.onerror = () => {
-      console.error("❌ SSE connection error.");
+      // console.error("❌ SSE connection error.");
       setStatus((prev) => ({
         ...prev,
         isConnected: false,
@@ -130,7 +130,7 @@ export const useSpecialEventsSSE = () => {
     return () => {
       eventSource.close();
       clearInterval(heartbeatInterval);
-      console.log("🔌 SSE connection closed.");
+      // console.log("🔌 SSE connection closed.");
     };
     //   queryClient.invalidateQueries({ queryKey
   }, [queryClient]);
