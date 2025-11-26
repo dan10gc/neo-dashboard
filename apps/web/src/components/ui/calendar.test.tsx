@@ -9,10 +9,10 @@ describe("Calendar", () => {
     const currentDate = new Date();
     render(<Calendar mode="single" month={currentDate} />);
 
-    const currentMonth = currentDate.toLocaleString("default", {
-      month: "long",
-      year: "numeric",
-    });
+    // const currentMonth = currentDate.toLocaleString("default", {
+    //   month: "long",
+    //   year: "numeric",
+    // });
 
     // Calendar should be rendered (checking for navigation or month/year display)
     expect(screen.getByRole("grid")).toBeInTheDocument();
